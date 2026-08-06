@@ -4,36 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>APAC Microstructure Dashboard</title>
+    <!-- Automatic modern formatting styles -->
     <script src="https://jsdelivr.net"></script>
     <script src="https://jsdelivr.net"></script>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen p-6">
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans p-6">
+
+    <!-- Main Visual Layout Container -->
     <div class="max-w-7xl mx-auto space-y-6">
+        
+        <!-- Header -->
         <header class="flex justify-between items-center border-b border-slate-800 pb-4">
             <div>
                 <h1 class="text-2xl font-bold tracking-tight text-white">APAC Microstructure Interface</h1>
-                <p class="text-slate-400 text-sm">Multi-Market AI Agent Terminal Context</p>
+                <p class="text-slate-400 text-sm">AI Agent Analytics Environment • Live Session Context</p>
             </div>
-            <div class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs px-3 py-1.5 rounded-full font-mono">
-                ● AGENT ACTIVE: STANDBY
+            <div class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs px-3 py-1.5 rounded-full font-mono flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> AGENT ACTIVE: STANDBY MODE
             </div>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- KPI Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Card 1: ADT Local -->
             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700/50">
-                <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider">HKEX ADT (Local)</p>
+                <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Avg Daily Turnover (Local)</p>
                 <p class="text-3xl font-extrabold text-white mt-1">HK$ 283.0B</p>
+                <p class="text-xs text-emerald-400 mt-2">↑ Peak Month hit HK$319.1B</p>
             </div>
+            <!-- Card 2: ADT USD -->
             <div class="bg-slate-800 p-4 rounded-xl border border-slate-700/50">
-                <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider">HKEX ADT (USD)</p>
+                <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Avg Daily Turnover (USD)</p>
                 <p class="text-3xl font-extrabold text-white mt-1">US$ 36.2B</p>
+                <p class="text-xs text-slate-400 mt-2">Peg Anchored: 7.75 - 7.85</p>
+            </div>
+            <!-- Card 3: Connect Flow -->
+            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700/50">
+                <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Southbound Connect Concentration</p>
+                <p class="text-3xl font-extrabold text-amber-400 mt-1">43.0%</p>
+                <p class="text-xs text-amber-400/80 mt-2">High systemic influence on liquidity</p>
             </div>
         </div>
 
-        <div class="bg-slate-800 p-5 rounded-xl border border-slate-700/50">
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Structural Layout Slots</h3>
-            <p class="text-xs text-slate-400 font-mono">/backend/markets/hkex/ -> Ready<br>/backend/markets/jpx/ -> Ready<br>/backend/markets/sgx/ -> Ready</p>
+        <!-- Charts Layout Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Sector Allocation Chart -->
+            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700/50 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider">Sector Structural Splitting</h3>
+                    <p class="text-xs text-slate-400 mt-1">Financials dominate index weight; IT dominates active order book volume.</p>
+                </div>
+                <div class="h-64 mt-4 flex items-center justify-center">
+                    <canvas id="sectorChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Agent Rules & Parameters Panel -->
+            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700/50">
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Agent Execution Parameters</h3>
+                <div class="space-y-3 font-mono text-xs">
+                    <div class="p-3 bg-slate-900 rounded-lg flex justify-between items-center">
+                        <span class="text-slate-400">REGIME_MULTIPLIER</span>
+                        <span class="text-emerald-400 font-bold">1.0x (Normal)</span>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-lg flex justify-between items-center">
+                        <span class="text-slate-400">FINANCIALS_QUEUE_STRATEGY</span>
+                        <span class="text-blue-400">Tight Spread / Aggressive Aggregation</span>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-lg flex justify-between items-center">
+                        <span class="text-slate-400">TECH_TMT_QUEUE_STRATEGY</span>
+                        <span class="text-amber-400">Wide Placement / Order Imbalance Buffer</span>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-lg flex justify-between items-center">
+                        <span class="text-slate-400">APAC_EXPANSION_SLOTS</span>
+                        <span class="text-purple-400">[HKEX, JPX, SGX Configured]</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
+
+    <!-- Chart Configuration Script -->
+    <script>
+        const ctx = document.getElementById('sectorChart').getContext('2d');
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas';
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Financials', 'Information Tech', 'ETPs / ETFs', 'Others'],
+                datasets: [
+                    {
+                        label: 'Market Cap Share (%)',
+                        data: [29.1, 12.6, 5.0, 53.3],
+                        backgroundColor: '#3b82f6',
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'Active Trading Volume Share (%)',
+                        data: [31.1, 42.5, 15.0, 11.4],
+                        backgroundColor: '#f59e0b',
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'top' } },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { grid: { color: '#334155' }, ticks: { callback: value => value + '%' } }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
