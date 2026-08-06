@@ -194,6 +194,25 @@
       "lot_size": "Fixed 1 Share Base",
       "queue_rule": "Utilize time-weighted average price (TWAP) schedules over multi-hour execution windows."
     },
+
+
+        {
+      "code": "KRX",
+      "country": "South Korea",
+      "classification": "EMERGING MKT",
+      "turnover_local": "₩ 19.4T",
+      "turnover_usd": "US$ 14.1B",
+      "pillar_sector": "Semiconductors & Automobiles",
+      "volume_concentrator": "Tech Heavyweights (Samsung, SK Hynix). Heavy domestic retail day-trading momentum footprints.",
+      "avg_spread": "1.0 - 1.4 Ticks",
+      "slippage": "4.8 bps",
+      "off_exchange_pct": "6.5%",
+      "trader_advisory": "MSCI classification evaluation extended. Onshore extended night session FX trading rules apply.",
+      "safeguard": "±30% Daily Limits",
+      "lot_size": "Fixed 1 Share Base",
+      "queue_rule": "High-frequency co-location queue sweeps; monitor thematic retail program momentum indicators."
+    },
+
     {
       "code": "VSE",
       "country": "Vietnam",
