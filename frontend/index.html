@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APAC Microstructure Dashboard - Sales Trader Regional Multi-View</title>
+    <title>APAC Microstructure Dashboard - Dynamic JSON Client</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: #0f172a; color: #f8fafc; padding: 30px; }
         .container { max-width: 1100px; margin: 0 auto; }
@@ -20,57 +20,35 @@
         .badge-hk { background-color: #991b1b; color: #fca5a5; }
         .badge-jpx { background-color: #1e3a8a; color: #93c5fd; }
         .badge-sgx { background-color: #065f46; color: #6ee7b7; }
-        .green-text { color: #34d399; font-weight: bold; }
-        .amber-text { color: #fbbf24; font-weight: bold; }
-        .red-text { color: #f87171; font-weight: bold; }
+        .code-text { font-family: monospace; color: #cbd5e1; background-color: #0f172a; padding: 4px 8px; border-radius: 4px; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <!-- Header -->
-        <h1>APAC Microstructure Interface - Cross-Market Sales Trading Dashboard</h1>
-        <div class="subtitle">Multi-Exchange Liquidity Clusters & Operational Execution Alpha</div>
-        <div class="status-banner">● NETWORK STATUS: MULTI-ROUTER ENGINE CONNECTED</div>
+        <h1 id="title-header">APAC Microstructure Interface</h1>
+        <div class="subtitle">Live Sync Engine • Last Updated: <span id="sync-time" style="color:#60a5fa;">Loading...</span></div>
+        <div class="status-banner">● CORE ROUTER STATUS: <span id="router-status">CONNECTING</span></div>
 
-        <!-- Table 1: Regional Macro Turnover & Giants -->
+        <!-- Table 1: Regional Macro Turnover -->
         <h2>1. Regional Macro Turnover & Sector Dominance</h2>
         <table>
             <thead>
                 <tr>
                     <th style="width: 12%;">Exchange</th>
-                    <th style="width: 18%;">ADT (Local Currency)</th>
-                    <th style="width: 18%;">ADT (USD Equivalent)</th>
-                    <th style="width: 20%;">Structural Pillar Sector</th>
+                    <th style="width: 18%;">ADT (Local CCY)</th>
+                    <th style="width: 18%;">ADT (USD Equiv)</th>
+                    <th style="width: 20%;">Pillar Sector</th>
                     <th style="width: 32%;">Core Liquidity & Volume Concentrator</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td><span class="market-badge badge-hk">HKEX</span></td>
-                    <td class="highlight">HK$ 283.0B</td>
-                    <td class="highlight">US$ 36.2B</td>
-                    <td>Financials (29.1% Cap)</td>
-                    <td><span class="amber-text">Information Technology (42.5% Vol)</span>. Dominated by highly volatile Southbound Stock Connect flows.</td>
-                </tr>
-                <tr>
-                    <td><span class="market-badge badge-jpx">JPX (TSE)</span></td>
-                    <td class="highlight">¥ 11.6T</td>
-                    <td class="highlight">US$ 74.1B</td>
-                    <td>Industrial / Auto Manufacturing</td>
-                    <td><span class="amber-text">Electric Appliances & Tech Equipment</span>. Driven by foreign macro asset allocators and retail day traders.</td>
-                </tr>
-                <tr>
-                    <td><span class="market-badge badge-sgx">SGX</span></td>
-                    <td class="highlight">S$ 1.8B</td>
-                    <td class="highlight">US$ 1.39B</td>
-                    <td>Financials (Local Banks)</td>
-                    <td><span class="amber-text">REITs & Micro Index Derivatives</span>. Institutional cash clusters on dividend yields and offshore macro hedging.</td>
-                </tr>
+            <tbody id="table-macro-body">
+                <!-- Dynamically populated via JavaScript -->
             </tbody>
         </table>
 
-        <!-- Table 2: Comparative Execution Costs & Microstructure Vital Metrics -->
+        <!-- Table 2: Comparative Execution Costs -->
         <h2>2. Comparative Liquidity Profile & Transaction Cost Metrics</h2>
         <table>
             <thead>
@@ -79,35 +57,15 @@
                     <th style="width: 15%;">Avg Spread</th>
                     <th style="width: 18%;">Slippage (per $50M)</th>
                     <th style="width: 18%;">Off-Exchange / Cross</th>
-                    <th style="width: 37%;">Sales Trader Execution Advisory & Timing Flags</th>
+                    <th style="width: 37%;">Sales Trader Execution Advisory</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td><span class="market-badge badge-hk">HKEX</span></td>
-                    <td class="green-text">1.2 - 1.8 Ticks</td>
-                    <td class="amber-text">8.5 bps</td>
-                    <td>18.5% of ADT</td>
-                    <td><span class="red-text">High Closing Risk:</span> Closing Auction (CAS) captures 11.2% of daily volume. Imbalances flatten right at 16:10 HKT.</td>
-                </tr>
-                <tr>
-                    <td><span class="market-badge badge-jpx">JPX (TSE)</span></td>
-                    <td class="green-text">1.0 - 1.3 Ticks</td>
-                    <td class="green-text">4.2 bps</td>
-                    <td class="red-text">35.0% + of ADT</td>
-                    <td><span class="amber-text">Alternative Pool Alert:</span> Substantial volume executes off-exchange in PTS venues (Japannext, ToSTNeT). Route smart sweeps.</td>
-                </tr>
-                <tr>
-                    <td><span class="market-badge badge-sgx">SGX</span></td>
-                    <td class="red-text">2.5 - 4.0 Ticks</td>
-                    <td class="red-text">18.0 bps</td>
-                    <td>12.0% of ADT</td>
-                    <td><span class="green-text">Derivatives Overlay:</span> Lower cash equity block liquidity. Execution should track the massive multi-asset underlying index futures sweeps.</td>
-                </tr>
+            <tbody id="table-cost-body">
+                <!-- Dynamically populated via JavaScript -->
             </tbody>
         </table>
 
-        <!-- Table 3: Multi-Market Automated AI Agent Execution Parameters -->
+        <!-- Table 3: Localized Agent Execution Rules -->
         <h2>3. Localized Agent Execution Rules (APAC Router Constraints)</h2>
         <table>
             <thead>
@@ -118,28 +76,71 @@
                     <th style="width: 38%;">Active Order Book Queue Management Rule</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td><span class="market-badge badge-hk">HKEX</span></td>
-                    <td><span class="amber-text">VCM (±10% Cool-Off)</span></td>
-                    <td>Variable (Issuer Defined)</td>
-                    <td>Wide queue depth on TMT names; tight aggregation on low-vol Financial counters.</td>
-                </tr>
-                <tr>
-                    <td><span class="market-badge badge-jpx">JPX (TSE)</span></td>
-                    <td><span class="red-text">Daily Limit Locks (Static)</span></td>
-                    <td>Fixed 100 Shares Base</td>
-                    <td>Aggressive price improvement tracking across standard lit and internal block pools.</td>
-                </tr>
-                <tr>
-                    <td><span class="market-badge badge-sgx">SGX</span></td>
-                    <td><span class="amber-text">Circuit Breakers (Dynamic)</span></td>
-                    <td>Fixed 100 Shares Base</td>
-                    <td>Passive queue positioning; leverage dark blocks to prevent immediate signal leakage.</td>
-                </tr>
+            <tbody id="table-rules-body">
+                <!-- Dynamically populated via JavaScript -->
             </tbody>
         </table>
     </div>
 
+    <script>
+        async function fetchMicrostructureData() {
+            try {
+                // Fetch the relative JSON file path from the repository root
+                const response = await fetch('../data.json');
+                const payload = await response.json();
+
+                // Set headers status fields
+                document.getElementById('sync-time').innerText = payload.last_updated;
+                document.getElementById('router-status').innerText = payload.network_status;
+
+                // Grab container row hooks
+                const macroBody = document.getElementById('table-macro-body');
+                const costBody = document.getElementById('table-cost-body');
+                const rulesBody = document.getElementById('table-rules-body');
+
+                // Loop over the markets array payload cleanly
+                payload.markets.forEach(m => {
+                    
+                    // Row 1 Construction: Macro
+                    macroBody.innerHTML += `
+                        <tr>
+                            <td><span class="market-badge ${m.badge_class}">${m.code}</span></td>
+                            <td class="highlight">${m.turnover_local}</td>
+                            <td class="highlight">${m.turnover_usd}</td>
+                            <td>${m.pillar_sector}</td>
+                            <td>${m.volume_concentrator}</td>
+                        </tr>
+                    `;
+
+                    // Row 2 Construction: Costs
+                    costBody.innerHTML += `
+                        <tr>
+                            <td><span class="market-badge ${m.badge_class}">${m.code}</span></td>
+                            <td style="color:#34d399; font-weight:bold;">${m.avg_spread}</td>
+                            <td style="color:#fbbf24; font-weight:bold;">${m.slippage}</td>
+                            <td>${m.off_exchange_pct}</td>
+                            <td>${m.trader_advisory}</td>
+                        </tr>
+                    `;
+
+                    // Row 3 Construction: Rules
+                    rulesBody.innerHTML += `
+                        <tr>
+                            <td><span class="market-badge ${m.badge_class}">${m.code}</span></td>
+                            <td><span class="code-text" style="color:#f87171;">${m.safeguard}</span></td>
+                            <td>${m.lot_size}</td>
+                            <td>${m.queue_rule}</td>
+                        </tr>
+                    `;
+                });
+
+            } catch (error) {
+                console.error("Data dynamic routing sync error:", error);
+                document.getElementById('router-status').innerText = "FETCH FAILED";
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', fetchMicrostructureData);
+    </script>
 </body>
 </html>
