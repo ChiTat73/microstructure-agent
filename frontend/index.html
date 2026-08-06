@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APAC Microstructure Dashboard - Sales Trader View</title>
+    <title>APAC Microstructure Dashboard - Sales Trader Regional Multi-View</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: #0f172a; color: #f8fafc; padding: 30px; }
-        .container { max-width: 1000px; margin: 0 auto; }
+        .container { max-width: 1100px; margin: 0 auto; }
         h1 { font-size: 24px; color: #ffffff; margin-bottom: 5px; }
         .subtitle { color: #94a3b8; font-size: 14px; margin-bottom: 25px; }
-        .status-banner { background-color: #064e3b; color: #34d399; padding: 10px 15px; border-radius: 6px; font-family: monospace; display: inline-block; margin-bottom: 25px; border: 1px solid #047857; }
+        .status-banner { background-color: #1e1b4b; color: #a78bfa; padding: 10px 15px; border-radius: 6px; font-family: monospace; display: inline-block; margin-bottom: 25px; border: 1px solid #4c1d95; }
         h2 { font-size: 18px; color: #ffffff; margin-top: 35px; margin-bottom: 12px; border-bottom: 1px solid #334155; padding-bottom: 6px; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 25px; background-color: #1e293b; border-radius: 8px; overflow: hidden; }
-        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #334155; }
-        th { background-color: #1e293b; color: #94a3b8; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
-        td { font-size: 14px; }
-        .highlight { font-size: 18px; font-weight: bold; color: #ffffff; }
-        .code-text { font-family: monospace; color: #cbd5e1; background-color: #0f172a; padding: 4px 8px; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background-color: #1e293b; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid #334155; }
+        th { background-color: #0f172a; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+        td { font-size: 13.5px; line-height: 1.5; }
+        .highlight { font-size: 16px; font-weight: bold; color: #ffffff; font-family: monospace; }
+        .market-badge { font-weight: bold; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-family: monospace; }
+        .badge-hk { background-color: #991b1b; color: #fca5a5; }
+        .badge-jpx { background-color: #1e3a8a; color: #93c5fd; }
+        .badge-sgx { background-color: #065f46; color: #6ee7b7; }
         .green-text { color: #34d399; font-weight: bold; }
-        .blue-text { color: #60a5fa; font-weight: bold; }
         .amber-text { color: #fbbf24; font-weight: bold; }
         .red-text { color: #f87171; font-weight: bold; }
     </style>
@@ -27,142 +29,113 @@
 
     <div class="container">
         <!-- Header -->
-        <h1>APAC Microstructure Interface - Institutional Sales Trading Desk</h1>
-        <div class="subtitle">Execution Alpha Engine • Market Microstructure Variables</div>
-        <div class="status-banner">● TRADING MODE: LIVE CONTINUOUS SESSION</div>
+        <h1>APAC Microstructure Interface - Cross-Market Sales Trading Dashboard</h1>
+        <div class="subtitle">Multi-Exchange Liquidity Clusters & Operational Execution Alpha</div>
+        <div class="status-banner">● NETWORK STATUS: MULTI-ROUTER ENGINE CONNECTED</div>
 
-        <!-- Table 1: Market Turnover Overview (Original) -->
-        <h2>1. Market Turnover & Systemic Liquidity (H1 2026)</h2>
+        <!-- Table 1: Regional Macro Turnover & Giants -->
+        <h2>1. Regional Macro Turnover & Sector Dominance</h2>
         <table>
             <thead>
                 <tr>
-                    <th style="width: 40%;">Metric Classification</th>
-                    <th style="width: 30%;">Current Value</th>
-                    <th style="width: 30%;">Structural Boundary Context</th>
+                    <th style="width: 12%;">Exchange</th>
+                    <th style="width: 18%;">ADT (Local Currency)</th>
+                    <th style="width: 18%;">ADT (USD Equivalent)</th>
+                    <th style="width: 20%;">Structural Pillar Sector</th>
+                    <th style="width: 32%;">Core Liquidity & Volume Concentrator</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Avg Daily Turnover (Local)</td>
+                    <td><span class="market-badge badge-hk">HKEX</span></td>
                     <td class="highlight">HK$ 283.0B</td>
-                    <td class="green-text">↑ Peak Month: HK$319.1B</td>
-                </tr>
-                <tr>
-                    <td>Avg Daily Turnover (USD)</td>
                     <td class="highlight">US$ 36.2B</td>
-                    <td>Peg Anchored: 7.75 - 7.85</td>
+                    <td>Financials (29.1% Cap)</td>
+                    <td><span class="amber-text">Information Technology (42.5% Vol)</span>. Dominated by highly volatile Southbound Stock Connect flows.</td>
                 </tr>
                 <tr>
-                    <td>Southbound Connect Flow</td>
-                    <td class="highlight" style="color: #fbbf24;">43.0%</td>
-                    <td class="amber-text">High Liquidity Concentration</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- NEW Table 2: Sales Trader Execution Cost Metrics -->
-        <h2>2. Institutional Execution Costs & Liquidity Metrics (Sales Trader Vital Specs)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Execution Vector</th>
-                    <th>Average Benchmark</th>
-                    <th>Impact Level</th>
-                    <th>Sales Trader Advisory / Operational Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="blue-text">Bid-Ask Spread Efficiency</td>
-                    <td class="highlight">1.2 - 1.8 Ticks</td>
-                    <td class="green-text">Low Friction</td>
-                    <td>Highly optimized for blue-chip multi-lot crossing execution.</td>
+                    <td><span class="market-badge badge-jpx">JPX (TSE)</span></td>
+                    <td class="highlight">¥ 11.6T</td>
+                    <td class="highlight">US$ 74.1B</td>
+                    <td>Industrial / Auto Manufacturing</td>
+                    <td><span class="amber-text">Electric Appliances & Tech Equipment</span>. Driven by foreign macro asset allocators and retail day traders.</td>
                 </tr>
                 <tr>
-                    <td class="amber-text">Estimated Slippage Cost</td>
-                    <td class="highlight">8.5 bps / HK$50M</td>
-                    <td class="amber-text">Medium Impact</td>
-                    <td>Advise clients to slice large blocks using VWAP over the lunch block.</td>
-                </tr>
-                <tr>
-                    <td class="blue-text">Block Trade Crossing Share</td>
-                    <td class="highlight">18.5% of ADT</td>
-                    <td class="green-text">High Pool</td>
-                    <td>Substantial off-exchange manual transactions; watch pre-market print pools.</td>
-                </tr>
-                <tr>
-                    <td class="red-text">CAS Allocation (Closing Auction)</td>
-                    <td class="highlight">11.2% Daily Vol</td>
-                    <td class="red-text">High Risk Cluster</td>
-                    <td>Extreme order imbalances happen from 16:00 to 16:10. Watch MOC (Market-on-Close).</td>
+                    <td><span class="market-badge badge-sgx">SGX</span></td>
+                    <td class="highlight">S$ 1.8B</td>
+                    <td class="highlight">US$ 1.39B</td>
+                    <td>Financials (Local Banks)</td>
+                    <td><span class="amber-text">REITs & Micro Index Derivatives</span>. Institutional cash clusters on dividend yields and offshore macro hedging.</td>
                 </tr>
             </tbody>
         </table>
 
-        <!-- Table 3: Sector Structural Splitting (Original) -->
-        <h2>3. Sector Weight Allocation Comparison</h2>
+        <!-- Table 2: Comparative Execution Costs & Microstructure Vital Metrics -->
+        <h2>2. Comparative Liquidity Profile & Transaction Cost Metrics</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Target Sector Segment</th>
-                    <th>Market Cap Share (%)</th>
-                    <th>Active Order Book Volume Share (%)</th>
-                    <th>Microstructure Volatility Profile</th>
+                    <th style="width: 12%;">Exchange</th>
+                    <th style="width: 15%;">Avg Spread</th>
+                    <th style="width: 18%;">Slippage (per $50M)</th>
+                    <th style="width: 18%;">Off-Exchange / Cross</th>
+                    <th style="width: 37%;">Sales Trader Execution Advisory & Timing Flags</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="blue-text">Financials</td>
-                    <td>29.1%</td>
-                    <td>31.1%</td>
-                    <td>Low volatility / Heavy index weight foundation</td>
+                    <td><span class="market-badge badge-hk">HKEX</span></td>
+                    <td class="green-text">1.2 - 1.8 Ticks</td>
+                    <td class="amber-text">8.5 bps</td>
+                    <td>18.5% of ADT</td>
+                    <td><span class="red-text">High Closing Risk:</span> Closing Auction (CAS) captures 11.2% of daily volume. Imbalances flatten right at 16:10 HKT.</td>
                 </tr>
                 <tr>
-                    <td class="amber-text">Information Technology (TMT)</td>
-                    <td>12.6%</td>
-                    <td>42.5%</td>
-                    <td>Extreme velocity / High order imbalances</td>
+                    <td><span class="market-badge badge-jpx">JPX (TSE)</span></td>
+                    <td class="green-text">1.0 - 1.3 Ticks</td>
+                    <td class="green-text">4.2 bps</td>
+                    <td class="red-text">35.0% + of ADT</td>
+                    <td><span class="amber-text">Alternative Pool Alert:</span> Substantial volume executes off-exchange in PTS venues (Japannext, ToSTNeT). Route smart sweeps.</td>
                 </tr>
                 <tr>
-                    <td style="color: #c084fc;">ETPs & ETFs Overlays</td>
-                    <td>5.0%</td>
-                    <td>15.0%</td>
-                    <td>Arbitrage-driven program basket sweeps</td>
-                </tr>
-                <tr>
-                    <td>Other Broad Segments</td>
-                    <td>53.3%</td>
-                    <td>11.4%</td>
-                    <td>Fragmented retail liquidity footprints</td>
+                    <td><span class="market-badge badge-sgx">SGX</span></td>
+                    <td class="red-text">2.5 - 4.0 Ticks</td>
+                    <td class="red-text">18.0 bps</td>
+                    <td>12.0% of ADT</td>
+                    <td><span class="green-text">Derivatives Overlay:</span> Lower cash equity block liquidity. Execution should track the massive multi-asset underlying index futures sweeps.</td>
                 </tr>
             </tbody>
         </table>
 
-        <!-- Table 4: Agent Parameters (Original) -->
-        <h2>4. Live Agent Execution Constraints</h2>
+        <!-- Table 3: Multi-Market Automated AI Agent Execution Parameters -->
+        <h2>3. Localized Agent Execution Rules (APAC Router Constraints)</h2>
         <table>
             <thead>
                 <tr>
-                    <th style="width: 45%;">System Variable Key</th>
-                    <th style="width: 55%;">Active Strategy Rule / Parameter Assignment</th>
+                    <th style="width: 12%;">Exchange</th>
+                    <th style="width: 25%;">Volatility Safeguard Key</th>
+                    <th style="width: 25%;">Lot Size Constraint</th>
+                    <th style="width: 38%;">Active Order Book Queue Management Rule</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><span class="code-text">REGIME_MULTIPLIER</span></td>
-                    <td class="green-text">1.0x (Normal Operations Baseline)</td>
+                    <td><span class="market-badge badge-hk">HKEX</span></td>
+                    <td><span class="amber-text">VCM (±10% Cool-Off)</span></td>
+                    <td>Variable (Issuer Defined)</td>
+                    <td>Wide queue depth on TMT names; tight aggregation on low-vol Financial counters.</td>
                 </tr>
                 <tr>
-                    <td><span class="code-text">FINANCIALS_QUEUE_STRATEGY</span></td>
-                    <td>Tight Structural Spread / Aggressive Inventory Aggregation</td>
+                    <td><span class="market-badge badge-jpx">JPX (TSE)</span></td>
+                    <td><span class="red-text">Daily Limit Locks (Static)</span></td>
+                    <td>Fixed 100 Shares Base</td>
+                    <td>Aggressive price improvement tracking across standard lit and internal block pools.</td>
                 </tr>
                 <tr>
-                    <td><span class="code-text">TECH_TMT_QUEUE_STRATEGY</span></td>
-                    <td>Wide Quoting Placement / Order Imbalance Absorption Buffer</td>
-                </tr>
-                <tr>
-                    <td><span class="code-text">APAC_EXPANSION_SLOTS</span></td>
-                    <td style="color: #a78bfa;">[HKEX, JPX, SGX Configured Engine Frameworks]</td>
+                    <td><span class="market-badge badge-sgx">SGX</span></td>
+                    <td><span class="amber-text">Circuit Breakers (Dynamic)</span></td>
+                    <td>Fixed 100 Shares Base</td>
+                    <td>Passive queue positioning; leverage dark blocks to prevent immediate signal leakage.</td>
                 </tr>
             </tbody>
         </table>
