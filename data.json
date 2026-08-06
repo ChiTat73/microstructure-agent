@@ -1,0 +1,51 @@
+{
+  "last_updated": "2026-08-06 14:20:00 HKT",
+  "network_status": "ONLINE",
+  "markets": [
+    {
+      "code": "HKEX",
+      "badge_class": "badge-hk",
+      "turnover_local": "HK$ 283.0B",
+      "turnover_usd": "US$ 36.2B",
+      "pillar_sector": "Financials (29.1% Cap)",
+      "volume_concentrator": "Information Technology (42.5% Vol). Dominated by volatile Southbound Connect flows.",
+      "avg_spread": "1.2 - 1.8 Ticks",
+      "slippage": "8.5 bps",
+      "off_exchange_pct": "18.5%",
+      "trader_advisory": "High Closing Risk: Closing Auction (CAS) captures 11.2% of daily volume. Imbalances flatten at 16:10 HKT.",
+      "safeguard": "VCM (±10% Cool-Off)",
+      "lot_size": "Variable (Issuer Defined)",
+      "queue_rule": "Wide queue depth on TMT names; tight aggregation on low-vol Financial counters."
+    },
+    {
+      "code": "JPX",
+      "badge_class": "badge-jpx",
+      "turnover_local": "¥ 11.6T",
+      "turnover_usd": "US$ 74.1B",
+      "pillar_sector": "Industrial / Auto Mfg",
+      "volume_concentrator": "Electric Appliances & Tech Equipment. Driven by foreign macro allocators.",
+      "avg_spread": "1.0 - 1.3 Ticks",
+      "slippage": "4.2 bps",
+      "off_exchange_pct": "35.0%+",
+      "trader_advisory": "Alternative Pool Alert: Substantial volume executes off-exchange in PTS venues (Japannext, ToSTNeT). Use smart sweeps.",
+      "safeguard": "Daily Limit Locks (Static)",
+      "lot_size": "Fixed 100 Shares Base",
+      "queue_rule": "Aggressive price improvement tracking across standard lit and internal block pools."
+    },
+    {
+      "code": "SGX",
+      "badge_class": "badge-sgx",
+      "turnover_local": "S$ 1.8B",
+      "turnover_usd": "US$ 1.39B",
+      "pillar_sector": "Financials (Local Banks)",
+      "volume_concentrator": "REITs & Micro Index Derivatives. Institutional cash clusters on dividend yields.",
+      "avg_spread": "2.5 - 4.0 Ticks",
+      "slippage": "18.0 bps",
+      "off_exchange_pct": "12.0%",
+      "trader_advisory": "Derivatives Overlay: Lower cash equity block liquidity. Execution should track heavy index futures sweeps.",
+      "safeguard": "Circuit Breakers (Dynamic)",
+      "lot_size": "Fixed 100 Shares Base",
+      "queue_rule": "Passive queue positioning; leverage dark blocks to prevent immediate signal leakage."
+    }
+  ]
+}
