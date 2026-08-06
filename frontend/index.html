@@ -1,149 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asia Microstructure Monitor - Live Ledger Platform</title>
-    <style>
-        /* Exact Style Match to Ledger System */
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #0b0f19; color: #cbd5e1; padding: 30px; margin: 0; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        
-        /* Header & Brand Parameters */
-        header { border-b: 1px solid #1e293b; padding-bottom: 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: flex-start; }
-        h1 { font-size: 22px; font-weight: bold; color: #38bdf8; margin: 0 0 5px 0; letter-spacing: -0.02em; }
-        .subtitle { color: #64748b; font-size: 13px; margin: 0; }
-        .status-panel { background-color: #070a13; border: 1px solid #1e293b; border-radius: 6px; padding: 12px 16px; font-size: 11px; font-family: monospace; min-width: 240px; text-align: left; }
-        .status-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
-        .status-row:last-child { margin-bottom: 0; }
-        
-        /* Table Header Titles */
-        h2 { font-size: 13px; font-weight: bold; color: #f97316; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 35px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; cursor: pointer; }
-        
-        /* Master Table Formatting */
-        table { width: 100%; border-collapse: collapse; margin-bottom: 25px; background-color: #0d1321; border: 1px solid #1e293b; border-radius: 4px; overflow: hidden; }
-        th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #111827; font-size: 12.5px; vertical-align: top; line-height: 1.5; }
-        th { background-color: #090d16; color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: bold; border-bottom: 2px solid #1e293b; }
-        
-        /* Sort indicators */
-        th::after { content: " ◥◣"; font-size: 8px; color: #ef4444; opacity: 0.7; }
-        
-        /* Row Selection Highlights */
-        tr:hover { background-color: #111827; }
-        .highlight-text { font-size: 14px; font-weight: bold; color: #ffffff; font-family: monospace; }
-        
-        /* Metadata Badges Matching Ledger Colors */
-        .mkt-badge { font-weight: bold; font-family: monospace; font-size: 11px; color: #38bdf8; display: inline-block; padding: 2px 4px; }
-        .tag { font-size: 10px; font-weight: bold; text-transform: uppercase; padding: 3px 6px; border-radius: 4px; display: inline-block; font-family: monospace; }
-        .tag-dev { background-color: rgba(30, 41, 59, 0.5); color: #94a3b8; border: 1px solid #334155; }
-        .tag-concentrator { font-weight: normal; color: #cbd5e1; }
-        
-        /* Specialized Color Notes */
-        .neon-blue { color: #38bdf8; font-weight: bold; }
-        .neon-amber { color: #f59e0b; font-weight: bold; }
-        .neon-green { color: #10b981; font-weight: bold; }
-        .neon-red { color: #f43f5e; font-weight: bold; }
-        .purple-text { color: #c084fc; }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <!-- Dashboard Top Header Bar -->
-        <header>
-            <div>
-                <h1 id="main-title">Asia Microstructure Ledger</h1>
-                <p class="subtitle">Automated structural change and liquidity logging repository.</p>
-            </div>
-            <div class="status-panel">
-                <div class="status-row">
-                    <span style="color:#64748b;">⚙ Agent Status:</span>
-                    <span class="neon-green">● ONLINE</span>
-                </div>
-                <div class="status-row">
-                    <span style="color:#64748b;">📅 Last Sync Check:</span>
-                    <span style="color:#cbd5e1;" id="sync-time">Loading...</span>
-                </div>
-            </div>
-        </header>
-
-        <!-- Section 1: Regional Macro Liquidity Ledger -->
-        <h2>⏳ APAC REGIONAL MACRO TURNOVER (Click headers to sort)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 10%;">MKT</th>
-                    <th style="width: 15%;">COUNTRY</th>
-                    <th style="width: 15%;">CLASSIFICATION</th>
-                    <th style="width: 25%;">ADT (LOCAL CCY / USD EQUIV)</th>
-                    <th style="width: 35%;">CORE LIQUIDITY CONCENTRATOR</th>
-                </tr>
-            </thead>
-            <tbody id="macro-ledger-body">
-                <!-- Live data entries injected here -->
-            </tbody>
-        </table>
-
-        <!-- Section 2: Transaction Cost Analysis (TCA) Ledger -->
-        <h2>📊 TRANSACTION COSTS & LIQUIDITY MATRIX (Click headers to sort)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 10%;">MKT</th>
-                    <th style="width: 15%;">AVG SPREAD</th>
-                    <th style="width: 15%;">SLIPPAGE ($50M)</th>
-                    <th style="width: 15%;">OFF-EXCHANGE / CROSS</th>
-                    <th style="width: 45%;">SALES TRADER EXECUTION ADVISORY</th>
-                </tr>
-            </thead>
-            <tbody id="cost-ledger-body">
-                <!-- Live data entries injected here -->
-            </tbody>
-        </table>
-
-        <!-- Section 3: AI Agent Operations Controls -->
-        <h2>⚙ AUTOMATED AGENT ROUTING PARAMETERS (Click headers to sort)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 10%;">MKT</th>
-                    <th style="width: 25%;">SAFEGUARD TARGET MECHANISM</th>
-                    <th style="width: 20%;">BASE LOT SIZE</th>
-                    <th style="width: 45%;">ACTIVE ORDER BOOK QUEUE MANAGEMENT RULE</th>
-                </tr>
-            </thead>
-            <tbody id="rules-ledger-body">
-                <!-- Live data entries injected here -->
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Live JSON Binding Script Router Engine -->
     <script>
         async function renderLedgerMatrix() {
             try {
                 const response = await fetch('../data.json');
                 const data = await response.json();
 
-                // Synchronize global platform updates fields
+                // Synchronize global time parameter
                 document.getElementById('sync-time').innerText = data.last_updated;
 
                 const macroBody = document.getElementById('macro-ledger-body');
                 const costBody = document.getElementById('cost-ledger-body');
                 const rulesBody = document.getElementById('rules-ledger-body');
 
+                // Clear previous rows to handle updates smoothly
+                macroBody.innerHTML = "";
+                costBody.innerHTML = "";
+                rulesBody.innerHTML = "";
+
                 data.markets.forEach(m => {
-                    // Normalize Country strings to map Ledger criteria mapping
-                    let country = "Hong Kong";
-                    if(m.code === "JPX") country = "Japan";
-                    if(m.code === "SGX") country = "Singapore";
+                    // Automatically assign tag badge styling based on market type
+                    const classTag = m.classification === "DEVELOPED MKT" ? "tag-dev" : "tag-dev style='border-color:#4c1d95; color:#c084fc;'";
                     
-                    // Inject Entry Row 1 (Macro Stats Matrix)
+                    // Inject Row 1: Macro Turnover Specs Ledger
                     macroBody.innerHTML += `
                         <tr>
                             <td><span class="mkt-badge">${m.code}</span></td>
-                            <td style="color:#ffffff; font-weight:500;">${country}</td>
-                            <td><span class="tag tag-dev">DEVELOPED MKT</span></td>
+                            <td style="color:#ffffff; font-weight:500;">${m.country}</td>
+                            <td><span class="tag ${classTag}">${m.classification}</span></td>
                             <td>
                                 <div class="highlight-text">${m.turnover_local}</div>
                                 <div style="color:#64748b; font-size:11px; margin-top:2px;">${m.turnover_usd}</div>
@@ -154,7 +36,7 @@
                         </tr>
                     `;
 
-                    // Inject Entry Row 2 (TCA Transaction Costs Spec Matrix)
+                    // Inject Row 2: TCA Cost Matrix Ledger
                     costBody.innerHTML += `
                         <tr>
                             <td><span class="mkt-badge">${m.code}</span></td>
@@ -165,7 +47,7 @@
                         </tr>
                     `;
 
-                    // Inject Entry Row 3 (AI Configuration Routing Rules Matrix)
+                    // Inject Row 3: Automated Agent Routing Constraints Ledger
                     rulesBody.innerHTML += `
                         <tr>
                             <td><span class="mkt-badge">${m.code}</span></td>
@@ -177,10 +59,8 @@
                 });
 
             } catch (err) {
-                console.error("Dashboard asset pipeline failure:", err);
+                console.error("Dashboard dataset pipeline sync failure:", err);
             }
         }
         window.addEventListener('DOMContentLoaded', renderLedgerMatrix);
     </script>
-</body>
-</html>
