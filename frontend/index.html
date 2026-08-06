@@ -3,124 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APAC Microstructure Dashboard</title>
-    <!-- Automatic modern formatting styles -->
-    <script src="https://jsdelivr.net"></script>
-    <script src="https://jsdelivr.net"></script>
+    <title>APAC Microstructure Dashboard - Table View</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: #0f172a; color: #f8fafc; padding: 30px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { font-size: 24px; color: #ffffff; margin-bottom: 5px; }
+        .subtitle { color: #94a3b8; font-size: 14px; margin-bottom: 25px; }
+        .status-banner { background-color: #064e3b; color: #34d399; padding: 10px 15px; border-radius: 6px; font-family: monospace; display: inline-block; margin-bottom: 25px; border: 1px solid #047857; }
+        h2 { font-size: 18px; color: #ffffff; margin-top: 30px; margin-bottom: 12px; border-bottom: 1px solid #334155; padding-bottom: 6px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 25px; background-color: #1e293b; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #334155; }
+        th { background-color: #1e293b; color: #94a3b8; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+        td { font-size: 14px; }
+        .highlight { font-size: 18px; font-weight: bold; color: #ffffff; }
+        .code-text { font-family: monospace; color: #cbd5e1; background-color: #0f172a; padding: 4px 8px; border-radius: 4px; }
+        .green-text { color: #34d399; font-weight: bold; }
+        .blue-text { color: #60a5fa; font-weight: bold; }
+        .amber-text { color: #fbbf24; font-weight: bold; }
+    </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen font-sans p-6">
+<body>
 
-    <!-- Main Visual Layout Container -->
-    <div class="max-w-7xl mx-auto space-y-6">
-        
-        <!-- Header -->
-        <header class="flex justify-between items-center border-b border-slate-800 pb-4">
-            <div>
-                <h1 class="text-2xl font-bold tracking-tight text-white">APAC Microstructure Interface</h1>
-                <p class="text-slate-400 text-sm">AI Agent Analytics Environment • Live Session Context</p>
-            </div>
-            <div class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs px-3 py-1.5 rounded-full font-mono flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> AGENT ACTIVE: STANDBY MODE
-            </div>
-        </header>
+    <div class="container">
+        <!-- Header Section -->
+        <h1>APAC Microstructure Interface</h1>
+        <div class="subtitle">AI Agent Analytics Environment • Live Session Context</div>
+        <div class="status-banner">● AGENT ACTIVE: STANDBY MODE</div>
 
-        <!-- KPI Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <!-- Card 1: ADT Local -->
-            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700/50">
-                <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Avg Daily Turnover (Local)</p>
-                <p class="text-3xl font-extrabold text-white mt-1">HK$ 283.0B</p>
-                <p class="text-xs text-emerald-400 mt-2">↑ Peak Month hit HK$319.1B</p>
-            </div>
-            <!-- Card 2: ADT USD -->
-            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700/50">
-                <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Avg Daily Turnover (USD)</p>
-                <p class="text-3xl font-extrabold text-white mt-1">US$ 36.2B</p>
-                <p class="text-xs text-slate-400 mt-2">Peg Anchored: 7.75 - 7.85</p>
-            </div>
-            <!-- Card 3: Connect Flow -->
-            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700/50">
-                <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Southbound Connect Concentration</p>
-                <p class="text-3xl font-extrabold text-amber-400 mt-1">43.0%</p>
-                <p class="text-xs text-amber-400/80 mt-2">High systemic influence on liquidity</p>
-            </div>
-        </div>
+        <!-- Table 1: Market Turnover Overview -->
+        <h2>1. Market Turnover & Systemic Liquidity (H1 2026)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 40%;">Metric Classification</th>
+                    <th style="width: 30%;">Current Value</th>
+                    <th style="width: 30%;">Structural Boundary Context</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Avg Daily Turnover (Local)</td>
+                    <td class="highlight">HK$ 283.0B</td>
+                    <td class="green-text">↑ Peak Month: HK$319.1B</td>
+                </tr>
+                <tr>
+                    <td>Avg Daily Turnover (USD)</td>
+                    <td class="highlight">US$ 36.2B</td>
+                    <td>Peg Anchored: 7.75 - 7.85</td>
+                </tr>
+                <tr>
+                    <td>Southbound Connect Flow</td>
+                    <td class="highlight" style="color: #fbbf24;">43.0%</td>
+                    <td class="amber-text">High Liquidity Concentration</td>
+                </tr>
+            </tbody>
+        </table>
 
-        <!-- Charts Layout Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            
-            <!-- Sector Allocation Chart -->
-            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700/50 flex flex-col justify-between">
-                <div>
-                    <h3 class="text-sm font-bold text-white uppercase tracking-wider">Sector Structural Splitting</h3>
-                    <p class="text-xs text-slate-400 mt-1">Financials dominate index weight; IT dominates active order book volume.</p>
-                </div>
-                <div class="h-64 mt-4 flex items-center justify-center">
-                    <canvas id="sectorChart"></canvas>
-                </div>
-            </div>
+        <!-- Table 2: Sector Structural Splitting -->
+        <h2>2. Sector Weight Allocation Comparison</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Target Sector Segment</th>
+                    <th>Market Cap Share (%)</th>
+                    <th>Active Order Book Volume Share (%)</th>
+                    <th>Microstructure Volatility Profile</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="blue-text">Financials</td>
+                    <td>29.1%</td>
+                    <td>31.1%</td>
+                    <td>Low volatility / Heavy index weight foundation</td>
+                </tr>
+                <tr>
+                    <td class="amber-text">Information Technology (TMT)</td>
+                    <td>12.6%</td>
+                    <td>42.5%</td>
+                    <td>Extreme velocity / High order imbalances</td>
+                </tr>
+                <tr>
+                    <td style="color: #c084fc;">ETPs & ETFs Overlays</td>
+                    <td>5.0%</td>
+                    <td>15.0%</td>
+                    <td>Arbitrage-driven program basket sweeps</td>
+                </tr>
+                <tr>
+                    <td>Other Broad Segments</td>
+                    <td>53.3%</td>
+                    <td>11.4%</td>
+                    <td>Fragmented retail liquidity footprints</td>
+                </tr>
+            </tbody>
+        </table>
 
-            <!-- Agent Rules & Parameters Panel -->
-            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700/50">
-                <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Agent Execution Parameters</h3>
-                <div class="space-y-3 font-mono text-xs">
-                    <div class="p-3 bg-slate-900 rounded-lg flex justify-between items-center">
-                        <span class="text-slate-400">REGIME_MULTIPLIER</span>
-                        <span class="text-emerald-400 font-bold">1.0x (Normal)</span>
-                    </div>
-                    <div class="p-3 bg-slate-900 rounded-lg flex justify-between items-center">
-                        <span class="text-slate-400">FINANCIALS_QUEUE_STRATEGY</span>
-                        <span class="text-blue-400">Tight Spread / Aggressive Aggregation</span>
-                    </div>
-                    <div class="p-3 bg-slate-900 rounded-lg flex justify-between items-center">
-                        <span class="text-slate-400">TECH_TMT_QUEUE_STRATEGY</span>
-                        <span class="text-amber-400">Wide Placement / Order Imbalance Buffer</span>
-                    </div>
-                    <div class="p-3 bg-slate-900 rounded-lg flex justify-between items-center">
-                        <span class="text-slate-400">APAC_EXPANSION_SLOTS</span>
-                        <span class="text-purple-400">[HKEX, JPX, SGX Configured]</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+        <!-- Table 3: Agent Parameters -->
+        <h2>3. Live Agent Execution Constraints</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 45%;">System Variable Key</th>
+                    <th style="width: 55%;">Active Strategy Rule / Parameter Assignment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="code-text">REGIME_MULTIPLIER</span></td>
+                    <td class="green-text">1.0x (Normal Operations Baseline)</td>
+                </tr>
+                <tr>
+                    <td><span class="code-text">FINANCIALS_QUEUE_STRATEGY</span></td>
+                    <td>Tight Structural Spread / Aggressive Inventory Aggregation</td>
+                </tr>
+                <tr>
+                    <td><span class="code-text">TECH_TMT_QUEUE_STRATEGY</span></td>
+                    <td>Wide Quoting Placement / Order Imbalance Absorption Buffer</td>
+                </tr>
+                <tr>
+                    <td><span class="code-text">APAC_EXPANSION_SLOTS</span></td>
+                    <td style="color: #a78bfa;">[HKEX, JPX, SGX Configured Engine Frameworks]</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
-    <!-- Chart Configuration Script -->
-    <script>
-        const ctx = document.getElementById('sectorChart').getContext('2d');
-        Chart.defaults.color = '#94a3b8';
-        Chart.defaults.font.family = 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas';
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Financials', 'Information Tech', 'ETPs / ETFs', 'Others'],
-                datasets: [
-                    {
-                        label: 'Market Cap Share (%)',
-                        data: [29.1, 12.6, 5.0, 53.3],
-                        backgroundColor: '#3b82f6',
-                        borderRadius: 4
-                    },
-                    {
-                        label: 'Active Trading Volume Share (%)',
-                        data: [31.1, 42.5, 15.0, 11.4],
-                        backgroundColor: '#f59e0b',
-                        borderRadius: 4
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { position: 'top' } },
-                scales: {
-                    x: { grid: { display: false } },
-                    y: { grid: { color: '#334155' }, ticks: { callback: value => value + '%' } }
-                }
-            }
-        });
-    </script>
 </body>
 </html>
