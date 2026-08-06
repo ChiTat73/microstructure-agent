@@ -1,7 +1,8 @@
     <script>
         async function renderLedgerMatrix() {
             try {
-                const response = await fetch('../data.json');
+                const response = await fetch(window.location.origin + window.location.pathname.replace('frontend/index.html', 'data.json'));
+
                 const data = await response.json();
 
                 // Synchronize global time parameter
