@@ -1,4 +1,5 @@
 import json
+import os
 import random
 from datetime import datetime
 
@@ -44,7 +45,7 @@ def fetch_live_apac_metrics():
             retail = random.randint(35, 85)
         inst = 100 - retail
 
-        # Maintain your hardcoded strategy notes but route numbers dynamically
+        # Maintain strategy notes and route dynamic metrics
         updated_markets.append({
             "code": mkt["code"],
             "country": mkt["country"],
@@ -52,7 +53,7 @@ def fetch_live_apac_metrics():
             "turnover_local": f"{mkt['currency']} {live_turnover:.1f}{suffix}",
             "turnover_usd": f"US$ {usd_equiv:.1f}B",
             "pillar_sector": "Semiconductors" if mkt["code"] in ["TWSE", "KRX"] else "Financials" if mkt["code"] in ["HKEX", "SGX"] else "Industrial/Auto",
-            "volume_concentrator": f"Active volume shifts tracked by tracking matrix engine.",
+            "volume_concentrator": "Active volume shifts tracked by tracking matrix engine.",
             "retail_pct": f"{retail}.0%",
             "institutional_pct": f"{inst}.0%",
             "avg_spread": f"{random.uniform(1.0, 2.0):.1f} - {random.uniform(2.1, 3.5):.1f} Ticks",
@@ -64,18 +65,22 @@ def fetch_live_apac_metrics():
             "queue_rule": "Agent automated priority order matching rule active."
         })
 
-    # Wrap dataset payload matching your schema properties structure
+    # Wrap dataset payload matching schema structure
     payload = {
         "last_updated": datetime.now().strftime("%b %d, %Y %H:%M HKT"),
         "network_status": "ONLINE",
         "markets": updated_markets
     }
 
-    # Save to your static data.json file overwrite target
-    with open("data.json", "w", encoding="utf-8") as file:
+    # Automatically resolve directory path to write data.json in the same folder as tracker.py
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_path = os.path.join(script_dir, "data.json")
+
+    # Save to static data.json file target
+    with open(output_path, "w", encoding="utf-8") as file:
         json.dump(payload, file, indent=2, ensure_ascii=False)
         
-    print("Asia Microstructure Ledger data.json pipeline updated successfully.")
+    print(f"Asia Microstructure Ledger data.json pipeline updated successfully at: {output_path}")
 
 if __name__ == "__main__":
     fetch_live_apac_metrics()
