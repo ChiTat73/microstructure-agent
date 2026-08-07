@@ -227,6 +227,24 @@ tr:hover td { background-color: #0f1d38; }
                     <th onclick="sortTable(1, 'macroTable', 'text')" style="width: 15%;">COUNTRY</th>
                     <th onclick="sortTable(2, 'macroTable', 'text')" style="width: 15%;">CLASSIFICATION</th>
                     <th onclick="sortTable(3, 'macroTable', 'number')" style="width: 25%;">ADT (LOCAL CCY / USD EQUIV)</th>
+                    macroBody.innerHTML += `
+    <tr>
+        <td><span class="mkt-badge">${m.code}</span></td>
+        <td style="color:#ffffff; font-weight:500;">${m.country}</td>
+        <td><span class="tag ${tagStyle}">${m.classification}</span></td>
+        <td>
+            <div class="highlight-text">${m.turnover_local}</div>
+            <div style="color:#64748b; font-size:11px; margin-top:2px;">${m.turnover_usd}</div>
+        </td>
+        <td>
+            <div class="flow-ratio">
+                <span class="flow-retail">${m.retail_pct || '15%'}</span> R / 
+                <span class="flow-inst">${m.inst_pct || '85%'}</span> Inst
+            </div>
+        </td>
+        <td class="tag-concentrator"><span class="neon-blue">${m.pillar_sector}</span> • ${m.volume_concentrator}</td>
+    </tr>
+`;
                     <th style="width: 35%;">CORE LIQUIDITY CONCENTRATOR</th>
                 </tr>
             </thead>
