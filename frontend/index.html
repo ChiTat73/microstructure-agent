@@ -4,354 +4,292 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>APAC Liquidity & Market Microstructure Hub</title>
+
     <style>
-        /* Pure Black Dark Theme */
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            background-color: #000000 !important; 
-            color: #cbd5e1; 
-            padding: 30px; 
-            margin: 0; 
-        }
-        .container { max-width: 1200px; margin: 0 auto; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background-color: #000000; color: #f1f5f9; padding: 40px 24px; margin: 0; line-height: 1.5; }
+        .container { max-width: 1400px; margin: 0 auto; }
         
-        header { border-bottom: 1px solid #1e293b; padding-bottom: 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: flex-start; }
-        h1 { font-size: 22px; font-weight: bold; color: #38bdf8; margin: 0 0 5px 0; letter-spacing: -0.02em; }
-        .subtitle { color: #64748b; font-size: 13px; margin: 0; }
+        /* Header & Navigation Area */
+        .header-area { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid #1e293b; padding-bottom: 24px; }
+        .header-right-group { display: flex; gap: 12px; align-items: stretch; }
         
-        .header-actions { display: flex; gap: 12px; align-items: stretch; }
+        .hub-btn { background-color: #000000; color: #38bdf8; border: 1px solid #1e293b; padding: 0 16px; border-radius: 6px; font-family: monospace; font-size: 11px; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s ease; }
+        .hub-btn:hover { border-color: #38bdf8; background-color: #090d16; }
 
-        /* External Link Button Styling */
-        .hub-link-btn {
-            background-color: #000000;
-            color: #38bdf8;
-            border: 1px solid #1e293b;
-            padding: 0 16px;
-            border-radius: 6px;
-            font-family: monospace;
-            font-size: 11px;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-        }
-        .hub-link-btn:hover {
-            border-color: #38bdf8;
-            background-color: #090d16;
-            box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
-        }
+        h1 { color: #3b82f6; margin: 0 0 8px 0; font-size: 26px; font-weight: 700; }
+        .subtitle { color: #94a3b8; margin: 0; font-size: 14px; }
+        .agent-status-panel { background-color: #0f172a; border: 1px solid #1e293b; padding: 12px 18px; border-radius: 6px; font-size: 13px; color: #e2e8f0; }
+        
+        /* Controls & Filter Bar */
+        .controls-bar { display: flex; justify-content: space-between; align-items: center; background-color: #0f172a; border: 1px solid #1e293b; padding: 12px 16px; border-radius: 6px; margin-bottom: 30px; gap: 16px; flex-wrap: wrap; }
+        .search-wrapper { position: relative; flex-grow: 1; max-width: 400px; }
+        .search-wrapper input { width: 100%; background-color: #000000; border: 1px solid #1e293b; color: #ffffff; padding: 8px 12px 8px 34px; border-radius: 4px; font-size: 13px; outline: none; box-sizing: border-box; }
+        .search-wrapper::before { content: "🔍"; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; opacity: 0.5; }
 
-        .status-panel { 
-            background-color: #000000 !important; 
-            border: 1px solid #1e293b; 
-            border-radius: 6px; 
-            padding: 12px 16px; 
-            font-size: 11px; 
-            font-family: monospace; 
-            min-width: 200px; 
-            text-align: left; 
-        }
-        .status-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
-        .status-row:last-child { margin-bottom: 0; }
-        
-        /* Interactive Input Utility Search Bar Styling */
-        .filter-container { margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
-        .search-input { 
-            width: 100%; 
-            max-width: 400px; 
-            background-color: #000000 !important; 
-            border: 1px solid #1e293b; 
-            border-radius: 4px; 
-            padding: 10px 14px; 
-            color: #ffffff; 
-            font-size: 13px; 
-            font-family: sans-serif; 
-            outline: none; 
-        }
-        .search-input:focus { border-color: #38bdf8; box-shadow: 0 0 0 1px #38bdf8; }
-        .neon-note { font-size: 11px; color: #64748b; font-family: monospace; }
-        .neon-note span { color: #38bdf8; font-weight: bold; }
+        /* Section Titles */
+        .section-title { font-size: 14px; font-weight: 700; margin-top: 20px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #78350f; display: flex; align-items: center; justify-content: space-between; letter-spacing: 0.5px; color: #f59e0b; }
+        .row-counter { font-size: 11px; background-color: #1e293b; color: #94a3b8; padding: 2px 8px; border-radius: 10px; font-weight: normal; }
 
-        h2 { font-size: 13px; font-weight: bold; color: #f97316; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 35px; margin-bottom: 12px; }
+        /* Main Table Styles */
+        table { width: 100%; border-collapse: collapse; margin-bottom: 40px; background-color: #000000; table-layout: fixed; }
+        th.sortable { cursor: pointer; user-select: none; transition: background-color 0.15s; }
+        th.sortable:hover { background-color: #1e293b; color: #ffffff; }
+        th { border: 1px solid #1e293b; text-align: left; padding: 12px 16px; font-size: 11px; background-color: #0f172a; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+        .sort-icon { display: inline-block; margin-left: 6px; font-size: 10px; color: #475569; }
         
-        /* Pure Black Table & Cells */
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-bottom: 25px; 
-            background-color: #000000 !important; 
-            border: 1px solid #1e293b; 
-            border-radius: 4px; 
-            overflow: hidden; 
-        }
-        th, td { 
-            padding: 12px 14px; 
-            text-align: left; 
-            border-bottom: 1px solid #1e293b; 
-            border-right: 1px solid #1e293b; 
-            font-size: 12.5px; 
-            vertical-align: middle; 
-            line-height: 1.5; 
-            background-color: #000000 !important; 
-        }
-        th:last-child, td:last-child { border-right: none; }
-        
-        th { 
-            background-color: #090d16 !important; 
-            color: #64748b; 
-            font-size: 11px; 
-            text-transform: uppercase; 
-            letter-spacing: 0.05em; 
-            font-weight: bold; 
-            border-bottom: 2px solid #1e293b; 
-            cursor: pointer; 
-            user-select: none; 
-        }
-        th:hover { color: #ffffff; background-color: #111827 !important; }
-        th::after { content: " ▾"; font-size: 10px; color: #64748b; }
-        
-        tr:hover td { background-color: #0a0e17 !important; }
-        
-        .highlight-text { font-size: 14px; font-weight: bold; color: #ffffff; font-family: monospace; }
-        .mkt-badge { font-weight: bold; font-family: monospace; font-size: 11px; color: #38bdf8; display: inline-block; padding: 2px 4px; }
-        .tag { font-size: 10px; font-weight: bold; text-transform: uppercase; padding: 3px 8px; border-radius: 12px; display: inline-block; font-family: monospace; }
-        .tag-dev { background-color: rgba(30, 58, 138, 0.4); color: #60a5fa; border: 1px solid #1d4ed8; }
-        .tag-eme { background-color: rgba(88, 28, 135, 0.4); color: #c084fc; border: 1px solid #6b21a8; }
-        .tag-concentrator { font-weight: normal; color: #cbd5e1; }
-        .neon-blue { color: #38bdf8; font-weight: bold; }
-        .neon-amber { color: #f59e0b; font-weight: bold; }
-        .neon-green { color: #10b981; font-weight: bold; }
-        .neon-red { color: #f43f5e; font-weight: bold; }
-        .purple-text { color: #c084fc; }
+        td { border: 1px solid #1e293b; text-align: left; padding: 14px 16px; font-size: 13.5px; color: #e2e8f0; vertical-align: middle; }
+        .macro-row { transition: background-color 0.15s ease; }
+        .macro-row:nth-child(even) { background-color: #05070a; }
+        .macro-row:hover { background-color: #0f172a; }
 
-        /* Flow Split Styling */
-        .flow-container { display: flex; flex-direction: column; gap: 4px; }
-        .flow-ratio { font-family: monospace; font-size: 11px; font-weight: bold; }
-        .flow-retail { color: #f59e0b; }
-        .flow-inst { color: #38bdf8; }
-        .flow-bar { display: flex; height: 4px; width: 100%; max-width: 100px; background-color: #1e293b; border-radius: 2px; overflow: hidden; }
-        .flow-bar-retail { background-color: #f59e0b; height: 100%; }
-        .flow-bar-inst { background-color: #38bdf8; height: 100%; }
+        /* Column Specific Formatting */
+        .td-mkt { font-weight: 700; color: #3b82f6; width: 7%; }
+        .td-country { color: #ffffff; width: 12%; font-weight: 600; }
+        .td-classification { width: 12%; }
+        .td-adt { width: 22%; }
+        .td-flow { width: 22%; }
+        .td-concentrator { width: 25%; color: #e2e8f0; font-size: 13px; line-height: 1.4; }
+
+        /* Classification Badges */
+        .class-badge { display: inline-block; padding: 3px 10px; font-size: 10px; font-weight: 700; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.3px; }
+        .class-badge.developed { background-color: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .class-badge.emerging { background-color: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+
+        /* ADT & Flow Specific Styling */
+        .adt-primary { font-size: 15px; font-weight: 800; color: #ffffff; }
+        .adt-usd { font-size: 11px; color: #64748b; margin-top: 1px; }
+        
+        .flow-text-container { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+        .flow-ret-label { color: #f59e0b; }
+        .flow-inst-label { color: #38bdf8; }
+        
+        /* Flow Bar Visual Representation */
+        .flow-bar-wrapper { width: 100%; height: 6px; background-color: #1e293b; border-radius: 3px; display: flex; overflow: hidden; margin-bottom: 6px; }
+        .flow-bar-ret { height: 100%; background-color: #f59e0b; }
+        .flow-bar-inst { height: 100%; background-color: #38bdf8; }
+
+        /* Delta & Trend Badges */
+        .trend-badge { font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 3px; }
+        .trend-badge.up { color: #10b981; }
+        .trend-badge.down { color: #f87171; }
+        .trend-badge.flat { color: #94a3b8; }
+        .trend-period { font-size: 10px; color: #64748b; font-weight: normal; margin-left: 3px; }
+
+        .status-msg { text-align: center; font-weight: 500; color: #64748b; padding: 30px; background-color: #0f172a; border: 1px dashed #1e293b; border-radius: 6px; }
     </style>
 </head>
-<body>
 
+<body>
     <div class="container">
-        <!-- Top Title Block Header -->
-        <header>
+        <!-- Header -->
+        <div class="header-area">
             <div>
                 <h1>APAC Liquidity & Market Microstructure Hub</h1>
                 <p class="subtitle">Real-time venue dynamics, execution TCA, and algorithmic routing parameters.</p>
             </div>
-            <div class="header-actions">
-                <a href="https://chitat73.github.io/asia-microstructure-tracker/" class="hub-link-btn" title="Open Main Microstructure Tracker">
-                    <span>⚡</span> Stock exchange amendment details ↗
+            
+            <div class="header-right-group">
+                <a href="amendments.html" class="hub-btn">
+                    ⚡ Stock exchange amendment details
                 </a>
-                <div class="status-panel">
-                    <div class="status-row">
-                        <span style="color:#64748b;">⚙ Agent Status:</span>
-                        <span class="neon-green">● ONLINE</span>
-                    </div>
-                    <div class="status-row">
-                        <span style="color:#64748b;">📅 Last Sync Check:</span>
-                        <span style="color:#cbd5e1;" id="sync-time">Loading...</span>
-                    </div>
+                <div class="agent-status-panel">
+                    🤖 Agent Status: <span style="color: #10b981; font-weight: bold;">● ONLINE</span><br>
+                    📅 Last Sync Check: <strong id="agent-timestamp">Aug 06, 2026 14:50 HKT</strong>
                 </div>
             </div>
-        </header>
-
-        <!-- Live Sorting Input Filters -->
-        <div class="filter-container">
-            <input type="text" id="ledgerSearch" class="search-input" placeholder="Filter ledger by market, country, segment or keyword..." onkeyup="filterLedgerData()">
-            <div class="neon-note"><span>Neon blue rows</span> signify new data entries added since your last session.</div>
         </div>
 
-        <!-- Section 1: Regional Macro Liquidity Ledger -->
-        <h2>⏳ APAC REGIONAL MACRO TURNOVER (Click headers to sort)</h2>
-        <table id="macroTable">
-            <thead>
-                <tr>
-                    <th onclick="sortTable(0, 'macroTable', 'text')" style="width: 8%;">MKT</th>
-                    <th onclick="sortTable(1, 'macroTable', 'text')" style="width: 12%;">COUNTRY</th>
-                    <th onclick="sortTable(2, 'macroTable', 'text')" style="width: 14%;">CLASSIFICATION</th>
-                    <th onclick="sortTable(3, 'macroTable', 'number')" style="width: 20%;">ADT (LOCAL CCY / USD EQUIV)</th>
-                    <th style="width: 16%;">FLOW SPLIT (RET / INST)</th>
-                    <th style="width: 30%;">CORE LIQUIDITY CONCENTRATOR</th>
-                </tr>
-            </thead>
-            <tbody id="macro-ledger-body">
-                <tr><td colspan="6" style="color:#64748b; text-align:center; font-family:monospace;">Connecting data channels...</td></tr>
-            </tbody>
-        </table>
+        <!-- Controls -->
+        <div class="controls-bar">
+            <div class="search-wrapper">
+                <input type="text" id="masterSearch" oninput="applyFilters()" placeholder="Filter ledger by market, country, segment or keyword..." autocomplete="off">
+            </div>
+            <div style="font-size: 12px; color: #64748b;">
+                💡 <span style="color: #00f0ff; font-weight: bold;">Neon blue rows</span> signify new data entries added since your last session.
+            </div>
+        </div>
 
-        <!-- Section 2: Transaction Cost Analysis (TCA) Ledger -->
-        <h2>📊 TRANSACTION COSTS & LIQUIDITY MATRIX (Click headers to sort)</h2>
-        <table id="costTable">
-            <thead>
-                <tr>
-                    <th onclick="sortTable(0, 'costTable', 'text')" style="width: 10%;">MKT</th>
-                    <th style="width: 15%;">AVG SPREAD</th>
-                    <th style="width: 15%;">SLIPPAGE ($50M)</th>
-                    <th style="width: 15%;">OFF-EXCHANGE / CROSS</th>
-                    <th style="width: 45%;">SALES TRADER EXECUTION ADVISORY</th>
-                </tr>
-            </thead>
-            <tbody id="cost-ledger-body">
-                <tr><td colspan="5" style="color:#64748b; text-align:center; font-family:monospace;">Connecting data channels...</td></tr>
-            </tbody>
-        </table>
+        <!-- Table Title -->
+        <div class="section-title">
+            <span>⌛ APAC REGIONAL MACRO TURNOVER (CLICK HEADERS TO SORT)</span>
+            <span class="row-counter" id="macro-count">0 Records</span>
+        </div>
 
-        <!-- Section 3: AI Agent Operations Controls -->
-        <h2>⚙ AUTOMATED AGENT ROUTING PARAMETERS (Click headers to sort)</h2>
-        <table id="rulesTable">
-            <thead>
-                <tr>
-                    <th onclick="sortTable(0, 'rulesTable', 'text')" style="width: 10%;">MKT</th>
-                    <th style="width: 25%;">SAFEGUARD TARGET MECHANISM</th>
-                    <th style="width: 20%;">BASE LOT SIZE</th>
-                    <th style="width: 45%;">ACTIVE ORDER BOOK QUEUE MANAGEMENT RULE</th>
-                </tr>
-            </thead>
-            <tbody id="rules-ledger-body">
-                <tr><td colspan="4" style="color:#64748b; text-align:center; font-family:monospace;">Connecting data channels...</td></tr>
-            </tbody>
-        </table>
+        <!-- Macro Table -->
+        <div id="macro-container">
+            <table id="macro-table">
+                <thead>
+                    <tr>
+                        <th class="sortable td-mkt" onclick="sortMacroTable('exchange', this)">MKT<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-country" onclick="sortMacroTable('country', this)">Country<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-classification" onclick="sortMacroTable('isDeveloped', this)">Classification<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-adt" onclick="sortMacroTable('currentAdt', this)">ADT (LOCAL CCY / QoQ TREND)<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-flow" onclick="sortMacroTable('retailPct', this)">FLOW SPLIT (RET / INST & QoQ)<span class="sort-icon">▼▲</span></th>
+                        <th class="td-concentrator">Core Liquidity Concentrator</th>
+                    </tr>
+                </thead>
+                <tbody id="macro-body"></tbody>
+            </table>
+            <div id="macro-loading" class="status-msg" style="display: none;">Loading market dynamics...</div>
+        </div>
     </div>
 
-    <!-- Active Structural Processing Script Logic -->
     <script>
-        let cachedMarketsArray = [];
-        let sortingDirections = {};
-
-        async function initLedgerSystem() {
-            try {
-                const rootPath = window.location.pathname.substring(0, window.location.pathname.indexOf('/frontend/'));
-                const jsonUrl = window.location.origin + rootPath + '/data.json';
-                
-                const response = await fetch(jsonUrl);
-                const data = await response.json();
-
-                document.getElementById('sync-time').innerText = data.last_updated;
-                cachedMarketsArray = data.markets;
-                
-                renderActiveTables(cachedMarketsArray);
-            } catch (err) {
-                console.error("Platform script crash log:", err);
+        // Sample Market Dataset with QoQ Historical Baseline Data
+        const macroData = [
+            {
+                exchange: 'HKEX', country: 'Hong Kong', isDeveloped: 1, ccy: 'HK$',
+                currentAdt: 283.0, prevAdt: 261.5, usdEquiv: '36.2B',
+                retailPct: 12.0, prevRetailPct: 10.5,
+                concentrator: '<strong>Financials (29.1% Cap)</strong> • <strong>Information Technology (42.5% Vol)</strong>.'
+            },
+            {
+                exchange: 'ASX', country: 'Australia', isDeveloped: 1, ccy: 'A$',
+                currentAdt: 6.8, prevAdt: 6.95, usdEquiv: '4.45B',
+                retailPct: 15.0, prevRetailPct: 15.0,
+                concentrator: '<strong>Materials & Financials</strong> • Global Mining Giants (BHP, Rio) & Big 4 Banks.'
+            },
+            {
+                exchange: 'JPX', country: 'Japan', isDeveloped: 1, ccy: '¥',
+                currentAdt: 11600.0, prevAdt: 10800.0, usdEquiv: '74.1B', // Stored in Billions equivalent (11.6T)
+                displayCcy: '¥ 11.6T',
+                retailPct: 22.0, prevRetailPct: 19.5,
+                concentrator: '<strong>Industrial / Auto Mfg</strong> • Electric Appliances & Tech Equipment.'
+            },
+            {
+                exchange: 'SGX', country: 'Singapore', isDeveloped: 1, ccy: 'S$',
+                currentAdt: 1.8, prevAdt: 1.72, usdEquiv: '1.39B',
+                retailPct: 25.0, prevRetailPct: 27.0,
+                concentrator: '<strong>Financials (Local Banks)</strong> • REITs & Micro Index Derivatives.'
+            },
+            {
+                exchange: 'TWSE', country: 'Taiwan', isDeveloped: 1, ccy: 'NT$',
+                currentAdt: 380.0, prevAdt: 345.0, usdEquiv: '11.6B',
+                retailPct: 55.0, prevRetailPct: 51.0,
+                concentrator: '<strong>Semiconductors & Electronics</strong> • TSMC & Electronics Supply Chain.'
+            },
+            {
+                exchange: 'NZX', country: 'New Zealand', isDeveloped: 1, ccy: 'NZ$',
+                currentAdt: 0.18, prevAdt: 0.19, usdEquiv: '0.11B',
+                retailPct: 20.0, prevRetailPct: 20.0,
+                concentrator: '<strong>Utilities & Healthcare</strong> • Defensive Infrastructure & Energy Providers.'
+            },
+            {
+                exchange: 'NSE', country: 'India', isDeveloped: 0, ccy: '₹',
+                currentAdt: 985.0, prevAdt: 910.0, usdEquiv: '11.8B',
+                retailPct: 38.0, prevRetailPct: 35.5,
+                concentrator: '<strong>Financial Services & IT</strong> • Nifty Heavyweights & High-Beta.'
             }
-        }
+        ];
 
-        function renderActiveTables(marketsData) {
-            const macroBody = document.getElementById('macro-ledger-body');
-            const costBody = document.getElementById('cost-ledger-body');
-            const rulesBody = document.getElementById('rules-ledger-body');
+        let activeSortKey = null;
+        let activeSortDir = 'asc';
 
-            macroBody.innerHTML = "";
-            costBody.innerHTML = "";
-            rulesBody.innerHTML = "";
+        function renderMacroTable(dataset) {
+            const tbody = document.getElementById('macro-body');
+            const counterBadge = document.getElementById('macro-count');
+            tbody.innerHTML = '';
+            counterBadge.textContent = `${dataset.length} Records`;
 
-            if(marketsData.length === 0) {
-                macroBody.innerHTML = `<tr><td colspan="6" style="color:#64748b; text-align:center; font-family:monospace;">No matching records located</td></tr>`;
-                costBody.innerHTML = `<tr><td colspan="5" style="color:#64748b; text-align:center; font-family:monospace;">No matching records located</td></tr>`;
-                rulesBody.innerHTML = `<tr><td colspan="4" style="color:#64748b; text-align:center; font-family:monospace;">No matching records located</td></tr>`;
-                return;
-            }
+            dataset.forEach(item => {
+                // Correct Flow Calculation: Institutional % is always remainder of 100%
+                const retPct = item.retailPct;
+                const instPct = (100 - retPct).toFixed(1);
 
-            marketsData.forEach(m => {
-                const tagStyle = m.classification === "DEVELOPED MKT" ? "tag-dev" : "tag-eme";
-                
-                const retVal = m.retail_pct || '15%';
-                const instVal = m.inst_pct || '85%';
-                const retNum = parseFloat(retVal) || 15;
-                const instNum = parseFloat(instVal) || 85;
+                // Calculate ADT QoQ Change
+                const adtDelta = ((item.currentAdt - item.prevAdt) / item.prevAdt) * 100;
+                let adtTrendHtml = '';
+                if (adtDelta > 0) {
+                    adtTrendHtml = `<span class="trend-badge up">▲ +${adtDelta.toFixed(1)}%<span class="trend-period">vs Q1</span></span>`;
+                } else if (adtDelta < 0) {
+                    adtTrendHtml = `<span class="trend-badge down">▼ ${adtDelta.toFixed(1)}%<span class="trend-period">vs Q1</span></span>`;
+                } else {
+                    adtTrendHtml = `<span class="trend-badge flat">● Unchanged<span class="trend-period">vs Q1</span></span>`;
+                }
 
-                macroBody.innerHTML += `
-                    <tr>
-                        <td><span class="mkt-badge">${m.code}</span></td>
-                        <td style="color:#ffffff; font-weight:500;">${m.country}</td>
-                        <td><span class="tag ${tagStyle}">${m.classification}</span></td>
-                        <td>
-                            <div class="highlight-text">${m.turnover_local}</div>
-                            <div style="color:#64748b; font-size:11px; margin-top:2px;">${m.turnover_usd}</div>
-                        </td>
-                        <td>
-                            <div class="flow-container">
-                                <div class="flow-ratio">
-                                    <span class="flow-retail">${retVal}</span> <span style="color:#64748b; font-weight:normal;">Ret</span> / 
-                                    <span class="flow-inst">${instVal}</span> <span style="color:#64748b; font-weight:normal;">Inst</span>
-                                </div>
-                                <div class="flow-bar">
-                                    <div class="flow-bar-retail" style="width: ${retNum}%;"></div>
-                                    <div class="flow-bar-inst" style="width: ${instNum}%;"></div>
-                                </div>
+                // Calculate Flow Shift (Retail Movement)
+                const flowShift = retPct - item.prevRetailPct;
+                let flowTrendHtml = '';
+                if (flowShift > 0) {
+                    flowTrendHtml = `<span class="trend-badge up">Ret ▲ +${flowShift.toFixed(1)}%<span class="trend-period">QoQ</span></span>`;
+                } else if (flowShift < 0) {
+                    flowTrendHtml = `<span class="trend-badge down">Ret ▼ ${Math.abs(flowShift).toFixed(1)}%<span class="trend-period">QoQ</span></span>`;
+                } else {
+                    flowTrendHtml = `<span class="trend-badge flat">Flow Split Flat<span class="trend-period">QoQ</span></span>`;
+                }
+
+                const adtDisplay = item.displayCcy ? item.displayCcy : `${item.ccy} ${item.currentAdt}B`;
+                const classBadge = item.isDeveloped ? '<span class="class-badge developed">Developed Mkt</span>' : '<span class="class-badge emerging">Emerging Mkt</span>';
+
+                tbody.insertAdjacentHTML('beforeend', `
+                    <tr class="macro-row">
+                        <td class="td-mkt">${item.exchange}</td>
+                        <td class="td-country">${item.country}</td>
+                        <td class="td-classification">${classBadge}</td>
+                        <td class="td-adt">
+                            <div class="adt-primary">${adtDisplay}</div>
+                            <div style="display: flex; gap: 10px; align-items: center; margin-top: 2px;">
+                                <span class="adt-usd">US$ ${item.usdEquiv}</span>
+                                ${adtTrendHtml}
                             </div>
                         </td>
-                        <td class="tag-concentrator"><span class="neon-blue">${m.pillar_sector}</span> • ${m.volume_concentrator}</td>
+                        <td class="td-flow">
+                            <div class="flow-text-container">
+                                <span class="flow-ret-label">${retPct.toFixed(1)}% Ret</span> / 
+                                <span class="flow-inst-label">${instPct}% Inst</span>
+                            </div>
+                            <div class="flow-bar-wrapper">
+                                <div class="flow-bar-ret" style="width: ${retPct}%;"></div>
+                                <div class="flow-bar-inst" style="width: ${instPct}%;"></div>
+                            </div>
+                            <div>${flowTrendHtml}</div>
+                        </td>
+                        <td class="td-concentrator">${item.concentrator}</td>
                     </tr>
-                `;
-
-                costBody.innerHTML += `
-                    <tr>
-                        <td><span class="mkt-badge">${m.code}</span></td>
-                        <td class="neon-green" style="font-family:monospace;">${m.avg_spread}</td>
-                        <td class="neon-amber" style="font-family:monospace;">${m.slippage}</td>
-                        <td style="color:#ffffff; font-family:monospace;">${m.off_exchange_pct}</td>
-                        <td style="color:#94a3b8;">${m.trader_advisory}</td>
-                    </tr>
-                `;
-
-                rulesBody.innerHTML += `
-                    <tr>
-                        <td><span class="mkt-badge">${m.code}</span></td>
-                        <td class="neon-red" style="font-family:monospace;">${m.safeguard}</td>
-                        <td style="color:#ffffff;">${m.lot_size}</td>
-                        <td class="purple-text">${m.queue_rule}</td>
-                    </tr>
-                `;
+                `);
             });
         }
 
-        function filterLedgerData() {
-            const query = document.getElementById('ledgerSearch').value.toLowerCase();
-            const filteredMarkets = cachedMarketsArray.filter(m => {
-                return m.code.toLowerCase().includes(query) || 
-                       m.country.toLowerCase().includes(query) || 
-                       m.classification.toLowerCase().includes(query) ||
-                       m.pillar_sector.toLowerCase().includes(query);
-            });
-            renderActiveTables(filteredMarkets);
+        function applyFilters() {
+            const query = document.getElementById('masterSearch').value.toLowerCase().trim();
+            const filtered = macroData.filter(item => 
+                item.exchange.toLowerCase().includes(query) ||
+                item.country.toLowerCase().includes(query) ||
+                item.concentrator.toLowerCase().includes(query)
+            );
+            renderMacroTable(filtered);
         }
 
-        function sortTable(columnIndex, tableId, dataType) {
-            const uniqueSortKey = tableId + '_' + columnIndex;
-            const isAscending = sortingDirections[uniqueSortKey] !== true;
-            sortingDirections[uniqueSortKey] = isAscending;
+        function sortMacroTable(key, thElement) {
+            if (activeSortKey === key) {
+                activeSortDir = activeSortDir === 'asc' ? 'desc' : 'asc';
+            } else {
+                activeSortKey = key;
+                activeSortDir = 'asc';
+            }
 
-            cachedMarketsArray.sort((a, b) => {
-                let cellA = "";
-                let cellB = "";
+            // Reset table icons
+            thElement.parentNode.querySelectorAll('th').forEach(th => {
+                const icon = th.querySelector('.sort-icon');
+                if (icon) icon.textContent = '▼▲';
+            });
+            thElement.querySelector('.sort-icon').textContent = activeSortDir === 'asc' ? '▲' : '▼';
 
-                if (columnIndex === 0) { cellA = a.code; cellB = b.code; }
-                else if (columnIndex === 1) { cellA = a.country; cellB = b.country; }
-                else if (columnIndex === 2) { cellA = a.classification; cellB = b.classification; }
-                else if (columnIndex === 3) {
-                    cellA = parseFloat(a.turnover_usd.replace(/[^0-9.]/g, '')) || 0;
-                    cellB = parseFloat(b.turnover_usd.replace(/[^0-9.]/g, '')) || 0;
-                }
-
-                if (dataType === 'number') {
-                    return isAscending ? cellA - cellB : cellB - cellA;
-                } else {
-                    return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
-                }
+            macroData.sort((a, b) => {
+                let valA = a[key];
+                let valB = b[key];
+                if (typeof valA === 'string') valA = valA.toLowerCase();
+                if (typeof valB === 'string') valB = valB.toLowerCase();
+                if (valA < valB) return activeSortDir === 'asc' ? -1 : 1;
+                if (valA > valB) return activeSortDir === 'asc' ? 1 : -1;
+                return 0;
             });
 
-            renderActiveTables(cachedMarketsArray);
-            filterLedgerData();
+            applyFilters();
         }
 
-        window.addEventListener('DOMContentLoaded', initLedgerSystem);
+        // Initial Page Render
+        renderMacroTable(macroData);
     </script>
 </body>
 </html>
