@@ -7,7 +7,7 @@
 
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background-color: #000000; color: #f1f5f9; padding: 40px 24px; margin: 0; line-height: 1.5; }
-        .container { max-width: 1400px; margin: 0 auto; }
+        .container { max-width: 1600px; margin: 0 auto; }
         
         /* Header Area */
         .header-area { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid #1e293b; padding-bottom: 24px; }
@@ -90,15 +90,16 @@
         .flow-bar-ret { height: 100%; background-color: #f59e0b; }
         .flow-bar-inst { height: 100%; background-color: #38bdf8; }
 
-        /* Flipped 14-Market Characteristics Table Styling */
-        .comp-table-flipped th:nth-child(1) { width: 8%; }  /* Market */
-        .comp-table-flipped th:nth-child(2) { width: 9%; }  /* Currency */
-        .comp-table-flipped th:nth-child(3) { width: 13%; } /* Board Lot */
-        .comp-table-flipped th:nth-child(4) { width: 18%; } /* Price Limits */
-        .comp-table-flipped th:nth-child(5) { width: 8%; }  /* Settlement */
-        .comp-table-flipped th:nth-child(6) { width: 16%; } /* Hours */
-        .comp-table-flipped th:nth-child(7) { width: 14%; } /* Short Selling */
-        .comp-table-flipped th:nth-child(8) { width: 14%; } /* Taxes */
+        /* Flipped 14-Market Characteristics Table Column Sizing */
+        .comp-table-flipped th:nth-child(1) { width: 7%; }  /* Market */
+        .comp-table-flipped th:nth-child(2) { width: 7%; }  /* Currency */
+        .comp-table-flipped th:nth-child(3) { width: 10%; } /* Board Lot */
+        .comp-table-flipped th:nth-child(4) { width: 13%; } /* Price Limits */
+        .comp-table-flipped th:nth-child(5) { width: 15%; } /* Auction Dynamics */
+        .comp-table-flipped th:nth-child(6) { width: 16%; } /* Dark & Off-Exchange */
+        .comp-table-flipped th:nth-child(7) { width: 6%; }  /* Settlement */
+        .comp-table-flipped th:nth-child(8) { width: 11%; } /* Hours */
+        .comp-table-flipped th:nth-child(9) { width: 15%; } /* Short Selling & Taxes */
 
         .comp-table-flipped td:first-child { font-weight: 700; color: #3b82f6; }
 
@@ -159,10 +160,10 @@
             </table>
         </div>
 
-        <!-- Section 2: ALL 14 APAC Markets Microstructure Matrix (Flipped Axes) -->
+        <!-- Section 2: ALL 14 APAC Markets Microstructure Matrix (Expanded) -->
         <div class="section-title comparison">
             <span>📊 ALL 14 APAC MARKETS MICROSTRUCTURE CHARACTERISTICS MATRIX</span>
-            <span class="row-counter" id="matrix-count">14 Markets Vertical</span>
+            <span class="row-counter" id="matrix-count">14 Markets Visible</span>
         </div>
         
         <div>
@@ -171,154 +172,169 @@
                     <tr>
                         <th>Market</th>
                         <th>Currency</th>
-                        <th>Board Lot Size</th>
+                        <th>Board Lot</th>
                         <th>Price Limits / Circuit Breakers</th>
+                        <th>Auction Dynamics & Timing</th>
+                        <th>Off-Exchange & Dark Liquidity</th>
                         <th>Settlement</th>
-                        <th>Trading Hours (Local)</th>
-                        <th>Short Selling Rules</th>
-                        <th>Stamp Duty / Taxes</th>
+                        <th>Hours (Local)</th>
+                        <th>Short Selling & Taxes</th>
                     </tr>
                 </thead>
                 <tbody id="matrix-body">
-                    <tr class="clickable-row" data-search="hkex hong kong hkd rmb dual-counter vcm t+2 designated security list stamp duty">
+                    <tr class="clickable-row" data-search="hkex hong kong hkd rmb random close cas open close dark pool center point crossing internalisation">
                         <td>HKEX<br><span style="font-size:11px; color:#94a3b8;">Hong Kong</span></td>
-                        <td>HKD<br><span style="font-size:10px; color:#64748b;">RMB Dual-counter</span></td>
-                        <td>Variable by issuer (100–1,000)</td>
+                        <td>HKD<br><span style="font-size:10px; color:#64748b;">RMB Dual</span></td>
+                        <td>Variable (100–1,000)</td>
                         <td>VCM (±10% dynamic band)</td>
+                        <td><strong>Pre-Open:</strong> 09:00–09:30<br><strong>CAS Close:</strong> 16:00–16:10 (Random close 16:08–16:10)<br><strong>Vol:</strong> ~12–18% open/close combined</td>
+                        <td>Alternative Liquidity Providers (ALPs) operating under strict Code of Conduct. Mandatory post-trade reporting for manual crosses within 15 mins.</td>
                         <td>T+2</td>
-                        <td>09:30–12:00 & 13:00–16:00 HKT</td>
-                        <td>Designated Security List; tick rule</td>
-                        <td>0.1% Stamp Duty (Buyer/Seller)</td>
+                        <td>09:30–12:00<br>13:00–16:00</td>
+                        <td>Designated list; tick rule.<br>0.1% Stamp Duty (B/S).</td>
                     </tr>
-                    <tr class="clickable-row" data-search="asx australia aud extreme trade range etr t+2 covered short selling no stamp duty">
+                    <tr class="clickable-row" data-search="asx australia aud centre point dark pool block trade uncrossing random close trade match">
                         <td>ASX<br><span style="font-size:11px; color:#94a3b8;">Australia</span></td>
                         <td>AUD ($)</td>
-                        <td>1 share (Depth minimums)</td>
+                        <td>1 share</td>
                         <td>Extreme Trade Range (ETR) bands</td>
+                        <td><strong>Pre-Open:</strong> 07:00–10:00 (Batch uncross grouped by alphabet 10:00±15s)<br><strong>Close:</strong> 16:00–16:12 (Random close 16:10±60s)<br><strong>Vol:</strong> ~20–25% total day</td>
+                        <td>Active dark ecosystem. ASX Centre Point (mid-point execution) & Cboe Australia. High threshold block trade exemptions for off-market crosses.</td>
                         <td>T+2</td>
                         <td>10:00–16:00 AEST</td>
-                        <td>Covered short selling allowed + reporting</td>
-                        <td>No Stamp Duty</td>
+                        <td>Covered short selling + reporting.<br>No Stamp Duty.</td>
                     </tr>
-                    <tr class="clickable-row" data-search="jpx japan jpy 100 shares static limits dynamic reference bands t+2 uptick rule capital gains">
+                    <tr class="clickable-row" data-search="jpx japan jpy tostnet dark liquidity proprietary trading systems pts itau uncrossing closing auction">
                         <td>JPX<br><span style="font-size:11px; color:#94a3b8;">Japan</span></td>
                         <td>JPY (¥)</td>
-                        <td>100 shares standardized</td>
+                        <td>100 shares</td>
                         <td>Static limits + Dynamic reference bands</td>
+                        <td><strong>Pre-Open:</strong> 08:00–09:00<br><strong>Closing Auction:</strong> 15:25–15:30 JST (Introduced Nov 2024)<br><strong>Vol:</strong> ~15–22% at open/close</td>
+                        <td>ToSTNeT off-floor trading network widely used for VWAP/basket trades. PTS venues (Cboe Japan, Japannext) capture ~10-15% market share.</td>
                         <td>T+2</td>
-                        <td>09:00–11:30 & 12:30–15:30 JST</td>
-                        <td>Uptick rule enforced on margin orders</td>
-                        <td>No Stamp Duty (Capital Gains)</td>
+                        <td>09:00–11:30<br>12:30–15:30</td>
+                        <td>Uptick rule on margin.<br>No Stamp Duty.</td>
                     </tr>
-                    <tr class="clickable-row" data-search="sgx singapore sgd usd 100 shares dynamic circuit breakers t+2 covered short selling no stamp duty">
+                    <tr class="clickable-row" data-search="sgx singapore sgd usd alpha capture dark pool internalisation uncrossing random close">
                         <td>SGX<br><span style="font-size:11px; color:#94a3b8;">Singapore</span></td>
                         <td>SGD ($) / USD</td>
-                        <td>100 shares base</td>
+                        <td>100 shares</td>
                         <td>Dynamic Circuit Breakers (±10%)</td>
+                        <td><strong>Pre-Open:</strong> 08:30–08:59 (Random uncross 08:58–08:59)<br><strong>Close:</strong> 17:00–17:16 (Random close 17:05–17:06)<br><strong>Vol:</strong> ~10–14% open/close</td>
+                        <td>Off-exchange married trades allowed with immediate electronic reporting. Non-displayed liquidity pools operate via specialized broker dark nodes.</td>
                         <td>T+2</td>
-                        <td>09:00–12:00 & 13:00–17:00 SGT</td>
-                        <td>Covered short selling; reporting</td>
-                        <td>No Stamp Duty</td>
+                        <td>09:00–12:00<br>13:00–17:00</td>
+                        <td>Covered shorting + reporting.<br>No Stamp Duty.</td>
                     </tr>
-                    <tr class="clickable-row" data-search="twse taiwan twd 1000 shares 10% daily price limit t+2 sbl quota limits transaction tax">
+                    <tr class="clickable-row" data-search="twse taiwan twd call auction batch auction block trading off exchange non displayed">
                         <td>TWSE<br><span style="font-size:11px; color:#94a3b8;">Taiwan</span></td>
                         <td>TWD (NT$)</td>
-                        <td>1,000 shares (Odd lots separate)</td>
+                        <td>1,000 shares</td>
                         <td>Strict ±10% Daily Price Limit</td>
+                        <td><strong>Pre-Open:</strong> 08:30–09:00 (5-min continuous call info preview)<br><strong>Close:</strong> 13:25–13:30 (5-min batch auction uncross)<br><strong>Vol:</strong> ~8–12% at close</td>
+                        <td>Off-exchange dark liquidity strictly restricted. Block trading systems operated directly by TWSE during paired session windows.</td>
                         <td>T+2</td>
                         <td>09:00–13:30 NST</td>
-                        <td>SBL quota limits & tick restrictions</td>
-                        <td>0.3% Transaction Tax (Seller)</td>
+                        <td>SBL quota limits.<br>0.3% Transaction Tax (Seller).</td>
                     </tr>
-                    <tr class="clickable-row" data-search="nzx new zealand nzd dynamic price bands t+2 covered shorting no stamp duty">
+                    <tr class="clickable-row" data-search="nzx new zealand nzd match period pre open closing call auction off exchange">
                         <td>NZX<br><span style="font-size:11px; color:#94a3b8;">New Zealand</span></td>
                         <td>NZD ($)</td>
-                        <td>1 share base</td>
+                        <td>1 share</td>
                         <td>Dynamic Price Bands</td>
+                        <td><strong>Pre-Open:</strong> 09:00–10:00 (Random uncross within 10:00)<br><strong>Close:</strong> 16:45–17:00 (Random close ~16:55)<br><strong>Vol:</strong> ~15–20% open/close</td>
+                        <td>Off-market negotiated trades allowed via registered participants; must be reported to NZX within regulatory window.</td>
                         <td>T+2</td>
                         <td>10:00–16:45 NZST</td>
-                        <td>Covered shorting permitted</td>
-                        <td>No Stamp Duty</td>
+                        <td>Covered shorting permitted.<br>No Stamp Duty.</td>
                     </tr>
-                    <tr class="clickable-row" data-search="nse india inr dynamic bands 10% 15% 20% index t+1 t+0 mandatory disclosure stt delivery">
+                    <tr class="clickable-row" data-search="nse india inr pre open call auction post closing session dark pool internalization block window">
                         <td>NSE<br><span style="font-size:11px; color:#94a3b8;">India</span></td>
                         <td>INR (₹)</td>
-                        <td>1 share base</td>
-                        <td>Dynamic Bands (10%, 15%, 20% index)</td>
+                        <td>1 share</td>
+                        <td>Dynamic Bands (10%, 15%, 20%)</td>
+                        <td><strong>Pre-Open:</strong> 09:00–09:15 (Uncross 09:08–09:12)<br><strong>Close:</strong> 15:30–15:40 (VWAP execution session post-uncross)<br><strong>Vol:</strong> ~5–10% open/close</td>
+                        <td>Dark pools strictly prohibited by SEBI. Off-exchange trading restricted; all institutional volume must pass through lit central book or designated NSE block windows.</td>
                         <td>T+1 / T+0</td>
                         <td>09:15–15:30 IST</td>
-                        <td>Mandatory disclosure; no Naked Shorting</td>
-                        <td>0.1% STT (Delivery buy/sell)</td>
+                        <td>No Naked Shorting.<br>0.1% STT (Delivery B/S).</td>
                     </tr>
-                    <tr class="clickable-row" data-search="krx south korea krw 30% limit dynamic cbs t+2 strict regulatory bans stt seller">
+                    <tr class="clickable-row" data-search="krx south korea krw batch auction pre open call random end dark pool internalisation">
                         <td>KRX<br><span style="font-size:11px; color:#94a3b8;">South Korea</span></td>
                         <td>KRW (₩)</td>
-                        <td>1 share base</td>
+                        <td>1 share</td>
                         <td>±30% Limit + Dynamic CBs</td>
+                        <td><strong>Pre-Open:</strong> 08:30–09:00<br><strong>Close:</strong> 15:20–15:30 (10-min batch call auction)<br><strong>Vol:</strong> ~12–16% open/close combined</td>
+                        <td>Dark pools heavily constrained. Off-floor cross trades managed via KRX Block Trading system (K-Blox) pre/post regular market hours.</td>
                         <td>T+2</td>
                         <td>09:00–15:30 KST</td>
-                        <td>Strict regulatory bans / restricted lists</td>
-                        <td>0.18% STT (Seller)</td>
+                        <td>Strict regulatory bans.<br>0.18% STT (Seller).</td>
                     </tr>
-                    <tr class="clickable-row" data-search="sse mainland china cny cnh 100 shares 10% daily limit star st t+1 t+0 margin short stamp duty">
+                    <tr class="clickable-row" data-search="sse mainland china cny cnh call auction pre open close dark pool internalization forbidden block trading">
                         <td>SSE<br><span style="font-size:11px; color:#94a3b8;">Mainland China</span></td>
                         <td>CNY (¥) / CNH</td>
-                        <td>100 shares base</td>
-                        <td>±10% Daily Limit (±20% STAR, ±5% ST)</td>
-                        <td>T+1 (T+0 shares)</td>
-                        <td>09:30–11:30 & 13:00–15:00 CST</td>
-                        <td>Strict margin short rules; no T+0 unwind</td>
-                        <td>0.05% Stamp Duty (Seller)</td>
+                        <td>100 shares</td>
+                        <td>±10% Daily Limit (±20% STAR)</td>
+                        <td><strong>Pre-Open:</strong> 09:15–09:25 (09:20–09:25 order cancel restricted)<br><strong>Close:</strong> 14:57–15:00 (3-min call auction)<br><strong>Vol:</strong> ~5–8% close</td>
+                        <td>Dark pools and OTC internalisation strictly illegal. Large transactions must use exchange-regulated Block Trading System (after 15:00).</td>
+                        <td>T+1 / T+0</td>
+                        <td>09:30–11:30<br>13:00–15:00</td>
+                        <td>Strict margin shorting.<br>0.05% Stamp Duty (Seller).</td>
                     </tr>
-                    <tr class="clickable-row" data-search="szse mainland china cny cnh 100 shares chinext 10% daily limit t+1 t+0 margin short stamp duty">
+                    <tr class="clickable-row" data-search="szse mainland china cny cnh call auction chinext dark pool internalisation block trading">
                         <td>SZSE<br><span style="font-size:11px; color:#94a3b8;">Mainland China</span></td>
                         <td>CNY (¥) / CNH</td>
-                        <td>100 shares base (1 increment ChiNext)</td>
+                        <td>100 shares</td>
                         <td>±10% Daily Limit (±20% ChiNext)</td>
-                        <td>T+1 (T+0 shares)</td>
-                        <td>09:30–11:30 & 13:00–15:00 CST</td>
-                        <td>Strict margin short rules; no T+0 unwind</td>
-                        <td>0.05% Stamp Duty (Seller)</td>
+                        <td><strong>Pre-Open:</strong> 09:15–09:25 (09:20–09:25 no cancels)<br><strong>Close:</strong> 14:57–15:00 (3-min call auction)<br><strong>Vol:</strong> ~6–9% close</td>
+                        <td>Dark pools strictly prohibited. All liquidity must be displayed in lit order books or cleared through official SZSE block trading facilities.</td>
+                        <td>T+1 / T+0</td>
+                        <td>09:30–11:30<br>13:00–15:00</td>
+                        <td>Strict margin shorting.<br>0.05% Stamp Duty (Seller).</td>
                     </tr>
-                    <tr class="clickable-row" data-search="bursa malaysia myr rm 100 shares 30% 30 sen daily limit t+2 regulated short selling rss stamp duty">
+                    <tr class="clickable-row" data-search="bursa malaysia myr call auction pre open pre close random end dark liquidity direct business trades">
                         <td>BURSA<br><span style="font-size:11px; color:#94a3b8;">Malaysia</span></td>
                         <td>MYR (RM)</td>
-                        <td>100 shares base</td>
+                        <td>100 shares</td>
                         <td>±30% or ±30 sen daily limit</td>
+                        <td><strong>Pre-Open:</strong> 08:30–09:00 (Random uncross 08:59–09:00)<br><strong>Close:</strong> 16:45–16:50 (Random close 16:49–16:50)<br><strong>Vol:</strong> ~8–12% open/close</td>
+                        <td>Direct Business Trades (DBTs) allowed for off-market crossings with reporting to exchange within 15 minutes of trade execution.</td>
                         <td>T+2</td>
-                        <td>09:00–12:30 & 14:30–17:00 MYT</td>
-                        <td>Regulated Short Selling (RSS) list</td>
-                        <td>0.1% Stamp Duty (Max RM 1,000)</td>
+                        <td>09:00–12:30<br>14:30–17:00</td>
+                        <td>Regulated Short Selling list.<br>0.1% Stamp Duty (Max RM 1,000).</td>
                     </tr>
-                    <tr class="clickable-row" data-search="idx indonesia idr rp 100 shares auto-rejection dynamic t+2 restricted margin list final income tax">
+                    <tr class="clickable-row" data-search="idx indonesia idr pre open pre close call auction random uncross dark liquidity crossing">
                         <td>IDX<br><span style="font-size:11px; color:#94a3b8;">Indonesia</span></td>
                         <td>IDR (Rp)</td>
-                        <td>100 shares (1 lot)</td>
-                        <td>Auto-Rejection (±20% to ±35% asymmetric)</td>
+                        <td>100 shares</td>
+                        <td>Auto-Rejection (±20% to ±35%)</td>
+                        <td><strong>Pre-Open:</strong> 08:45–08:55 (LQ45 stocks)<br><strong>Close:</strong> 15:50–16:00 (Random uncross 15:58–16:00)<br><strong>Vol:</strong> ~7–11% open/close</td>
+                        <td>Off-exchange crossing permitted on Negotiated Board (Pasar Negosiasi) with immediate automated reporting to IDX. No independent dark pools.</td>
                         <td>T+2</td>
-                        <td>09:00–12:00 & 13:30–16:00 WIB</td>
-                        <td>Restricted margin list only</td>
-                        <td>0.1% Final Income Tax on sale</td>
+                        <td>09:00–12:00<br>13:30–16:00</td>
+                        <td>Restricted margin list.<br>0.1% Final Income Tax on sale.</td>
                     </tr>
-                    <tr class="clickable-row" data-search="pse philippines php 100 shares 50% ceiling 40% floor t+2 strictly regulated covered shorting stock transaction tax">
+                    <tr class="clickable-row" data-search="pse philippines php call auction pre open run off block sales crossing">
                         <td>PSE<br><span style="font-size:11px; color:#94a3b8;">Philippines</span></td>
                         <td>PHP (₱)</td>
-                        <td>100 shares (Price tier lot)</td>
+                        <td>100 shares</td>
                         <td>±50% Ceiling / -40% Floor limit</td>
+                        <td><strong>Pre-Open:</strong> 09:00–09:30 (No order cancellation 09:15–09:30)<br><strong>Close:</strong> 14:45–14:50 (Run-off price at 14:50–15:00)<br><strong>Vol:</strong> ~6–10% open/close</td>
+                        <td>No private dark pools. Block sales permitted off-book subject to prior approval from the Philippine Stock Exchange.</td>
                         <td>T+2</td>
-                        <td>09:30–12:00 & 13:00–15:00 PHT</td>
-                        <td>Strictly regulated covered shorting list</td>
-                        <td>0.6% Stock Transaction Tax (Seller)</td>
+                        <td>09:30–12:00<br>13:00–15:00</td>
+                        <td>Strictly regulated shorting list.<br>0.6% Stock Transaction Tax.</td>
                     </tr>
-                    <tr class="clickable-row" data-search="vse vietnam vnd 100 shares 7% hose 10% hnx t+2 t+2.5 restricted margin income tax">
+                    <tr class="clickable-row" data-search="vse vietnam vnd call auction ato atc pre open hose hnx dark liquidity block trades">
                         <td>VSE<br><span style="font-size:11px; color:#94a3b8;">Vietnam</span></td>
                         <td>VND (₫)</td>
-                        <td>100 shares (Board lot)</td>
+                        <td>100 shares</td>
                         <td>±7% HOSE / ±10% HNX daily limit</td>
-                        <td>T+2 (T+2.5 cash)</td>
-                        <td>09:00–11:30 & 13:00–15:00 ICT</td>
-                        <td>Restricted / Margin trading phased</td>
-                        <td>0.1% Income Tax on gross sales</td>
+                        <td><strong>Pre-Open (ATO):</strong> 09:00–09:15 (HOSE only)<br><strong>Close (ATC):</strong> 14:30–14:45 (HOSE & HNX)<br><strong>Vol:</strong> ~10–15% at close</td>
+                        <td>Dark pools unavailable. Put-through (negotiated) market available directly on exchange system for large lot transactions.</td>
+                        <td>T+2</td>
+                        <td>09:00–11:30<br>13:00–15:00</td>
+                        <td>Restricted / Margin phased.<br>0.1% Income Tax on sales.</td>
                     </tr>
                 </tbody>
             </table>
