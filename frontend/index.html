@@ -11,12 +11,30 @@
         
         /* Header Area */
         .header-area { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid #1e293b; padding-bottom: 24px; }
-        .header-right-group { display: flex; gap: 12px; align-items: stretch; }
+        .header-right-group { display: flex; gap: 12px; align-items: center; }
         
         h1 { color: #3b82f6; margin: 0 0 8px 0; font-size: 26px; font-weight: 700; }
         .subtitle { color: #94a3b8; margin: 0; font-size: 14px; }
         .agent-status-panel { background-color: #0f172a; border: 1px solid #1e293b; padding: 12px 18px; border-radius: 6px; font-size: 13px; color: #e2e8f0; }
         
+        /* Navigation Button */
+        .nav-btn {
+            background-color: #3b82f6;
+            color: #ffffff;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+        .nav-btn:hover { background-color: #2563eb; }
+
         /* Controls Bar */
         .controls-bar { display: flex; justify-content: space-between; align-items: center; background-color: #0f172a; border: 1px solid #1e293b; padding: 12px 16px; border-radius: 6px; margin-bottom: 30px; gap: 16px; flex-wrap: wrap; }
         .search-wrapper { position: relative; flex-grow: 1; max-width: 400px; }
@@ -102,6 +120,10 @@
             </div>
             
             <div class="header-right-group">
+                <!-- Direct Same-Window Link Button -->
+                <button class="nav-btn" onclick="window.location.href='https://chitat73.github.io/asia-microstructure-tracker/'">
+                    🚀 Launch Tracker Page
+                </button>
                 <div class="agent-status-panel">
                     🤖 Agent Status: <span style="color: #10b981; font-weight: bold;" id="agent-net-status">● ONLINE</span><br>
                     📅 Last Sync Check: <strong id="agent-timestamp">Aug 06, 2026 14:50 HKT</strong>
