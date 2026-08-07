@@ -99,12 +99,6 @@
         .flow-bar-ret { height: 100%; background-color: #f59e0b; }
         .flow-bar-inst { height: 100%; background-color: #38bdf8; }
 
-        .trend-badge { font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 3px; }
-        .trend-badge.up { color: #10b981; }
-        .trend-badge.down { color: #f87171; }
-        .trend-badge.flat { color: #94a3b8; }
-        .trend-period { font-size: 10px; color: #64748b; font-weight: normal; margin-left: 2px; }
-
         .countdown-ticker { font-size: 11px; font-weight: bold; padding: 2px 6px; border-radius: 4px; margin-left: 6px; display: inline-block; }
         .countdown-ticker.upcoming { background-color: #451a03; color: #f59e0b; border: 1px solid #78350f; }
         .countdown-ticker.passed { background-color: #064e3b; color: #10b981; border: 1px solid #065f46; }
@@ -131,8 +125,8 @@
                     ⚡ Stock exchange amendment details
                 </a>
                 <div class="agent-status-panel">
-                    🤖 Agent Status: <span style="color: #10b981; font-weight: bold;">● ONLINE</span><br>
-                    📅 Last Sync Check: <strong id="agent-timestamp">Aug 07, 2026 10:07 HKT</strong>
+                    🤖 Agent Status: <span style="color: #10b981; font-weight: bold;" id="agent-net-status">● ONLINE</span><br>
+                    📅 Last Sync Check: <strong id="agent-timestamp">Aug 06, 2026 14:50 HKT</strong>
                 </div>
             </div>
         </div>
@@ -156,12 +150,12 @@
             <table id="macro-table">
                 <thead>
                     <tr>
-                        <th class="sortable td-mkt" onclick="sortMacroTable('exchange', this)">MKT<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-mkt" onclick="sortMacroTable('code', this)">MKT<span class="sort-icon">▼▲</span></th>
                         <th class="sortable td-country" onclick="sortMacroTable('country', this)">Country<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-classification" onclick="sortMacroTable('isDeveloped', this)">Classification<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-adt" onclick="sortMacroTable('currentAdt', this)">ADT (LOCAL CCY / QoQ TREND)<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-flow" onclick="sortMacroTable('retailPct', this)">FLOW SPLIT (RET / INST & QoQ)<span class="sort-icon">▼▲</span></th>
-                        <th class="td-concentrator">Core Liquidity Concentrator</th>
+                        <th class="sortable td-classification" onclick="sortMacroTable('classification', this)">Classification<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-adt" onclick="sortMacroTable('parsed_turnover_usd', this)">TURNOVER (LOCAL / USD Equiv)<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-flow" onclick="sortMacroTable('parsed_retail_pct', this)">FLOW SPLIT (RET / INST)<span class="sort-icon">▼▲</span></th>
+                        <th class="td-concentrator">Core Liquidity Concentrator & Microstructure</th>
                     </tr>
                 </thead>
                 <tbody id="macro-body"></tbody>
@@ -216,6 +210,28 @@
     </div>
 
     <script>
+        // Directly embedding your JSON Payload
+        const inputData = {
+            "last_updated": "Aug 06, 2026 14:50 HKT",
+            "network_status": "ONLINE",
+            "markets": [
+                { "code": "HKEX", "country": "Hong Kong", "classification": "DEVELOPED MKT", "turnover_local": "HK$ 283.0B", "turnover_usd": "US$ 36.2B", "pillar_sector": "Financials (29.1% Cap)", "volume_concentrator": "Information Technology (42.5% Vol).", "retail_pct": "12.0%", "institutional_pct": "88.0%", "avg_spread": "1.2 - 1.8 Ticks", "slippage": "8.5 bps", "off_exchange_pct": "18.5%", "trader_advisory": "High Closing Auction Session (CAS) risk; imbalances heavily flatten between 16:00 and 16:10 HKT.", "safeguard": "VCM (±10% Cool-Off)", "lot_size": "Variable (Issuer Defined)", "queue_rule": "Wide queue depth on TMT names; tight aggregation on low-vol Financial counters." },
+                { "code": "ASX", "country": "Australia", "classification": "DEVELOPED MKT", "turnover_local": "A$ 6.8B", "turnover_usd": "US$ 4.45B", "pillar_sector": "Materials & Financials", "volume_concentrator": "Global Mining Giants (BHP, Rio) & Big 4 Banks.", "retail_pct": "15.0%", "institutional_pct": "85.0%", "avg_spread": "1.0 - 1.5 Ticks", "slippage": "5.1 bps", "off_exchange_pct": "28.0%", "trader_advisory": "CHESS Core Clearing Replacement Program underway. High mid-market crossing volume.", "safeguard": "Anomalous Price Bands", "lot_size": "Fixed Lot (Size Varies)", "queue_rule": "Aggressive order routing sweeping Centre Point hidden pools simultaneously with the lit book." },
+                { "code": "JPX", "country": "Japan", "classification": "DEVELOPED MKT", "turnover_local": "¥ 11.6T", "turnover_usd": "US$ 74.1B", "pillar_sector": "Industrial / Auto Mfg", "volume_concentrator": "Electric Appliances & Tech Equipment.", "retail_pct": "22.0%", "institutional_pct": "78.0%", "avg_spread": "1.0 - 1.3 Ticks", "slippage": "4.2 bps", "off_exchange_pct": "35.0%+", "trader_advisory": "TSE trading session extension implemented. High concentration of cross-trading in PTS systems.", "safeguard": "Static Price Limits", "lot_size": "Fixed 100 Shares Base", "queue_rule": "Smart order routing (SOR) active to bridge TSE Lit books with ToSTNeT crossing networks." },
+                { "code": "SGX", "country": "Singapore", "classification": "DEVELOPED MKT", "turnover_local": "S$ 1.8B", "turnover_usd": "US$ 1.39B", "pillar_sector": "Financials (Local Banks)", "volume_concentrator": "REITs & Micro Index Derivatives.", "retail_pct": "25.0%", "institutional_pct": "75.0%", "avg_spread": "2.5 - 4.0 Ticks", "slippage": "18.0 bps", "off_exchange_pct": "12.0%", "trader_advisory": "Next-Gen Iris-ST Core Trading Engine migration complete. Liquidity deeply tied to index derivatives.", "safeguard": "Dynamic Circuit Breaker", "lot_size": "Fixed 100 Shares Base", "queue_rule": "Passive queue positioning utilizing dark pools to prevent front-running signal leakage." },
+                { "code": "TWSE", "country": "Taiwan", "classification": "DEVELOPED MKT", "turnover_local": "NT$ 380.0B", "turnover_usd": "US$ 11.6B", "pillar_sector": "Semiconductors & Electronics", "volume_concentrator": "TSMC & Electronics Supply Chain.", "retail_pct": "55.0%", "institutional_pct": "45.0%", "avg_spread": "1.0 - 1.4 Ticks", "slippage": "5.5 bps", "off_exchange_pct": "6.0%", "trader_advisory": "Continuous Auction format completely optimized. Extreme foreign institutional capital sensitivity.", "safeguard": "±10% Price Limits", "lot_size": "Fixed 1000 Shares Base", "queue_rule": "Execute with single-stock hardware hedging metrics; track underlying global ADR spreads." },
+                { "code": "NZX", "country": "New Zealand", "classification": "DEVELOPED MKT", "turnover_local": "NZ$ 0.18B", "turnover_usd": "US$ 0.11B", "pillar_sector": "Utilities & Healthcare", "volume_concentrator": "Defensive Infrastructure & Energy Providers.", "retail_pct": "20.0%", "institutional_pct": "80.0%", "avg_spread": "2.0 - 3.2 Ticks", "slippage": "14.0 bps", "off_exchange_pct": "14.5%", "trader_advisory": "Core Trading System API Standardization Upgrade live. Low intraday asset turnover profile.", "safeguard": "Price Band Limits", "lot_size": "Fixed 1 Share Base", "queue_rule": "Utilize time-weighted average price (TWAP) schedules over multi-hour execution windows." },
+                { "code": "NSE", "country": "India", "classification": "EMERGING MKT", "turnover_local": "₹ 985.0B", "turnover_usd": "US$ 11.8B", "pillar_sector": "Financial Services & IT", "volume_concentrator": "Nifty Heavyweights & High-Beta Tech.", "retail_pct": "38.0%", "institutional_pct": "62.0%", "avg_spread": "0.5 - 1.0 Ticks", "slippage": "3.8 bps", "off_exchange_pct": "4.5%", "trader_advisory": "Instantaneous T+0 Cross-Settlement transition ongoing. High-velocity co-located execution required.", "safeguard": "Dynamic Price Bands", "lot_size": "Fixed 1 Share Base", "queue_rule": "Extreme queue priority velocity; prioritize immediate-or-cancel (IOC) sweeping styles." },
+                { "code": "KRX", "country": "South Korea", "classification": "EMERGING MKT", "turnover_local": "₩ 19.4T", "turnover_usd": "US$ 14.1B", "pillar_sector": "Semiconductors & Automobiles", "volume_concentrator": "Tech Heavyweights (Samsung, SK Hynix).", "retail_pct": "65.0%", "institutional_pct": "35.0%", "avg_spread": "1.0 - 1.4 Ticks", "slippage": "4.8 bps", "off_exchange_pct": "6.5%", "trader_advisory": "MSCI classification evaluation extended. Onshore extended night session FX trading rules apply.", "safeguard": "±30% Daily Limits", "lot_size": "Fixed 1 Share Base", "queue_rule": "High-frequency co-location queue sweeps; monitor thematic retail program momentum indicators." },
+                { "code": "SSE", "country": "Mainland China", "classification": "EMERGING MKT", "turnover_local": "¥ 420.0B", "turnover_usd": "US$ 58.1B", "pillar_sector": "Industrial & State Financials", "volume_concentrator": "Large-cap State-Owned Enterprises (SOEs).", "retail_pct": "75.0%", "institutional_pct": "25.0%", "avg_spread": "1.0 - 1.2 Ticks", "slippage": "6.2 bps", "off_exchange_pct": "2.0%", "trader_advisory": "A-Share T+1 intraday settlement assessment ongoing. Heavy retail sentiment patterns.", "safeguard": "±10% Daily Limits", "lot_size": "Fixed 100 Shares Base", "queue_rule": "Iceberg order execution recommended to hide size from retail momentum sentiment scanners." },
+                { "code": "SZSE", "country": "Mainland China", "classification": "EMERGING MKT", "turnover_local": "¥ 530.0B", "turnover_usd": "US$ 73.3B", "pillar_sector": "Information Technology", "volume_concentrator": "ChiNext Growth Tech & Electronics Manufacturing.", "retail_pct": "82.0%", "institutional_pct": "18.0%", "avg_spread": "1.1 - 1.5 Ticks", "slippage": "7.5 bps", "off_exchange_pct": "1.5%", "trader_advisory": "ChiNext Multi-Tier Board Lot Alignment implemented. High structural daily volatility footprint.", "safeguard": "±20% Growth Limits", "lot_size": "Fixed 100 Shares Base", "queue_rule": "Dynamic passive scaling; avoid chasing order imbalances into daily limit locks." },
+                { "code": "BURSA", "country": "Malaysia", "classification": "EMERGING MKT", "turnover_local": "RM 2.9B", "turnover_usd": "US$ 0.63B", "pillar_sector": "Financials & Plantations", "volume_concentrator": "Banking Groups & Healthcare/Glove Producers.", "retail_pct": "25.0%", "institutional_pct": "75.0%", "avg_spread": "2.0 - 3.5 Ticks", "slippage": "16.5 bps", "off_exchange_pct": "9.5%", "trader_advisory": "T+1 Settlement Feasibility Assessment in review. Slower trading velocity profile.", "safeguard": "Static Circuit Breakers", "lot_size": "Fixed 100 Shares Base", "queue_rule": "Passive block crossing placement; minimize active aggressive market sweeps." },
+                { "code": "IDX", "country": "Indonesia", "classification": "EMERGING MKT", "turnover_local": "Rp 11.5T", "turnover_usd": "US$ 0.72B", "pillar_sector": "Financials & Commodities", "volume_concentrator": "Resource Mining & Large Infrastructure Banks.", "retail_pct": "40.0%", "institutional_pct": "60.0%", "avg_spread": "2.2 - 4.0 Ticks", "slippage": "19.0 bps", "off_exchange_pct": "7.0%", "trader_advisory": "Intraday Short Selling Expansion Framework introduced to structurally increase market depth.", "safeguard": "Asymmetric Auto-Rejection", "lot_size": "Fixed 100 Shares Base", "queue_rule": "Layer bid orders below structural support; capture commodity-driven market sweeps." },
+                { "code": "PSE", "country": "Philippines", "classification": "EMERGING MKT", "turnover_local": "₱ 6.1B", "turnover_usd": "US$ 0.11B", "pillar_sector": "Conglomerates & Real Estate", "volume_concentrator": "Family Holding Conglomerates.", "retail_pct": "30.0%", "institutional_pct": "70.0%", "avg_spread": "3.5 - 5.0 Ticks", "slippage": "24.5 bps", "off_exchange_pct": "5.5%", "trader_advisory": "Securities Lending & Short Selling integration phase active. Watch for liquidity squeezes.", "safeguard": "Static Price Halts", "lot_size": "Variable (Board Lot Scale)", "queue_rule": "Avoid continuous sweeping; use manual broker crosses for size blocks above 5M PHP." },
+                { "code": "VSE", "country": "Vietnam", "classification": "EMERGING MKT", "turnover_local": "₫ 16.8T", "turnover_usd": "US$ 0.66B", "pillar_sector": "Real Estate & Financials", "volume_concentrator": "Property Development Groups & State Banks.", "retail_pct": "88.0%", "institutional_pct": "12.0%", "avg_spread": "1.5 - 2.5 Ticks", "slippage": "15.5 bps", "off_exchange_pct": "1.0%", "trader_advisory": "KRX Trading Infrastructure Activation complete. Transitioning to T+0 settlement systems.", "safeguard": "±7% Daily Limits", "lot_size": "Fixed 100 Shares Base", "queue_rule": "Track retail margin utilization metrics; build defensive parameters around daily limits." }
+            ]
+        };
+
         const countryMap = {
             'jp': 'Japan', 'au': 'Australia', 'hk': 'Hong Kong', 'sg': 'Singapore',
             'tw': 'Taiwan', 'kr': 'South Korea', 'nz': 'New Zealand', 'cn': 'Mainland China',
@@ -225,24 +241,7 @@
 
         const developedMarkets = ['jpx', 'asx', 'hkex', 'sgx', 'twse', 'krx', 'nzx'];
 
-        // Table 1 Data Source
-        const macroData = [
-            { exchange: 'HKEX', country: 'Hong Kong', isDeveloped: 1, ccy: 'HK$', currentAdt: 283.0, prevAdt: 261.5, usdEquiv: '36.2B', retailPct: 12.0, prevRetailPct: 10.5, concentrator: '<strong>Financials (29.1% Cap)</strong> • <strong>Information Technology (42.5% Vol)</strong>.' },
-            { exchange: 'JPX', country: 'Japan', isDeveloped: 1, ccy: '¥', currentAdt: 11600.0, prevAdt: 10800.0, usdEquiv: '74.1B', displayCcy: '¥ 11.6T', retailPct: 22.0, prevRetailPct: 19.5, concentrator: '<strong>Industrial / Auto Mfg</strong> • Electric Appliances & Tech Equipment.' },
-            { exchange: 'SSE/SZSE', country: 'Mainland China', isDeveloped: 0, ccy: '¥', currentAdt: 920.0, prevAdt: 870.0, usdEquiv: '128.5B', displayCcy: '¥ 920B', retailPct: 65.0, prevRetailPct: 68.0, concentrator: '<strong>EV / Battery Chain</strong> • Consumer Staples & SOE Financials.' },
-            { exchange: 'TWSE', country: 'Taiwan', isDeveloped: 1, ccy: 'NT$', currentAdt: 380.0, prevAdt: 345.0, usdEquiv: '11.6B', retailPct: 55.0, prevRetailPct: 51.0, concentrator: '<strong>Semiconductors & Electronics</strong> • TSMC & Electronics Supply Chain.' },
-            { exchange: 'KRX', country: 'South Korea', isDeveloped: 1, ccy: '₩', currentAdt: 18.5, prevAdt: 19.2, usdEquiv: '13.8B', displayCcy: '₩ 18.5T', retailPct: 48.0, prevRetailPct: 52.0, concentrator: '<strong>Memory Tech & Tech Giants</strong> • Battery Materials & Automotive.' },
-            { exchange: 'NSE', country: 'India', isDeveloped: 0, ccy: '₹', currentAdt: 985.0, prevAdt: 910.0, usdEquiv: '11.8B', retailPct: 38.0, prevRetailPct: 35.5, concentrator: '<strong>Financial Services & IT</strong> • Nifty Heavyweights & High-Beta.' },
-            { exchange: 'ASX', country: 'Australia', isDeveloped: 1, ccy: 'A$', currentAdt: 6.8, prevAdt: 6.95, usdEquiv: '4.45B', retailPct: 15.0, prevRetailPct: 15.0, concentrator: '<strong>Materials & Financials</strong> • Global Mining Giants (BHP, Rio) & Big 4 Banks.' },
-            { exchange: 'SGX', country: 'Singapore', isDeveloped: 1, ccy: 'S$', currentAdt: 1.8, prevAdt: 1.72, usdEquiv: '1.39B', retailPct: 25.0, prevRetailPct: 27.0, concentrator: '<strong>Financials (Local Banks)</strong> • REITs & Micro Index Derivatives.' },
-            { exchange: 'SET', country: 'Thailand', isDeveloped: 0, ccy: '฿', currentAdt: 46.5, prevAdt: 48.0, usdEquiv: '1.31B', retailPct: 32.0, prevRetailPct: 34.0, concentrator: '<strong>Energy & Petrochem</strong> • Commerce, Tourism & Healthcare.' },
-            { exchange: 'IDX', country: 'Indonesia', isDeveloped: 0, ccy: 'Rp', currentAdt: 10.8, prevAdt: 9.9, usdEquiv: '0.68B', displayCcy: 'Rp 10.8T', retailPct: 40.0, prevRetailPct: 38.0, concentrator: '<strong>Big 4 Banks</strong> • Nickel/Mining Conglomerates & Consumer.' },
-            { exchange: 'BURSA', country: 'Malaysia', isDeveloped: 0, ccy: 'RM', currentAdt: 2.6, prevAdt: 2.4, usdEquiv: '0.58B', retailPct: 26.0, prevRetailPct: 25.0, concentrator: '<strong>Plantations & Utilities</strong> • Construction & Financials.' },
-            { exchange: 'PSE', country: 'Philippines', isDeveloped: 0, ccy: '₱', currentAdt: 6.2, prevAdt: 5.8, usdEquiv: '0.11B', retailPct: 21.0, prevRetailPct: 20.0, concentrator: '<strong>Conglomerates & Real Estate</strong> • Banking & Telecommunications.' },
-            { exchange: 'NZX', country: 'New Zealand', isDeveloped: 1, ccy: 'NZ$', currentAdt: 0.18, prevAdt: 0.19, usdEquiv: '0.11B', retailPct: 20.0, prevRetailPct: 20.0, concentrator: '<strong>Utilities & Healthcare</strong> • Defensive Infrastructure & Energy Providers.' }
-        ];
-
-        // Embedded Default Pipeline Data (Fallback if data.json is missing or invalid)
+        // Pipeline Fallback Data
         const defaultPipelineData = [
             { exchange: "HKEX", country: "hk", initiative: "Severe Weather Trading Operation (SWT)", eta: "Sept 23, 2024", category: "Market Ops", severity_level: "High", timeline_status: "historical", impact: "• Trading remains open during Typhoon Signal 8 or higher.\n• Eliminates session disruptions." },
             { exchange: "JPX", country: "jp", initiative: "Trading Hour Extension (3:30 PM Close)", eta: "Nov 5, 2024", category: "Microstructure", severity_level: "Medium", timeline_status: "historical", impact: "• Extends TSE closing session by 30 minutes to 15:30 JST.\n• Introduces Closing Auction session." },
@@ -251,27 +250,48 @@
             { exchange: "NSE", country: "in", initiative: "Optional T+0 Rolling Settlement Expansion", eta: "Late 2026", category: "Settlement", severity_level: "Medium", timeline_status: "pipeline", impact: "• Instantaneous intraday settlement rollout for top 500 equities.\n• Reduces capital lockup." }
         ];
 
+        let macroData = [];
         let rawPipelineDataset = []; 
         let rawImplementedDataset = [];
         let activeSortKeys = { macro: null, pipeline: null, implemented: null };
         let activeSortDirs = { macro: 'asc', pipeline: 'asc', implemented: 'asc' };
 
+        function parseUSDValue(usdStr) {
+            if(!usdStr) return 0;
+            const clean = usdStr.replace(/[^0-9.]/g, '');
+            const val = parseFloat(clean);
+            if(usdStr.includes('B')) return val * 1000000000;
+            if(usdStr.includes('M')) return val * 1000000;
+            return val;
+        }
+
+        function parsePercent(pctStr) {
+            if(!pctStr) return 0;
+            return parseFloat(pctStr.replace(/[^0-9.]/g, ''));
+        }
+
+        function processMacroData(payload) {
+            document.getElementById('agent-timestamp').textContent = payload.last_updated;
+            document.getElementById('agent-net-status').textContent = `● ${payload.network_status}`;
+
+            macroData = payload.markets.map(m => {
+                return {
+                    ...m,
+                    parsed_turnover_usd: parseUSDValue(m.turnover_usd),
+                    parsed_retail_pct: parsePercent(m.retail_pct),
+                    isDeveloped: m.classification.includes("DEVELOPED")
+                };
+            });
+        }
+
         function calculateCountdown(etaText) {
             if (!etaText) return { text: '', html: '' };
-            const clean = etaText.toLowerCase(); const now = new Date("2026-08-05"); let targetDate = null;
+            const clean = etaText.toLowerCase(); const now = new Date("2026-08-06"); let targetDate = null;
 
             if (clean.includes('nov 5, 2024')) targetDate = new Date("2024-11-05");
             else if (clean.includes('sept 23, 2024')) targetDate = new Date("2024-09-23");
             else if (clean.includes('q2 2025')) targetDate = new Date("2025-06-30");
-            else if (clean.includes('late 2025')) targetDate = new Date("2025-11-30");
-            else if (clean.includes('july 2026')) targetDate = new Date("2026-07-01");
-            else if (clean.includes('mid-2026')) targetDate = new Date("2026-06-30");
-            else if (clean.includes('target 2026')) targetDate = new Date("2026-12-31");
-            else if (clean.includes('early 2027')) targetDate = new Date("2027-03-31");
-            else if (clean.includes('mid-2027')) targetDate = new Date("2027-06-30");
             else if (clean.includes('late 2026')) targetDate = new Date("2026-11-30");
-            else if (clean.includes('end-2027')) targetDate = new Date("2027-12-31");
-            else if (clean.includes('2026 / 2027')) targetDate = new Date("2027-01-01");
 
             if (!targetDate) return { text: '', html: '' };
             const diffDays = Math.ceil((targetDate - now) / (1000 * 60 * 60 * 24));
@@ -326,27 +346,19 @@
             tbody.innerHTML = '';
 
             dataset.forEach(item => {
-                const retPct = item.retailPct;
+                const retPct = item.parsed_retail_pct;
                 const instPct = (100 - retPct).toFixed(1);
-                const adtDelta = ((item.currentAdt - item.prevAdt) / item.prevAdt) * 100;
-                let adtTrendHtml = adtDelta > 0 ? `<span class="trend-badge up">▲ +${adtDelta.toFixed(1)}%<span class="trend-period">vs Q1</span></span>` : (adtDelta < 0 ? `<span class="trend-badge down">▼ ${adtDelta.toFixed(1)}%<span class="trend-period">vs Q1</span></span>` : `<span class="trend-badge flat">● Flat<span class="trend-period">vs Q1</span></span>`);
-
-                const flowShift = retPct - item.prevRetailPct;
-                let flowTrendHtml = flowShift > 0 ? `<span class="trend-badge up">Ret ▲ +${flowShift.toFixed(1)}%<span class="trend-period">QoQ</span></span>` : (flowShift < 0 ? `<span class="trend-badge down">Ret ▼ ${Math.abs(flowShift).toFixed(1)}%<span class="trend-period">QoQ</span></span>` : `<span class="trend-badge flat">Flat<span class="trend-period">QoQ</span></span>`);
-
-                const adtDisplay = item.displayCcy ? item.displayCcy : `${item.ccy} ${item.currentAdt}B`;
                 const classBadge = item.isDeveloped ? '<span class="class-badge developed">Developed Mkt</span>' : '<span class="class-badge emerging">Emerging Mkt</span>';
 
                 tbody.insertAdjacentHTML('beforeend', `
                     <tr class="clickable-row">
-                        <td class="td-mkt">${item.exchange}</td>
+                        <td class="td-mkt">${item.code}</td>
                         <td class="td-country">${item.country}</td>
                         <td class="td-classification">${classBadge}</td>
                         <td class="td-adt">
-                            <div class="adt-primary">${adtDisplay}</div>
+                            <div class="adt-primary">${item.turnover_local}</div>
                             <div style="display: flex; gap: 8px; align-items: center; margin-top: 2px;">
-                                <span class="adt-usd">US$ ${item.usdEquiv}</span>
-                                ${adtTrendHtml}
+                                <span class="adt-usd">${item.turnover_usd}</span>
                             </div>
                         </td>
                         <td class="td-flow">
@@ -358,9 +370,13 @@
                                 <div class="flow-bar-ret" style="width: ${retPct}%;"></div>
                                 <div class="flow-bar-inst" style="width: ${instPct}%;"></div>
                             </div>
-                            <div>${flowTrendHtml}</div>
                         </td>
-                        <td class="td-concentrator">${item.concentrator}</td>
+                        <td class="td-concentrator">
+                            <strong>${item.pillar_sector}</strong> • ${item.volume_concentrator}
+                            <div style="font-size:11px; color:#64748b; margin-top:3px;">
+                                Spread: ${item.avg_spread} | Slippage: ${item.slippage}
+                            </div>
+                        </td>
                     </tr>
                 `);
             });
@@ -416,7 +432,12 @@
         function applyFilters() {
             const query = document.getElementById('masterSearch').value.toLowerCase().trim();
             
-            const filterMacro = macroData.filter(item => item.exchange.toLowerCase().includes(query) || item.country.toLowerCase().includes(query) || item.concentrator.toLowerCase().includes(query));
+            const filterMacro = macroData.filter(item => 
+                item.code.toLowerCase().includes(query) || 
+                item.country.toLowerCase().includes(query) || 
+                item.pillar_sector.toLowerCase().includes(query) ||
+                item.volume_concentrator.toLowerCase().includes(query)
+            );
             renderMacroTable(filterMacro);
 
             const filterArray = (arr) => arr.filter(item => item.exchange.toLowerCase().includes(query) || item.countryFull.toLowerCase().includes(query) || item.initiative.toLowerCase().includes(query) || item.category.toLowerCase().includes(query));
@@ -466,25 +487,10 @@
             }
         }
 
-        // Initialize with default fallback data immediately
+        // Run Initialization
+        processMacroData(inputData);
         processRawItems(defaultPipelineData);
         applyFilters();
-
-        // Attempt to fetch updated data.json if available
-        fetch('data.json')
-            .then(response => {
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                return response.json();
-            })
-            .then(data => {
-                if (Array.isArray(data) && data.length > 0) {
-                    processRawItems(data);
-                    applyFilters();
-                }
-            })
-            .catch(error => {
-                console.warn('data.json fetch skipped/failed, using embedded dataset fallback:', error.message);
-            });
     </script>
 </body>
 </html>
