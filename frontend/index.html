@@ -216,7 +216,7 @@
     </header>
 
     <div class="search-container">
-        <input type="text" id="global-filter" class="search-input" placeholder="🔍 Filter all tables by code, country, sector, or rules..." onkeyup="filterTables()">
+        <input type="text" id="global-filter" class="search-input" placeholder="🔍 Filter all tables by code, country, sector, thresholds, or rules..." onkeyup="filterTables()">
     </div>
 
     <!-- TABLE 1: TURNOVER & LIQUIDITY -->
@@ -370,9 +370,10 @@
                     <th onclick="sortTable(3, 'matrix-table')">PRICE LIMITS / CIRCUIT BREAKERS ▼▲</th>
                     <th onclick="sortTable(4, 'matrix-table')">AUCTION DYNAMICS & TIMING ▼▲</th>
                     <th onclick="sortTable(5, 'matrix-table')">OFF-EXCHANGE & DARK LIQUIDITY ▼▲</th>
-                    <th onclick="sortTable(6, 'matrix-table')">SETTLEMENT ▼▲</th>
-                    <th onclick="sortTable(7, 'matrix-table')">HOURS (LOCAL) ▼▲</th>
-                    <th onclick="sortTable(8, 'matrix-table')">SHORT SELLING & TAXES ▼▲</th>
+                    <th onclick="sortTable(6, 'matrix-table')">BLOCK THRESHOLDS & PRICE BANDS ▼▲</th>
+                    <th onclick="sortTable(7, 'matrix-table')">SETTLEMENT ▼▲</th>
+                    <th onclick="sortTable(8, 'matrix-table')">HOURS (LOCAL) ▼▲</th>
+                    <th onclick="sortTable(9, 'matrix-table')">SHORT SELLING & TAXES ▼▲</th>
                 </tr>
             </thead>
             <tbody>
@@ -383,6 +384,7 @@
                     <td>VCM (±10% dynamic band)</td>
                     <td>Pre-Open: 09:00–09:30<br>CAS Close: 16:00–16:10 (Random close 16:08–16:10)<br>Vol: ~12–18% at open/close combined</td>
                     <td>Alternative Liquidity Providers (ALPs) operating under strict Code of Conduct. Mandatory post-trade reporting for dark venues within 15 mins.</td>
+                    <td><strong>HK$ 10M–50M+</strong> (Tiered by market cap / BTF)<br><small style="color:var(--text-muted)">Band: Within prevailing Bid/Ask or ±1.5% to ±3.0% of reference price</small></td>
                     <td>T+2</td>
                     <td>09:30–12:00<br>13:00–16:00</td>
                     <td>Designated list; tick rule.<br>0.1% Stamp Duty (Seller).</td>
@@ -394,6 +396,7 @@
                     <td>Extreme Trade Range (ETR) bands</td>
                     <td>Pre-Open: 07:00–10:00 (Batch auctions grouped by alphabet 10:00+15s)<br>Close: 16:00–16:10 (Random close 16:10+60s)<br>Vol: ~20–28% total day</td>
                     <td>Anker dark midpoint. ASX Centre Point (mid-point execution) & Cboe Australia. High threshold block trade exemption for off-market crosses.</td>
+                    <td><strong>A$ 1M / A$ 500k / A$ 200k</strong> (Tier 1–3)<br><small style="color:var(--text-muted)">Band: NBBO midpoint or within current Touch/Tick range</small></td>
                     <td>T+2</td>
                     <td>10:00–16:00 AEST</td>
                     <td>Covered short selling + reporting.<br>No Stamp Duty.</td>
@@ -405,6 +408,7 @@
                     <td>Static limits + Dynamic reference bands</td>
                     <td>Pre-Open: 08:00–09:00<br>Closing Auction: 15:25–15:30 JST (Introduced Nov 2024)<br>Vol: ~16–22% at open/close</td>
                     <td>ToSTNeT off-floor trading network widely used for VWAP/basket trades. PTS venues (Cboe Japan, Japannext) capture ~10–18% market share.</td>
+                    <td><strong>¥ 100M</strong> (ToSTNeT-1) / <strong>¥ 5B+</strong> (Super-large lot)<br><small style="color:var(--text-muted)">Band: VWAP, close price, or ±1.5%–5.0% of reference</small></td>
                     <td>T+2</td>
                     <td>09:00–11:30<br>12:30–15:30</td>
                     <td>Uptick rule on margin.<br>No Stamp Duty.</td>
@@ -416,6 +420,7 @@
                     <td>Dynamic Circuit Breakers (±10%)</td>
                     <td>Pre-Open: 08:30–09:00 (Random close 08:58–08:59)<br>Close: 17:00–17:06 (Random close 17:04–17:05)<br>Vol: ~10–14% open/close</td>
                     <td>Off-exchange married trades allowed with immediate electronic reporting. Non-displayed liquidity pools operate via specialized broker dark routes.</td>
+                    <td><strong>S$ 150,000</strong> or 50,000 shares (Married Trades)<br><small style="color:var(--text-muted)">Band: Within prevailing Bid/Ask or ±5.0% of last trade</small></td>
                     <td>T+2</td>
                     <td>09:00–12:00<br>13:00–17:00</td>
                     <td>Covered shorting + reporting.<br>No Stamp Duty.</td>
@@ -427,6 +432,7 @@
                     <td>Strict ±10% Daily Price Limit</td>
                     <td>Pre-Open: 08:30–09:00 (5-min continuous call info preview)<br>Close: 13:25–13:30 (5-min batch auction session)<br>Vol: ~8–12% at close</td>
                     <td>Off-exchange dark liquidity virtually non-existent. Block trading system operated directly by TWSE during paired auction sessions.</td>
+                    <td><strong>500 board lots</strong> or <strong>NT$ 15M+</strong><br><small style="color:var(--text-muted)">Band: Daily ±10% limit range (±3.5% for paired auction)</small></td>
                     <td>T+2</td>
                     <td>09:00–13:30 NST</td>
                     <td>SBL quota limits.<br>0.3% Transaction Tax (Seller).</td>
@@ -438,6 +444,7 @@
                     <td>Dynamic Price Bands</td>
                     <td>Pre-Open: 09:00–10:00 (Random auctions within 10:00)<br>Close: 16:45–17:00 (Random close +16:59)<br>Vol: ~16–20% open/close</td>
                     <td>Off-market negotiated trades allowed via registered participants; must be reported to NZX within regulatory window.</td>
+                    <td><strong>NZ$ 50,000+</strong><br><small style="color:var(--text-muted)">Band: Within prevailing spread or ±2.0% of last sale</small></td>
                     <td>T+2</td>
                     <td>10:00–16:45 NZST</td>
                     <td>Covered shorting permitted.<br>No Stamp Duty.</td>
@@ -449,6 +456,7 @@
                     <td>Dynamic Bands (10%, 15%, 20%)</td>
                     <td>Pre-Open: 09:00–09:15 (Uncrossing session)<br>Close: 15:30–16:00 (VWAP execution session post-session)<br>Vol: ~5–10% open/close</td>
                     <td>Dark pools strictly prohibited by SEBI. Off-exchange trading is prohibited; all institutional volume must pass through Central Order Book or designated NSE block windows.</td>
+                    <td><strong>₹ 100M (₹ 10 Crore)</strong> minimum order size<br><small style="color:var(--text-muted)">Band: Strict ±1.0% of prevailing reference / prev close</small></td>
                     <td>T+1 / T+0</td>
                     <td>09:15–15:30 IST</td>
                     <td>No Naked Shorting.<br>0.1% STT (Delivery B/S).</td>
@@ -460,6 +468,7 @@
                     <td>±30% Limit + Dynamic CBs</td>
                     <td>Pre-Open: 08:30–09:00<br>Close: 15:20–15:30 (10-min batch call auction)<br>Vol: ~12–18% open/close combined</td>
                     <td>Dark pools heavily constrained. Off-floor cross trades managed via K-Blox books or cleared through official KSD regular market hours.</td>
+                    <td><strong>₩ 100M+</strong> or 5,000 shares<br><small style="color:var(--text-muted)">Band: Within prevailing market quote / ±5.0% of reference</small></td>
                     <td>T+2</td>
                     <td>09:00–15:30 KST</td>
                     <td>Strict regulatory bans.<br>0.18% CTT (Seller).</td>
@@ -471,6 +480,7 @@
                     <td>±10% Daily Limit (±20% STAR)</td>
                     <td>Pre-Open: 09:15–09:25 (09:20–09:25 order cancel restricted)<br>Close: 14:57–15:00 (3-min call auction)<br>Vol: ~5–8% close</td>
                     <td>Dark pools and OTC internalisers strictly illegal. Large transactions must use exchange Block Trading System (after 15:00).</td>
+                    <td><strong>300,000 shares</strong> or <strong>RMB 2M+</strong><br><small style="color:var(--text-muted)">Band: Within daily price limit band (±30% of closing for off-hours)</small></td>
                     <td>T+1 / T+0</td>
                     <td>09:30–11:30<br>13:00–15:00</td>
                     <td>Strict margin shorting.<br>0.05% Stamp Duty (Seller).</td>
@@ -482,6 +492,7 @@
                     <td>±10% Daily Limit (±20% ChiNext)</td>
                     <td>Pre-Open: 09:15–09:25 (09:20–09:25 order cancel restricted)<br>Close: 14:57–15:00 (3-min call auction)<br>Vol: ~6–9% close</td>
                     <td>Dark pools strictly prohibited. All liquidity must be displayed to Central Order Books or cleared through official SZSE block trading facilities.</td>
+                    <td><strong>300,000 shares</strong> or <strong>RMB 2M+</strong><br><small style="color:var(--text-muted)">Band: Within daily price limit band (±30% of closing for off-hours)</small></td>
                     <td>T+1 / T+0</td>
                     <td>09:30–11:30<br>13:00–15:00</td>
                     <td>Strict margin shorting.<br>0.05% Stamp Duty (Seller).</td>
@@ -493,6 +504,7 @@
                     <td>±30% or ±30 sen daily limit</td>
                     <td>Pre-Open: 08:30–09:00 (Random uncross 08:59–09:00)<br>Close: 16:45–16:50 (Random close 16:49–16:50)<br>Vol: ~8–12% open/close</td>
                     <td>Direct Business Trades (DBT) allowed for off-market crossings with reporting to exchange within 15 minutes of trade execution.</td>
+                    <td><strong>50,000 shares</strong> or <strong>RM 50,000+</strong> (DBT)<br><small style="color:var(--text-muted)">Band: VWAP or ±15.0% of dynamic reference price</small></td>
                     <td>T+2</td>
                     <td>09:00–12:30<br>14:30–17:00</td>
                     <td>Regulated Short Selling (RSS).<br>0.1% Stamp Duty (Max RM 1,000).</td>
@@ -504,6 +516,7 @@
                     <td>Auto Rejection (±20% to ±35%)</td>
                     <td>Pre-Open: 08:45–08:55 (LQ45 only)<br>Close: 15:50–16:00 (Random uncross 15:58–16:00)<br>Vol: ~7–11% open/close</td>
                     <td>Off-exchange crossing permitted on Negotiated Board (Pasar Negosiasi) with immediate automated reporting to IDX. No independent dark pools.</td>
+                    <td><strong>Rp 200M+</strong> (Pasar Negosiasi)<br><small style="color:var(--text-muted)">Band: Negotiated freely or within prevailing daily limit bounds</small></td>
                     <td>T+2</td>
                     <td>09:00–12:00<br>13:30–16:00</td>
                     <td>Restricted margin list.<br>0.1% Final Income Tax on sale.</td>
@@ -515,6 +528,7 @@
                     <td>+50% Ceiling / -40% Floor limit</td>
                     <td>Pre-Open: 09:00–09:30 (No order cancellation 09:15–09:30)<br>Close: 14:45–14:50 (Run-off price at 14:50–15:00)<br>Vol: ~8–10% open/close</td>
                     <td>No private dark pools. Block trades permitted off-book subject to prior approval from the Philippine Stock Exchange.</td>
+                    <td><strong>PHP 20M+</strong><br><small style="color:var(--text-muted)">Band: Within prevailing market price ±5.0%</small></td>
                     <td>T+2</td>
                     <td>09:30–12:00<br>13:00–15:00</td>
                     <td>Strictly regulated shorting list.<br>0.6% Stock Transaction Tax.</td>
@@ -526,6 +540,7 @@
                     <td>±7% HOSE / ±10% HNX daily limit</td>
                     <td>Pre-Open (ATO): 09:00–09:15 (HOSE only)<br>Close (ATC): 14:30–14:45 (HOSE & HNX)<br>Vol: ~10–15% at close</td>
                     <td>Dark pools unavailable. Put-through (negotiated) market available directly on exchange system for large lot transactions.</td>
+                    <td><strong>20,000 shares</strong> (HOSE) / <strong>5,000 shares</strong> (HNX)<br><small style="color:var(--text-muted)">Band: Within daily price limit band (±7% HOSE / ±10% HNX)</small></td>
                     <td>T+2</td>
                     <td>09:00–11:30<br>13:00–15:00</td>
                     <td>Restricted / Margin capped.<br>0.1% Income Tax on sales.</td>
