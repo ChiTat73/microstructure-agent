@@ -19,6 +19,30 @@
         h1 { font-size: 22px; font-weight: bold; color: #38bdf8; margin: 0 0 5px 0; letter-spacing: -0.02em; }
         .subtitle { color: #64748b; font-size: 13px; margin: 0; }
         
+        .header-actions { display: flex; gap: 12px; align-items: stretch; }
+
+        /* External Link Button Styling */
+        .hub-link-btn {
+            background-color: #000000;
+            color: #38bdf8;
+            border: 1px solid #1e293b;
+            padding: 0 16px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 11px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .hub-link-btn:hover {
+            border-color: #38bdf8;
+            background-color: #090d16;
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
+        }
+
         .status-panel { 
             background-color: #000000 !important; 
             border: 1px solid #1e293b; 
@@ -26,10 +50,11 @@
             padding: 12px 16px; 
             font-size: 11px; 
             font-family: monospace; 
-            min-width: 240px; 
+            min-width: 200px; 
             text-align: left; 
         }
         .status-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+        .status-row:last-child { margin-bottom: 0; }
         
         /* Interactive Input Utility Search Bar Styling */
         .filter-container { margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
@@ -120,14 +145,19 @@
                 <h1>APAC Liquidity & Market Microstructure Hub</h1>
                 <p class="subtitle">Real-time venue dynamics, execution TCA, and algorithmic routing parameters.</p>
             </div>
-            <div class="status-panel">
-                <div class="status-row">
-                    <span style="color:#64748b;">⚙ Agent Status:</span>
-                    <span class="neon-green">● ONLINE</span>
-                </div>
-                <div class="status-row">
-                    <span style="color:#64748b;">📅 Last Sync Check:</span>
-                    <span style="color:#cbd5e1;" id="sync-time">Loading...</span>
+            <div class="header-actions">
+                <a href="https://chitat73.github.io/asia-microstructure-tracker/" target="_blank" class="hub-link-btn" title="Open Main Microstructure Tracker">
+                    <span>⚡</span> TRACKER PAGE ↗
+                </a>
+                <div class="status-panel">
+                    <div class="status-row">
+                        <span style="color:#64748b;">⚙ Agent Status:</span>
+                        <span class="neon-green">● ONLINE</span>
+                    </div>
+                    <div class="status-row">
+                        <span style="color:#64748b;">📅 Last Sync Check:</span>
+                        <span style="color:#cbd5e1;" id="sync-time">Loading...</span>
+                    </div>
                 </div>
             </div>
         </header>
