@@ -31,13 +31,13 @@
         .row-counter { font-size: 11px; background-color: #1e293b; color: #94a3b8; padding: 2px 8px; border-radius: 10px; font-weight: normal; }
 
         /* Tables */
-        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background-color: #000000; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background-color: #000000; table-layout: fixed; }
         th.sortable { cursor: pointer; user-select: none; transition: background-color 0.15s; }
         th.sortable:hover { background-color: #1e293b; color: #ffffff; }
-        th { border: 1px solid #1e293b; text-align: left; padding: 12px 16px; font-size: 11px; background-color: #0f172a; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+        th { border: 1px solid #1e293b; text-align: left; padding: 12px 14px; font-size: 11px; background-color: #0f172a; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
         .sort-icon { display: inline-block; margin-left: 6px; font-size: 10px; color: #475569; }
         
-        td { border: 1px solid #1e293b; text-align: left; padding: 14px 16px; font-size: 13.5px; color: #e2e8f0; vertical-align: middle; }
+        td { border: 1px solid #1e293b; text-align: left; padding: 12px 14px; font-size: 12.5px; color: #e2e8f0; vertical-align: top; white-space: normal; line-height: 1.4; }
         
         .clickable-row { transition: background-color 0.15s ease; }
         .clickable-row:hover { background-color: #0f172a !important; }
@@ -67,12 +67,17 @@
         .flow-bar-ret { height: 100%; background-color: #f59e0b; }
         .flow-bar-inst { height: 100%; background-color: #38bdf8; }
 
-        /* Scrollable Container for 14-Market Comparison Table */
-        .table-scroll-wrapper { width: 100%; overflow-x: auto; border: 1px solid #1e293b; border-radius: 6px; margin-bottom: 30px; }
-        .comp-table-14 { width: 100%; min-width: 2400px; border-collapse: collapse; background-color: #000000; table-layout: fixed; }
-        .comp-table-14 th, .comp-table-14 td { border: 1px solid #1e293b; padding: 12px 14px; font-size: 12.5px; white-space: normal; line-height: 1.4; vertical-align: top; }
-        .comp-table-14 th { background-color: #0f172a; color: #38bdf8; font-weight: 700; }
-        .comp-table-14 td:first-child, .comp-table-14 th:first-child { position: sticky; left: 0; background-color: #0b1329; z-index: 10; font-weight: 700; color: #94a3b8; width: 180px; min-width: 180px; }
+        /* Flipped 14-Market Characteristics Table Styling */
+        .comp-table-flipped th:nth-child(1) { width: 8%; }  /* Market */
+        .comp-table-flipped th:nth-child(2) { width: 9%; }  /* Currency */
+        .comp-table-flipped th:nth-child(3) { width: 13%; } /* Board Lot */
+        .comp-table-flipped th:nth-child(4) { width: 18%; } /* Price Limits */
+        .comp-table-flipped th:nth-child(5) { width: 8%; }  /* Settlement */
+        .comp-table-flipped th:nth-child(6) { width: 16%; } /* Hours */
+        .comp-table-flipped th:nth-child(7) { width: 14%; } /* Short Selling */
+        .comp-table-flipped th:nth-child(8) { width: 14%; } /* Taxes */
+
+        .comp-table-flipped td:first-child { font-weight: 700; color: #3b82f6; }
 
         /* Card Grid */
         .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 30px; }
@@ -112,7 +117,7 @@
             <span class="row-counter" id="macro-count">0 Records</span>
         </div>
         <div id="macro-container">
-            <table id="macro-table" style="table-layout: fixed;">
+            <table id="macro-table">
                 <thead>
                     <tr>
                         <th class="sortable td-mkt" onclick="sortMacroTable('code', this)">MKT<span class="sort-icon">▼▲</span></th>
@@ -127,152 +132,166 @@
             </table>
         </div>
 
-        <!-- Section 2: ALL 14 APAC Market Characteristics Comparison -->
+        <!-- Section 2: ALL 14 APAC Markets Microstructure Matrix (Flipped Axes) -->
         <div class="section-title comparison">
-            <span>📊 ALL 14 APAC MARKETS Microstructure CHARACTERISTICS MATRIX</span>
-            <span class="row-counter">Scroll Horizontally ➔</span>
+            <span>📊 ALL 14 APAC MARKETS MICROSTRUCTURE CHARACTERISTICS MATRIX</span>
+            <span class="row-counter">14 Markets Vertical</span>
         </div>
         
-        <div class="table-scroll-wrapper">
-            <table class="comp-table-14">
+        <div>
+            <table class="comp-table-flipped">
                 <thead>
                     <tr>
-                        <th>Characteristic</th>
-                        <th>HKEX (Hong Kong)</th>
-                        <th>ASX (Australia)</th>
-                        <th>JPX / TSE (Japan)</th>
-                        <th>SGX (Singapore)</th>
-                        <th>TWSE (Taiwan)</th>
-                        <th>NZX (New Zealand)</th>
-                        <th>NSE (India)</th>
-                        <th>KRX (South Korea)</th>
-                        <th>SSE (Mainland China)</th>
-                        <th>SZSE (Mainland China)</th>
-                        <th>BURSA (Malaysia)</th>
-                        <th>IDX (Indonesia)</th>
-                        <th>PSE (Philippines)</th>
-                        <th>VSE / HOSE (Vietnam)</th>
+                        <th>Market</th>
+                        <th>Currency</th>
+                        <th>Board Lot Size</th>
+                        <th>Price Limits / Circuit Breakers</th>
+                        <th>Settlement</th>
+                        <th>Trading Hours (Local)</th>
+                        <th>Short Selling Rules</th>
+                        <th>Stamp Duty / Taxes</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Trading Currency</td>
-                        <td>HKD (RMB Dual-counter)</td>
-                        <td>AUD ($)</td>
-                        <td>JPY (¥)</td>
-                        <td>SGD ($) / USD</td>
-                        <td>TWD (NT$)</td>
-                        <td>NZD ($)</td>
-                        <td>INR (₹)</td>
-                        <td>KRW (₩)</td>
-                        <td>CNY (¥) / CNH</td>
-                        <td>CNY (¥) / CNH</td>
-                        <td>MYR (RM)</td>
-                        <td>IDR (Rp)</td>
-                        <td>PHP (₱)</td>
-                        <td>VND (₫)</td>
-                    </tr>
-                    <tr>
-                        <td>Board Lot Size</td>
+                    <tr class="clickable-row">
+                        <td>HKEX<br><span style="font-size:11px; color:#94a3b8;">Hong Kong</span></td>
+                        <td>HKD<br><span style="font-size:10px; color:#64748b;">RMB Dual-counter</span></td>
                         <td>Variable by issuer (100–1,000)</td>
-                        <td>1 share (Market depth minimums)</td>
-                        <td>100 shares standardized</td>
-                        <td>100 shares base</td>
-                        <td>1,000 shares (Odd lots separate)</td>
-                        <td>1 share base</td>
-                        <td>1 share base</td>
-                        <td>1 share base</td>
-                        <td>100 shares base</td>
-                        <td>100 shares base (1 share increment ChiNext)</td>
-                        <td>100 shares base</td>
-                        <td>100 shares (1 lot)</td>
-                        <td>100 shares (Price tier board lots)</td>
-                        <td>100 shares (Board lot schedule)</td>
-                    </tr>
-                    <tr>
-                        <td>Price Limits / Circuit Breakers</td>
                         <td>VCM (±10% dynamic band)</td>
-                        <td>Extreme Trade Range (ETR) bands</td>
-                        <td>Static limits + Dynamic reference bands</td>
-                        <td>Dynamic Circuit Breakers (±10%)</td>
-                        <td>Strict ±10% Daily Price Limit</td>
-                        <td>Dynamic Price Bands</td>
-                        <td>Dynamic Bands (10%, 15%, 20% index)</td>
-                        <td>±30% Daily Limit + Dynamic Circuit Breakers</td>
-                        <td>±10% Daily Limit (±20% STAR, ±5% ST)</td>
-                        <td>±10% Daily Limit (±20% ChiNext)</td>
-                        <td>±30% or ±30 sen daily limit</td>
-                        <td>Auto-Rejection (±20% to ±35% asymmetric)</td>
-                        <td>±50% Ceiling / -40% Floor limit</td>
-                        <td>±7% HOSE / ±10% HNX daily limit</td>
-                    </tr>
-                    <tr>
-                        <td>Settlement Cycle</td>
                         <td>T+2</td>
-                        <td>T+2 (Evaluating T+1)</td>
-                        <td>T+2</td>
-                        <td>T+2</td>
-                        <td>T+2</td>
-                        <td>T+2</td>
-                        <td>T+1 / Optional T+0</td>
-                        <td>T+2</td>
-                        <td>T+1 (T+0 for shares via Stock Connect)</td>
-                        <td>T+1 (T+0 for shares via Stock Connect)</td>
-                        <td>T+2</td>
-                        <td>T+2</td>
-                        <td>T+2</td>
-                        <td>T+2 (T+2.5 execution payout)</td>
-                    </tr>
-                    <tr>
-                        <td>Trading Hours (Local Time)</td>
                         <td>09:30–12:00 & 13:00–16:00 HKT</td>
-                        <td>10:00–16:00 AEST</td>
-                        <td>09:00–11:30 & 12:30–15:30 JST</td>
-                        <td>09:00–12:00 & 13:00–17:00 SGT</td>
-                        <td>09:00–13:30 NST</td>
-                        <td>10:00–16:45 NZST</td>
-                        <td>09:15–15:30 IST</td>
-                        <td>09:00–15:30 KST</td>
-                        <td>09:30–11:30 & 13:00–15:00 CST</td>
-                        <td>09:30–11:30 & 13:00–15:00 CST</td>
-                        <td>09:00–12:30 & 14:30–17:00 MYT</td>
-                        <td>09:00–12:00 & 13:30–16:00 WIB</td>
-                        <td>09:30–12:00 & 13:00–15:00 PHT</td>
-                        <td>09:00–11:30 & 13:00–15:00 ICT</td>
-                    </tr>
-                    <tr>
-                        <td>Short Selling Rules</td>
                         <td>Designated Security List; tick rule</td>
-                        <td>Covered short selling allowed + reporting</td>
-                        <td>Uptick rule enforced on margin orders</td>
-                        <td>Covered short selling; mandatory reporting</td>
-                        <td>SBL quota limits & tick restrictions</td>
-                        <td>Covered shorting permitted</td>
-                        <td>Mandatory institutional disclosure; no Naked Shorting</td>
-                        <td>Strict regulatory bans / restricted lists</td>
-                        <td>Strict margin short rules; no day-trading unwind</td>
-                        <td>Strict margin short rules; no day-trading unwind</td>
-                        <td>Regulated Short Selling (RSS) list</td>
-                        <td>Restricted margin list only</td>
-                        <td>Strictly regulated covered shorting list</td>
-                        <td>Currently restricted / Margin trading phased</td>
-                    </tr>
-                    <tr>
-                        <td>Stamp Duty & Taxes</td>
                         <td>0.1% Stamp Duty (Buyer/Seller)</td>
+                    </tr>
+                    <tr class="clickable-row">
+                        <td>ASX<br><span style="font-size:11px; color:#94a3b8;">Australia</span></td>
+                        <td>AUD ($)</td>
+                        <td>1 share (Depth minimums)</td>
+                        <td>Extreme Trade Range (ETR) bands</td>
+                        <td>T+2</td>
+                        <td>10:00–16:00 AEST</td>
+                        <td>Covered short selling allowed + reporting</td>
                         <td>No Stamp Duty</td>
+                    </tr>
+                    <tr class="clickable-row">
+                        <td>JPX<br><span style="font-size:11px; color:#94a3b8;">Japan</span></td>
+                        <td>JPY (¥)</td>
+                        <td>100 shares standardized</td>
+                        <td>Static limits + Dynamic reference bands</td>
+                        <td>T+2</td>
+                        <td>09:00–11:30 & 12:30–15:30 JST</td>
+                        <td>Uptick rule enforced on margin orders</td>
                         <td>No Stamp Duty (Capital Gains)</td>
+                    </tr>
+                    <tr class="clickable-row">
+                        <td>SGX<br><span style="font-size:11px; color:#94a3b8;">Singapore</span></td>
+                        <td>SGD ($) / USD</td>
+                        <td>100 shares base</td>
+                        <td>Dynamic Circuit Breakers (±10%)</td>
+                        <td>T+2</td>
+                        <td>09:00–12:00 & 13:00–17:00 SGT</td>
+                        <td>Covered short selling; reporting</td>
                         <td>No Stamp Duty</td>
+                    </tr>
+                    <tr class="clickable-row">
+                        <td>TWSE<br><span style="font-size:11px; color:#94a3b8;">Taiwan</span></td>
+                        <td>TWD (NT$)</td>
+                        <td>1,000 shares (Odd lots separate)</td>
+                        <td>Strict ±10% Daily Price Limit</td>
+                        <td>T+2</td>
+                        <td>09:00–13:30 NST</td>
+                        <td>SBL quota limits & tick restrictions</td>
                         <td>0.3% Transaction Tax (Seller)</td>
+                    </tr>
+                    <tr class="clickable-row">
+                        <td>NZX<br><span style="font-size:11px; color:#94a3b8;">New Zealand</span></td>
+                        <td>NZD ($)</td>
+                        <td>1 share base</td>
+                        <td>Dynamic Price Bands</td>
+                        <td>T+2</td>
+                        <td>10:00–16:45 NZST</td>
+                        <td>Covered shorting permitted</td>
                         <td>No Stamp Duty</td>
+                    </tr>
+                    <tr class="clickable-row">
+                        <td>NSE<br><span style="font-size:11px; color:#94a3b8;">India</span></td>
+                        <td>INR (₹)</td>
+                        <td>1 share base</td>
+                        <td>Dynamic Bands (10%, 15%, 20% index)</td>
+                        <td>T+1 / T+0</td>
+                        <td>09:15–15:30 IST</td>
+                        <td>Mandatory disclosure; no Naked Shorting</td>
                         <td>0.1% STT (Delivery buy/sell)</td>
-                        <td>0.18% Securities Transaction Tax (Seller)</td>
+                    </tr>
+                    <tr class="clickable-row">
+                        <td>KRX<br><span style="font-size:11px; color:#94a3b8;">South Korea</span></td>
+                        <td>KRW (₩)</td>
+                        <td>1 share base</td>
+                        <td>±30% Limit + Dynamic CBs</td>
+                        <td>T+2</td>
+                        <td>09:00–15:30 KST</td>
+                        <td>Strict regulatory bans / restricted lists</td>
+                        <td>0.18% STT (Seller)</td>
+                    </tr>
+                    <tr class="clickable-row">
+                        <td>SSE<br><span style="font-size:11px; color:#94a3b8;">Mainland China</span></td>
+                        <td>CNY (¥) / CNH</td>
+                        <td>100 shares base</td>
+                        <td>±10% Daily Limit (±20% STAR, ±5% ST)</td>
+                        <td>T+1 (T+0 shares)</td>
+                        <td>09:30–11:30 & 13:00–15:00 CST</td>
+                        <td>Strict margin short rules; no T+0 unwind</td>
                         <td>0.05% Stamp Duty (Seller)</td>
+                    </tr>
+                    <tr class="clickable-row">
+                        <td>SZSE<br><span style="font-size:11px; color:#94a3b8;">Mainland China</span></td>
+                        <td>CNY (¥) / CNH</td>
+                        <td>100 shares base (1 increment ChiNext)</td>
+                        <td>±10% Daily Limit (±20% ChiNext)</td>
+                        <td>T+1 (T+0 shares)</td>
+                        <td>09:30–11:30 & 13:00–15:00 CST</td>
+                        <td>Strict margin short rules; no T+0 unwind</td>
                         <td>0.05% Stamp Duty (Seller)</td>
+                    </tr>
+                    <tr class="clickable-row">
+                        <td>BURSA<br><span style="font-size:11px; color:#94a3b8;">Malaysia</span></td>
+                        <td>MYR (RM)</td>
+                        <td>100 shares base</td>
+                        <td>±30% or ±30 sen daily limit</td>
+                        <td>T+2</td>
+                        <td>09:00–12:30 & 14:30–17:00 MYT</td>
+                        <td>Regulated Short Selling (RSS) list</td>
                         <td>0.1% Stamp Duty (Max RM 1,000)</td>
-                        <td>0.1% Final Income Tax on gross sale</td>
+                    </tr>
+                    <tr class="clickable-row">
+                        <td>IDX<br><span style="font-size:11px; color:#94a3b8;">Indonesia</span></td>
+                        <td>IDR (Rp)</td>
+                        <td>100 shares (1 lot)</td>
+                        <td>Auto-Rejection (±20% to ±35% asymmetric)</td>
+                        <td>T+2</td>
+                        <td>09:00–12:00 & 13:30–16:00 WIB</td>
+                        <td>Restricted margin list only</td>
+                        <td>0.1% Final Income Tax on sale</td>
+                    </tr>
+                    <tr class="clickable-row">
+                        <td>PSE<br><span style="font-size:11px; color:#94a3b8;">Philippines</span></td>
+                        <td>PHP (₱)</td>
+                        <td>100 shares (Price tier lot)</td>
+                        <td>±50% Ceiling / -40% Floor limit</td>
+                        <td>T+2</td>
+                        <td>09:30–12:00 & 13:00–15:00 PHT</td>
+                        <td>Strictly regulated covered shorting list</td>
                         <td>0.6% Stock Transaction Tax (Seller)</td>
-                        <td>0.1% Personal Income Tax on gross sales</td>
+                    </tr>
+                    <tr class="clickable-row">
+                        <td>VSE<br><span style="font-size:11px; color:#94a3b8;">Vietnam</span></td>
+                        <td>VND (₫)</td>
+                        <td>100 shares (Board lot)</td>
+                        <td>±7% HOSE / ±10% HNX daily limit</td>
+                        <td>T+2 (T+2.5 cash)</td>
+                        <td>09:00–11:30 & 13:00–15:00 ICT</td>
+                        <td>Restricted / Margin trading phased</td>
+                        <td>0.1% Income Tax on gross sales</td>
                     </tr>
                 </tbody>
             </table>
