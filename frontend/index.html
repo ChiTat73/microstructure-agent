@@ -205,9 +205,8 @@
             <p>Real-time venue dynamics, execution TCA, and market characteristic analysis.</p>
         </div>
         <div class="header-right">
-            <!-- Working link button pointing to Exchange Changes / Pipeline view -->
-            <a href="https://chitat73.github.io/microstructure-agent/frontend/index.html" class="btn-action">
-                ⚡ Exchange Changes ↗
+            <a href="https://chitat73.github.io/asia-microstructure-tracker/" class="btn-action">
+                Exchange Changes ↗
             </a>
             <div class="status-box">
                 <div>⚡ Agent Status: <span class="status-online">• ONLINE</span></div>
@@ -580,14 +579,6 @@
             rows.sort((a, b) => {
                 const cellA = a.cells[colIndex] ? a.cells[colIndex].innerText.trim().toLowerCase() : '';
                 const cellB = b.cells[colIndex] ? b.cells[colIndex].innerText.trim().toLowerCase() : '';
-                
-                // Numeric sort fallback if applicable
-                const numA = parseFloat(cellA.replace(/[^0-9.-]+/g, ""));
-                const numB = parseFloat(cellB.replace(/[^0-9.-]+/g, ""));
-
-                if (!isNaN(numA) && !isNaN(numB) && !cellA.includes('%') && !cellA.includes('t+')) {
-                    return isAsc ? numA - numB : numB - numA;
-                }
 
                 return isAsc ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
             });
