@@ -57,10 +57,15 @@
         .class-badge.developed { background-color: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
         .class-badge.emerging { background-color: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
 
+        /* QoQ Indicators */
+        .qoq-tag { font-size: 11px; font-weight: 700; margin-left: 6px; }
+        .qoq-up { color: #10b981; }
+        .qoq-down { color: #ef4444; }
+
         /* Flow Bars */
-        .adt-primary { font-size: 15px; font-weight: 800; color: #ffffff; }
+        .adt-primary { font-size: 15px; font-weight: 800; color: #ffffff; display: flex; align-items: center; }
         .adt-usd { font-size: 11px; color: #64748b; }
-        .flow-text-container { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+        .flow-text-container { font-size: 12px; font-weight: 700; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; }
         .flow-ret-label { color: #f59e0b; }
         .flow-inst-label { color: #38bdf8; }
         .flow-bar-wrapper { width: 100%; height: 6px; background-color: #1e293b; border-radius: 3px; display: flex; overflow: hidden; margin-bottom: 4px; }
@@ -107,7 +112,7 @@
         <!-- Filter Bar -->
         <div class="controls-bar">
             <div class="search-wrapper">
-                <input type="text" id="masterSearch" oninput="applyFilters()" placeholder="Filter live market ledger by code, country, or sector..." autocomplete="off">
+                <input type="text" id="masterSearch" oninput="applyFilters()" placeholder="Filter all tables by code, country, sector, or rules..." autocomplete="off">
             </div>
         </div>
 
@@ -135,7 +140,7 @@
         <!-- Section 2: ALL 14 APAC Markets Microstructure Matrix (Flipped Axes) -->
         <div class="section-title comparison">
             <span>📊 ALL 14 APAC MARKETS MICROSTRUCTURE CHARACTERISTICS MATRIX</span>
-            <span class="row-counter">14 Markets Vertical</span>
+            <span class="row-counter" id="matrix-count">14 Markets Vertical</span>
         </div>
         
         <div>
@@ -152,8 +157,8 @@
                         <th>Stamp Duty / Taxes</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="clickable-row">
+                <tbody id="matrix-body">
+                    <tr class="clickable-row" data-search="hkex hong kong hkd rmb dual-counter vcm t+2 designated security list stamp duty">
                         <td>HKEX<br><span style="font-size:11px; color:#94a3b8;">Hong Kong</span></td>
                         <td>HKD<br><span style="font-size:10px; color:#64748b;">RMB Dual-counter</span></td>
                         <td>Variable by issuer (100–1,000)</td>
@@ -163,7 +168,7 @@
                         <td>Designated Security List; tick rule</td>
                         <td>0.1% Stamp Duty (Buyer/Seller)</td>
                     </tr>
-                    <tr class="clickable-row">
+                    <tr class="clickable-row" data-search="asx australia aud extreme trade range etr t+2 covered short selling no stamp duty">
                         <td>ASX<br><span style="font-size:11px; color:#94a3b8;">Australia</span></td>
                         <td>AUD ($)</td>
                         <td>1 share (Depth minimums)</td>
@@ -173,7 +178,7 @@
                         <td>Covered short selling allowed + reporting</td>
                         <td>No Stamp Duty</td>
                     </tr>
-                    <tr class="clickable-row">
+                    <tr class="clickable-row" data-search="jpx japan jpy 100 shares static limits dynamic reference bands t+2 uptick rule capital gains">
                         <td>JPX<br><span style="font-size:11px; color:#94a3b8;">Japan</span></td>
                         <td>JPY (¥)</td>
                         <td>100 shares standardized</td>
@@ -183,7 +188,7 @@
                         <td>Uptick rule enforced on margin orders</td>
                         <td>No Stamp Duty (Capital Gains)</td>
                     </tr>
-                    <tr class="clickable-row">
+                    <tr class="clickable-row" data-search="sgx singapore sgd usd 100 shares dynamic circuit breakers t+2 covered short selling no stamp duty">
                         <td>SGX<br><span style="font-size:11px; color:#94a3b8;">Singapore</span></td>
                         <td>SGD ($) / USD</td>
                         <td>100 shares base</td>
@@ -193,7 +198,7 @@
                         <td>Covered short selling; reporting</td>
                         <td>No Stamp Duty</td>
                     </tr>
-                    <tr class="clickable-row">
+                    <tr class="clickable-row" data-search="twse taiwan twd 1000 shares 10% daily price limit t+2 sbl quota limits transaction tax">
                         <td>TWSE<br><span style="font-size:11px; color:#94a3b8;">Taiwan</span></td>
                         <td>TWD (NT$)</td>
                         <td>1,000 shares (Odd lots separate)</td>
@@ -203,7 +208,7 @@
                         <td>SBL quota limits & tick restrictions</td>
                         <td>0.3% Transaction Tax (Seller)</td>
                     </tr>
-                    <tr class="clickable-row">
+                    <tr class="clickable-row" data-search="nzx new zealand nzd dynamic price bands t+2 covered shorting no stamp duty">
                         <td>NZX<br><span style="font-size:11px; color:#94a3b8;">New Zealand</span></td>
                         <td>NZD ($)</td>
                         <td>1 share base</td>
@@ -213,7 +218,7 @@
                         <td>Covered shorting permitted</td>
                         <td>No Stamp Duty</td>
                     </tr>
-                    <tr class="clickable-row">
+                    <tr class="clickable-row" data-search="nse india inr dynamic bands 10% 15% 20% index t+1 t+0 mandatory disclosure stt delivery">
                         <td>NSE<br><span style="font-size:11px; color:#94a3b8;">India</span></td>
                         <td>INR (₹)</td>
                         <td>1 share base</td>
@@ -223,7 +228,7 @@
                         <td>Mandatory disclosure; no Naked Shorting</td>
                         <td>0.1% STT (Delivery buy/sell)</td>
                     </tr>
-                    <tr class="clickable-row">
+                    <tr class="clickable-row" data-search="krx south korea krw 30% limit dynamic cbs t+2 strict regulatory bans stt seller">
                         <td>KRX<br><span style="font-size:11px; color:#94a3b8;">South Korea</span></td>
                         <td>KRW (₩)</td>
                         <td>1 share base</td>
@@ -233,7 +238,7 @@
                         <td>Strict regulatory bans / restricted lists</td>
                         <td>0.18% STT (Seller)</td>
                     </tr>
-                    <tr class="clickable-row">
+                    <tr class="clickable-row" data-search="sse mainland china cny cnh 100 shares 10% daily limit star st t+1 t+0 margin short stamp duty">
                         <td>SSE<br><span style="font-size:11px; color:#94a3b8;">Mainland China</span></td>
                         <td>CNY (¥) / CNH</td>
                         <td>100 shares base</td>
@@ -243,7 +248,7 @@
                         <td>Strict margin short rules; no T+0 unwind</td>
                         <td>0.05% Stamp Duty (Seller)</td>
                     </tr>
-                    <tr class="clickable-row">
+                    <tr class="clickable-row" data-search="szse mainland china cny cnh 100 shares chinext 10% daily limit t+1 t+0 margin short stamp duty">
                         <td>SZSE<br><span style="font-size:11px; color:#94a3b8;">Mainland China</span></td>
                         <td>CNY (¥) / CNH</td>
                         <td>100 shares base (1 increment ChiNext)</td>
@@ -253,7 +258,7 @@
                         <td>Strict margin short rules; no T+0 unwind</td>
                         <td>0.05% Stamp Duty (Seller)</td>
                     </tr>
-                    <tr class="clickable-row">
+                    <tr class="clickable-row" data-search="bursa malaysia myr rm 100 shares 30% 30 sen daily limit t+2 regulated short selling rss stamp duty">
                         <td>BURSA<br><span style="font-size:11px; color:#94a3b8;">Malaysia</span></td>
                         <td>MYR (RM)</td>
                         <td>100 shares base</td>
@@ -263,7 +268,7 @@
                         <td>Regulated Short Selling (RSS) list</td>
                         <td>0.1% Stamp Duty (Max RM 1,000)</td>
                     </tr>
-                    <tr class="clickable-row">
+                    <tr class="clickable-row" data-search="idx indonesia idr rp 100 shares auto-rejection dynamic t+2 restricted margin list final income tax">
                         <td>IDX<br><span style="font-size:11px; color:#94a3b8;">Indonesia</span></td>
                         <td>IDR (Rp)</td>
                         <td>100 shares (1 lot)</td>
@@ -273,7 +278,7 @@
                         <td>Restricted margin list only</td>
                         <td>0.1% Final Income Tax on sale</td>
                     </tr>
-                    <tr class="clickable-row">
+                    <tr class="clickable-row" data-search="pse philippines php 100 shares 50% ceiling 40% floor t+2 strictly regulated covered shorting stock transaction tax">
                         <td>PSE<br><span style="font-size:11px; color:#94a3b8;">Philippines</span></td>
                         <td>PHP (₱)</td>
                         <td>100 shares (Price tier lot)</td>
@@ -283,7 +288,7 @@
                         <td>Strictly regulated covered shorting list</td>
                         <td>0.6% Stock Transaction Tax (Seller)</td>
                     </tr>
-                    <tr class="clickable-row">
+                    <tr class="clickable-row" data-search="vse vietnam vnd 100 shares 7% hose 10% hnx t+2 t+2.5 restricted margin income tax">
                         <td>VSE<br><span style="font-size:11px; color:#94a3b8;">Vietnam</span></td>
                         <td>VND (₫)</td>
                         <td>100 shares (Board lot)</td>
@@ -322,20 +327,20 @@
             "last_updated": "Aug 06, 2026 14:50 HKT",
             "network_status": "ONLINE",
             "markets": [
-                { "code": "HKEX", "country": "Hong Kong", "classification": "DEVELOPED MKT", "turnover_local": "HK$ 283.0B", "turnover_usd": "US$ 36.2B", "pillar_sector": "Financials (29.1% Cap)", "volume_concentrator": "Information Technology (42.5% Vol).", "retail_pct": "12.0%", "institutional_pct": "88.0%", "avg_spread": "1.2 - 1.8 Ticks", "slippage": "8.5 bps" },
-                { "code": "ASX", "country": "Australia", "classification": "DEVELOPED MKT", "turnover_local": "A$ 6.8B", "turnover_usd": "US$ 4.45B", "pillar_sector": "Materials & Financials", "volume_concentrator": "Global Mining Giants (BHP, Rio) & Big 4 Banks.", "retail_pct": "15.0%", "institutional_pct": "85.0%", "avg_spread": "1.0 - 1.5 Ticks", "slippage": "5.1 bps" },
-                { "code": "JPX", "country": "Japan", "classification": "DEVELOPED MKT", "turnover_local": "¥ 11.6T", "turnover_usd": "US$ 74.1B", "pillar_sector": "Industrial / Auto Mfg", "volume_concentrator": "Electric Appliances & Tech Equipment.", "retail_pct": "22.0%", "institutional_pct": "78.0%", "avg_spread": "1.0 - 1.3 Ticks", "slippage": "4.2 bps" },
-                { "code": "SGX", "country": "Singapore", "classification": "DEVELOPED MKT", "turnover_local": "S$ 1.8B", "turnover_usd": "US$ 1.39B", "pillar_sector": "Financials (Local Banks)", "volume_concentrator": "REITs & Micro Index Derivatives.", "retail_pct": "25.0%", "institutional_pct": "75.0%", "avg_spread": "2.5 - 4.0 Ticks", "slippage": "18.0 bps" },
-                { "code": "TWSE", "country": "Taiwan", "classification": "DEVELOPED MKT", "turnover_local": "NT$ 380.0B", "turnover_usd": "US$ 11.6B", "pillar_sector": "Semiconductors & Electronics", "volume_concentrator": "TSMC & Electronics Supply Chain.", "retail_pct": "55.0%", "institutional_pct": "45.0%", "avg_spread": "1.0 - 1.4 Ticks", "slippage": "5.5 bps" },
-                { "code": "NZX", "country": "New Zealand", "classification": "DEVELOPED MKT", "turnover_local": "NZ$ 0.18B", "turnover_usd": "US$ 0.11B", "pillar_sector": "Utilities & Healthcare", "volume_concentrator": "Defensive Infrastructure & Energy Providers.", "retail_pct": "20.0%", "institutional_pct": "80.0%", "avg_spread": "2.0 - 3.2 Ticks", "slippage": "14.0 bps" },
-                { "code": "NSE", "country": "India", "classification": "EMERGING MKT", "turnover_local": "₹ 985.0B", "turnover_usd": "US$ 11.8B", "pillar_sector": "Financial Services & IT", "volume_concentrator": "Nifty Heavyweights & High-Beta Tech.", "retail_pct": "38.0%", "institutional_pct": "62.0%", "avg_spread": "0.5 - 1.0 Ticks", "slippage": "3.8 bps" },
-                { "code": "KRX", "country": "South Korea", "classification": "EMERGING MKT", "turnover_local": "₩ 19.4T", "turnover_usd": "US$ 14.1B", "pillar_sector": "Semiconductors & Automobiles", "volume_concentrator": "Tech Heavyweights (Samsung, SK Hynix).", "retail_pct": "65.0%", "institutional_pct": "35.0%", "avg_spread": "1.0 - 1.4 Ticks", "slippage": "4.8 bps" },
-                { "code": "SSE", "country": "Mainland China", "classification": "EMERGING MKT", "turnover_local": "¥ 420.0B", "turnover_usd": "US$ 58.1B", "pillar_sector": "Industrial & State Financials", "volume_concentrator": "Large-cap State-Owned Enterprises (SOEs).", "retail_pct": "75.0%", "institutional_pct": "25.0%", "avg_spread": "1.0 - 1.2 Ticks", "slippage": "6.2 bps" },
-                { "code": "SZSE", "country": "Mainland China", "classification": "EMERGING MKT", "turnover_local": "¥ 530.0B", "turnover_usd": "US$ 73.3B", "pillar_sector": "Information Technology", "volume_concentrator": "ChiNext Growth Tech & Electronics Manufacturing.", "retail_pct": "82.0%", "institutional_pct": "18.0%", "avg_spread": "1.1 - 1.5 Ticks", "slippage": "7.5 bps" },
-                { "code": "BURSA", "country": "Malaysia", "classification": "EMERGING MKT", "turnover_local": "RM 2.9B", "turnover_usd": "US$ 0.63B", "pillar_sector": "Financials & Plantations", "volume_concentrator": "Banking Groups & Healthcare/Glove Producers.", "retail_pct": "25.0%", "institutional_pct": "75.0%", "avg_spread": "2.0 - 3.5 Ticks", "slippage": "16.5 bps" },
-                { "code": "IDX", "country": "Indonesia", "classification": "EMERGING MKT", "turnover_local": "Rp 11.5T", "turnover_usd": "US$ 0.72B", "pillar_sector": "Financials & Commodities", "volume_concentrator": "Resource Mining & Large Infrastructure Banks.", "retail_pct": "40.0%", "institutional_pct": "60.0%", "avg_spread": "2.2 - 4.0 Ticks", "slippage": "19.0 bps" },
-                { "code": "PSE", "country": "Philippines", "classification": "EMERGING MKT", "turnover_local": "₱ 6.1B", "turnover_usd": "US$ 0.11B", "pillar_sector": "Conglomerates & Real Estate", "volume_concentrator": "Family Holding Conglomerates.", "retail_pct": "30.0%", "institutional_pct": "70.0%", "avg_spread": "3.5 - 5.0 Ticks", "slippage": "24.5 bps" },
-                { "code": "VSE", "country": "Vietnam", "classification": "EMERGING MKT", "turnover_local": "₫ 16.8T", "turnover_usd": "US$ 0.66B", "pillar_sector": "Real Estate & Financials", "volume_concentrator": "Property Development Groups & State Banks.", "retail_pct": "88.0%", "institutional_pct": "12.0%", "avg_spread": "1.5 - 2.5 Ticks", "slippage": "15.5 bps" }
+                { "code": "HKEX", "country": "Hong Kong", "classification": "DEVELOPED MKT", "turnover_local": "HK$ 283.0B", "turnover_usd": "US$ 36.2B", "turnover_qoq": "+12.4%", "retail_qoq": "-1.5%", "pillar_sector": "Financials (29.1% Cap)", "volume_concentrator": "Information Technology (42.5% Vol).", "retail_pct": "12.0%", "institutional_pct": "88.0%", "avg_spread": "1.2 - 1.8 Ticks", "slippage": "8.5 bps" },
+                { "code": "ASX", "country": "Australia", "classification": "DEVELOPED MKT", "turnover_local": "A$ 6.8B", "turnover_usd": "US$ 4.45B", "turnover_qoq": "+3.1%", "retail_qoq": "+0.4%", "pillar_sector": "Materials & Financials", "volume_concentrator": "Global Mining Giants (BHP, Rio) & Big 4 Banks.", "retail_pct": "15.0%", "institutional_pct": "85.0%", "avg_spread": "1.0 - 1.5 Ticks", "slippage": "5.1 bps" },
+                { "code": "JPX", "country": "Japan", "classification": "DEVELOPED MKT", "turnover_local": "¥ 11.6T", "turnover_usd": "US$ 74.1B", "turnover_qoq": "+8.7%", "retail_qoq": "+2.1%", "pillar_sector": "Industrial / Auto Mfg", "volume_concentrator": "Electric Appliances & Tech Equipment.", "retail_pct": "22.0%", "institutional_pct": "78.0%", "avg_spread": "1.0 - 1.3 Ticks", "slippage": "4.2 bps" },
+                { "code": "SGX", "country": "Singapore", "classification": "DEVELOPED MKT", "turnover_local": "S$ 1.8B", "turnover_usd": "US$ 1.39B", "turnover_qoq": "-2.3%", "retail_qoq": "-0.8%", "pillar_sector": "Financials (Local Banks)", "volume_concentrator": "REITs & Micro Index Derivatives.", "retail_pct": "25.0%", "institutional_pct": "75.0%", "avg_spread": "2.5 - 4.0 Ticks", "slippage": "18.0 bps" },
+                { "code": "TWSE", "country": "Taiwan", "classification": "DEVELOPED MKT", "turnover_local": "NT$ 380.0B", "turnover_usd": "US$ 11.6B", "turnover_qoq": "+15.2%", "retail_qoq": "+4.5%", "pillar_sector": "Semiconductors & Electronics", "volume_concentrator": "TSMC & Electronics Supply Chain.", "retail_pct": "55.0%", "institutional_pct": "45.0%", "avg_spread": "1.0 - 1.4 Ticks", "slippage": "5.5 bps" },
+                { "code": "NZX", "country": "New Zealand", "classification": "DEVELOPED MKT", "turnover_local": "NZ$ 0.18B", "turnover_usd": "US$ 0.11B", "turnover_qoq": "-1.1%", "retail_qoq": "0.0%", "pillar_sector": "Utilities & Healthcare", "volume_concentrator": "Defensive Infrastructure & Energy Providers.", "retail_pct": "20.0%", "institutional_pct": "80.0%", "avg_spread": "2.0 - 3.2 Ticks", "slippage": "14.0 bps" },
+                { "code": "NSE", "country": "India", "classification": "EMERGING MKT", "turnover_local": "₹ 985.0B", "turnover_usd": "US$ 11.8B", "turnover_qoq": "+18.6%", "retail_qoq": "+3.2%", "pillar_sector": "Financial Services & IT", "volume_concentrator": "Nifty Heavyweights & High-Beta Tech.", "retail_pct": "38.0%", "institutional_pct": "62.0%", "avg_spread": "0.5 - 1.0 Ticks", "slippage": "3.8 bps" },
+                { "code": "KRX", "country": "South Korea", "classification": "EMERGING MKT", "turnover_local": "₩ 19.4T", "turnover_usd": "US$ 14.1B", "turnover_qoq": "+6.4%", "retail_qoq": "-2.0%", "pillar_sector": "Semiconductors & Automobiles", "volume_concentrator": "Tech Heavyweights (Samsung, SK Hynix).", "retail_pct": "65.0%", "institutional_pct": "35.0%", "avg_spread": "1.0 - 1.4 Ticks", "slippage": "4.8 bps" },
+                { "code": "SSE", "country": "Mainland China", "classification": "EMERGING MKT", "turnover_local": "¥ 420.0B", "turnover_usd": "US$ 58.1B", "turnover_qoq": "-4.2%", "retail_qoq": "-1.1%", "pillar_sector": "Industrial & State Financials", "volume_concentrator": "Large-cap State-Owned Enterprises (SOEs).", "retail_pct": "75.0%", "institutional_pct": "25.0%", "avg_spread": "1.0 - 1.2 Ticks", "slippage": "6.2 bps" },
+                { "code": "SZSE", "country": "Mainland China", "classification": "EMERGING MKT", "turnover_local": "¥ 530.0B", "turnover_usd": "US$ 73.3B", "turnover_qoq": "-3.8%", "retail_qoq": "-0.5%", "pillar_sector": "Information Technology", "volume_concentrator": "ChiNext Growth Tech & Electronics Manufacturing.", "retail_pct": "82.0%", "institutional_pct": "18.0%", "avg_spread": "1.1 - 1.5 Ticks", "slippage": "7.5 bps" },
+                { "code": "BURSA", "country": "Malaysia", "classification": "EMERGING MKT", "turnover_local": "RM 2.9B", "turnover_usd": "US$ 0.63B", "turnover_qoq": "+2.0%", "retail_qoq": "+1.0%", "pillar_sector": "Financials & Plantations", "volume_concentrator": "Banking Groups & Healthcare/Glove Producers.", "retail_pct": "25.0%", "institutional_pct": "75.0%", "avg_spread": "2.0 - 3.5 Ticks", "slippage": "16.5 bps" },
+                { "code": "IDX", "country": "Indonesia", "classification": "EMERGING MKT", "turnover_local": "Rp 11.5T", "turnover_usd": "US$ 0.72B", "turnover_qoq": "+5.3%", "retail_qoq": "+1.8%", "pillar_sector": "Financials & Commodities", "volume_concentrator": "Resource Mining & Large Infrastructure Banks.", "retail_pct": "40.0%", "institutional_pct": "60.0%", "avg_spread": "2.2 - 4.0 Ticks", "slippage": "19.0 bps" },
+                { "code": "PSE", "country": "Philippines", "classification": "EMERGING MKT", "turnover_local": "₱ 6.1B", "turnover_usd": "US$ 0.11B", "turnover_qoq": "-5.1%", "retail_qoq": "-2.4%", "pillar_sector": "Conglomerates & Real Estate", "volume_concentrator": "Family Holding Conglomerates.", "retail_pct": "30.0%", "institutional_pct": "70.0%", "avg_spread": "3.5 - 5.0 Ticks", "slippage": "24.5 bps" },
+                { "code": "VSE", "country": "Vietnam", "classification": "EMERGING MKT", "turnover_local": "₫ 16.8T", "turnover_usd": "US$ 0.66B", "turnover_qoq": "+22.1%", "retail_qoq": "+5.0%", "pillar_sector": "Real Estate & Financials", "volume_concentrator": "Property Development Groups & State Banks.", "retail_pct": "88.0%", "institutional_pct": "12.0%", "avg_spread": "1.5 - 2.5 Ticks", "slippage": "15.5 bps" }
             ]
         };
 
@@ -355,6 +360,15 @@
         function parsePercent(pctStr) {
             if(!pctStr) return 0;
             return parseFloat(pctStr.replace(/[^0-9.]/g, ''));
+        }
+
+        function formatQoQ(qoqStr) {
+            if(!qoqStr) return '';
+            const isUp = qoqStr.startsWith('+');
+            const isDown = qoqStr.startsWith('-');
+            const arrow = isUp ? '↑' : (isDown ? '↓' : '•');
+            const cls = isUp ? 'qoq-up' : (isDown ? 'qoq-down' : '');
+            return `<span class="qoq-tag ${cls}">${arrow} ${qoqStr} QoQ</span>`;
         }
 
         function processMacroData(payload) {
@@ -380,6 +394,8 @@
                 const retPct = item.parsed_retail_pct;
                 const instPct = (100 - retPct).toFixed(1);
                 const classBadge = item.isDeveloped ? '<span class="class-badge developed">Developed Mkt</span>' : '<span class="class-badge emerging">Emerging Mkt</span>';
+                const turnoverQoQHTML = formatQoQ(item.turnover_qoq);
+                const retailQoQHTML = formatQoQ(item.retail_qoq);
 
                 tbody.insertAdjacentHTML('beforeend', `
                     <tr class="clickable-row">
@@ -387,15 +403,18 @@
                         <td class="td-country">${item.country}</td>
                         <td class="td-classification">${classBadge}</td>
                         <td class="td-adt">
-                            <div class="adt-primary">${item.turnover_local}</div>
+                            <div class="adt-primary">${item.turnover_local} ${turnoverQoQHTML}</div>
                             <div style="display: flex; gap: 8px; align-items: center; margin-top: 2px;">
                                 <span class="adt-usd">${item.turnover_usd}</span>
                             </div>
                         </td>
                         <td class="td-flow">
                             <div class="flow-text-container">
-                                <span class="flow-ret-label">${retPct.toFixed(1)}% Ret</span> / 
-                                <span class="flow-inst-label">${instPct}% Inst</span>
+                                <div>
+                                    <span class="flow-ret-label">${retPct.toFixed(1)}% Ret</span> / 
+                                    <span class="flow-inst-label">${instPct}% Inst</span>
+                                </div>
+                                ${retailQoQHTML}
                             </div>
                             <div class="flow-bar-wrapper">
                                 <div class="flow-bar-ret" style="width: ${retPct}%;"></div>
@@ -415,13 +434,32 @@
 
         function applyFilters() {
             const query = document.getElementById('masterSearch').value.toLowerCase().trim();
+            
+            // 1. Filter Regional Macro Table
             const filterMacro = macroData.filter(item => 
                 item.code.toLowerCase().includes(query) || 
                 item.country.toLowerCase().includes(query) || 
                 item.pillar_sector.toLowerCase().includes(query) ||
-                item.volume_concentrator.toLowerCase().includes(query)
+                item.volume_concentrator.toLowerCase().includes(query) ||
+                item.classification.toLowerCase().includes(query)
             );
             renderMacroTable(filterMacro);
+
+            // 2. Filter Microstructure Characteristics Matrix
+            const matrixRows = document.querySelectorAll('#matrix-body tr');
+            let visibleMatrixCount = 0;
+
+            matrixRows.forEach(row => {
+                const searchContent = row.getAttribute('data-search') || row.innerText.toLowerCase();
+                if (searchContent.includes(query)) {
+                    row.style.display = '';
+                    visibleMatrixCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            document.getElementById('matrix-count').textContent = `${visibleMatrixCount} Markets Visible`;
         }
 
         function sortMacroTable(key, thElement) {
