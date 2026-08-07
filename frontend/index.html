@@ -13,7 +13,6 @@
             --table-row-hover: #121927;
             --text-main: #d1d5db;
             --text-muted: #6b7280;
-            --accent-blue: #3b82f6;
             --accent-cyan: #38bdf8;
             --accent-green: #10b981;
             --accent-red: #ef4444;
@@ -67,6 +66,13 @@
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action:hover {
+            background: #1e293b;
+            border-color: var(--accent-cyan);
+            color: #ffffff;
         }
 
         .status-box {
@@ -89,10 +95,15 @@
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 6px;
-            padding: 8px 12px 8px 34px;
+            padding: 8px 12px;
             color: var(--text-main);
             font-size: 0.8rem;
             box-sizing: border-box;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
         }
 
         .section-header {
@@ -143,6 +154,11 @@
             text-transform: uppercase;
             font-size: 0.7rem;
             white-space: nowrap;
+            user-select: none;
+        }
+
+        th:hover {
+            color: var(--accent-cyan);
         }
 
         td {
@@ -178,9 +194,6 @@
             margin: 0 0 6px 0;
             color: var(--accent-cyan);
             font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
     </style>
 </head>
@@ -192,10 +205,13 @@
             <p>Real-time venue dynamics, execution TCA, and market characteristic analysis.</p>
         </div>
         <div class="header-right">
-            <button class="btn-action">Exchange Changes</button>
+            <!-- Working link button pointing to Exchange Changes / Pipeline view -->
+            <a href="https://chitat73.github.io/microstructure-agent/frontend/index.html" class="btn-action">
+                ⚡ Exchange Changes ↗
+            </a>
             <div class="status-box">
                 <div>⚡ Agent Status: <span class="status-online">• ONLINE</span></div>
-                <div style="color: var(--text-muted); font-size: 0.68rem;">💻 Last Sync Check: Aug 06, 2026 16:50 HKT</div>
+                <div style="color: var(--text-muted); font-size: 0.68rem;">💻 Last Sync Check: Aug 07, 2026 16:50 HKT</div>
             </div>
         </div>
     </header>
@@ -219,7 +235,7 @@
                     <th onclick="sortTable(2, 'turnover-table')">CLASSIFICATION ▼▲</th>
                     <th onclick="sortTable(3, 'turnover-table')">TURNOVER (LOCAL / USD EQUIV) ▼▲</th>
                     <th onclick="sortTable(4, 'turnover-table')">FLOW SPLIT (RET / INST) ▼▲</th>
-                    <th>CORE LIQUIDITY CONCENTRATOR & MICROSTRUCTURE</th>
+                    <th onclick="sortTable(5, 'turnover-table')">CORE LIQUIDITY CONCENTRATOR & MICROSTRUCTURE ▼▲</th>
                 </tr>
             </thead>
             <tbody>
@@ -263,6 +279,78 @@
                     <td>55.0% Ret / 45.0% Inst <span class="txt-green">+4.5% QoQ</span></td>
                     <td><strong>Semiconductors & Electronics • TSMC & Electronics Supply Chain.</strong><br><small style="color:var(--text-muted)">Spread: 1.0 - 1.4 Ticks | Slippage: 4.8 bps</small></td>
                 </tr>
+                <tr>
+                    <td class="mkt-code">NZX</td>
+                    <td>New Zealand</td>
+                    <td><span class="badge-dev">DEVELOPED MKT</span></td>
+                    <td><strong>NZ$ 0.18B</strong> <span class="txt-red">-1.1% QoQ</span><br><small style="color:var(--text-muted)">US$ 0.11B</small></td>
+                    <td>20.0% Ret / 80.0% Inst <span class="txt-green">+0.1% QoQ</span></td>
+                    <td><strong>Utilities & Healthcare • Defensive Infrastructure & Power Providers.</strong><br><small style="color:var(--text-muted)">Spread: 2.2 - 3.2 Ticks | Slippage: 14.2 bps</small></td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">NSE</td>
+                    <td>India</td>
+                    <td><span class="badge-emg">EMERGING MKT</span></td>
+                    <td><strong>₹ 965.0B</strong> <span class="txt-green">+18.4% QoQ</span><br><small style="color:var(--text-muted)">US$ 11.6B</small></td>
+                    <td>38.0% Ret / 62.0% Inst <span class="txt-green">+3.2% QoQ</span></td>
+                    <td><strong>Financial Services & IT • Nifty Heavyweights & High-Beta Tech.</strong><br><small style="color:var(--text-muted)">Spread: 1.1 - 1.6 Ticks | Slippage: 3.8 bps</small></td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">KRX</td>
+                    <td>South Korea</td>
+                    <td><span class="badge-dev">DEVELOPED MKT</span></td>
+                    <td><strong>₩ 18.4T</strong> <span class="txt-green">+6.1% QoQ</span><br><small style="color:var(--text-muted)">US$ 13.5B</small></td>
+                    <td>65.0% Ret / 35.0% Inst <span class="txt-red">-2.2% QoQ</span></td>
+                    <td><strong>Semiconductors & Automobiles • Tech Heavyweights (Samsung, SK Hynix).</strong><br><small style="color:var(--text-muted)">Spread: 1.0 - 1.4 Ticks | Slippage: 4.9 bps</small></td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">SSE</td>
+                    <td>Mainland China</td>
+                    <td><span class="badge-emg">EMERGING MKT</span></td>
+                    <td><strong>¥ 420.0B</strong> <span class="txt-red">-4.2% QoQ</span><br><small style="color:var(--text-muted)">US$ 58.1B</small></td>
+                    <td>75.0% Ret / 25.0% Inst <span class="txt-red">-1.5% QoQ</span></td>
+                    <td><strong>Industrial & State Financials • Large-cap State-Owned Enterprises (SOE).</strong><br><small style="color:var(--text-muted)">Spread: 1.2 - 1.7 Ticks | Slippage: 6.2 bps</small></td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">SZSE</td>
+                    <td>Mainland China</td>
+                    <td><span class="badge-emg">EMERGING MKT</span></td>
+                    <td><strong>¥ 530.0B</strong> <span class="txt-red">-2.5% QoQ</span><br><small style="color:var(--text-muted)">US$ 73.3B</small></td>
+                    <td>82.0% Ret / 18.0% Inst <span class="txt-red">-0.5% QoQ</span></td>
+                    <td><strong>Information Technology • ChiNext Growth Tech & Electronics Manufacturing.</strong><br><small style="color:var(--text-muted)">Spread: 1.1 - 1.6 Ticks | Slippage: 7.1 bps</small></td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">BURSA</td>
+                    <td>Malaysia</td>
+                    <td><span class="badge-emg">EMERGING MKT</span></td>
+                    <td><strong>RM 2.9B</strong> <span class="txt-green">+2.8% QoQ</span><br><small style="color:var(--text-muted)">US$ 0.65B</small></td>
+                    <td>25.0% Ret / 75.0% Inst <span class="txt-green">+1.0% QoQ</span></td>
+                    <td><strong>Financials & Plantations • Banking Groups & Commodity Exporters.</strong><br><small style="color:var(--text-muted)">Spread: 2.0 - 3.0 Ticks | Slippage: 14.6 bps</small></td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">IDX</td>
+                    <td>Indonesia</td>
+                    <td><span class="badge-emg">EMERGING MKT</span></td>
+                    <td><strong>Rp 11.5T</strong> <span class="txt-green">+5.1% QoQ</span><br><small style="color:var(--text-muted)">US$ 0.73B</small></td>
+                    <td>40.0% Ret / 60.0% Inst <span class="txt-green">+1.8% QoQ</span></td>
+                    <td><strong>Financials & Commodities • Resource Mining & Large Infrastructure Banks.</strong><br><small style="color:var(--text-muted)">Spread: 2.2 - 3.5 Ticks | Slippage: 19.2 bps</small></td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">PSE</td>
+                    <td>Philippines</td>
+                    <td><span class="badge-emg">EMERGING MKT</span></td>
+                    <td><strong>₱ 6.1B</strong> <span class="txt-red">-0.1% QoQ</span><br><small style="color:var(--text-muted)">US$ 0.11B</small></td>
+                    <td>30.0% Ret / 70.0% Inst <span class="txt-red">-2.0% QoQ</span></td>
+                    <td><strong>Conglomerates & Real Estate • Family Holding Conglomerates.</strong><br><small style="color:var(--text-muted)">Spread: 2.6 - 4.0 Ticks | Slippage: 24.6 bps</small></td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">VSE</td>
+                    <td>Vietnam</td>
+                    <td><span class="badge-emg">EMERGING MKT</span></td>
+                    <td><strong>₫ 16.8T</strong> <span class="txt-green">+22.1% QoQ</span><br><small style="color:var(--text-muted)">US$ 0.66B</small></td>
+                    <td>88.0% Ret / 12.0% Inst <span class="txt-green">+5.0% QoQ</span></td>
+                    <td><strong>Real Estate & Financials • Property Development Groups & State Banks.</strong><br><small style="color:var(--text-muted)">Spread: 1.8 - 2.8 Ticks | Slippage: 11.8 bps</small></td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -277,15 +365,15 @@
         <table id="matrix-table">
             <thead>
                 <tr>
-                    <th>MARKET</th>
-                    <th>CURRENCY</th>
-                    <th>BOARD LOT</th>
-                    <th>PRICE LIMITS / CIRCUIT BREAKERS</th>
-                    <th>AUCTION DYNAMICS & TIMING</th>
-                    <th>OFF-EXCHANGE & DARK LIQUIDITY</th>
-                    <th>SETTLEMENT</th>
-                    <th>HOURS (LOCAL)</th>
-                    <th>SHORT SELLING & TAXES</th>
+                    <th onclick="sortTable(0, 'matrix-table')">MARKET ▼▲</th>
+                    <th onclick="sortTable(1, 'matrix-table')">CURRENCY ▼▲</th>
+                    <th onclick="sortTable(2, 'matrix-table')">BOARD LOT ▼▲</th>
+                    <th onclick="sortTable(3, 'matrix-table')">PRICE LIMITS / CIRCUIT BREAKERS ▼▲</th>
+                    <th onclick="sortTable(4, 'matrix-table')">AUCTION DYNAMICS & TIMING ▼▲</th>
+                    <th onclick="sortTable(5, 'matrix-table')">OFF-EXCHANGE & DARK LIQUIDITY ▼▲</th>
+                    <th onclick="sortTable(6, 'matrix-table')">SETTLEMENT ▼▲</th>
+                    <th onclick="sortTable(7, 'matrix-table')">HOURS (LOCAL) ▼▲</th>
+                    <th onclick="sortTable(8, 'matrix-table')">SHORT SELLING & TAXES ▼▲</th>
                 </tr>
             </thead>
             <tbody>
@@ -333,6 +421,116 @@
                     <td>09:00–12:00<br>13:00–17:00</td>
                     <td>Covered shorting + reporting.<br>No Stamp Duty.</td>
                 </tr>
+                <tr>
+                    <td class="mkt-code">TWSE<br><small style="color:var(--text-muted)">Taiwan</small></td>
+                    <td>TWD (NT$)</td>
+                    <td>1,000 shares</td>
+                    <td>Strict ±10% Daily Price Limit</td>
+                    <td>Pre-Open: 08:30–09:00 (5-min continuous call info preview)<br>Close: 13:25–13:30 (5-min batch auction session)<br>Vol: ~8–12% at close</td>
+                    <td>Off-exchange dark liquidity virtually non-existent. Block trading system operated directly by TWSE during paired auction sessions.</td>
+                    <td>T+2</td>
+                    <td>09:00–13:30 NST</td>
+                    <td>SBL quota limits.<br>0.3% Transaction Tax (Seller).</td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">NZX<br><small style="color:var(--text-muted)">New Zealand</small></td>
+                    <td>NZD ($)</td>
+                    <td>1 share</td>
+                    <td>Dynamic Price Bands</td>
+                    <td>Pre-Open: 09:00–10:00 (Random auctions within 10:00)<br>Close: 16:45–17:00 (Random close +16:59)<br>Vol: ~16–20% open/close</td>
+                    <td>Off-market negotiated trades allowed via registered participants; must be reported to NZX within regulatory window.</td>
+                    <td>T+2</td>
+                    <td>10:00–16:45 NZST</td>
+                    <td>Covered shorting permitted.<br>No Stamp Duty.</td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">NSE<br><small style="color:var(--text-muted)">India</small></td>
+                    <td>INR (₹)</td>
+                    <td>1 share</td>
+                    <td>Dynamic Bands (10%, 15%, 20%)</td>
+                    <td>Pre-Open: 09:00–09:15 (Uncrossing session)<br>Close: 15:30–16:00 (VWAP execution session post-session)<br>Vol: ~5–10% open/close</td>
+                    <td>Dark pools strictly prohibited by SEBI. Off-exchange trading is prohibited; all institutional volume must pass through Central Order Book or designated NSE block windows.</td>
+                    <td>T+1 / T+0</td>
+                    <td>09:15–15:30 IST</td>
+                    <td>No Naked Shorting.<br>0.1% STT (Delivery B/S).</td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">KRX<br><small style="color:var(--text-muted)">South Korea</small></td>
+                    <td>KRW (₩)</td>
+                    <td>1 share</td>
+                    <td>±30% Limit + Dynamic CBs</td>
+                    <td>Pre-Open: 08:30–09:00<br>Close: 15:20–15:30 (10-min batch call auction)<br>Vol: ~12–18% open/close combined</td>
+                    <td>Dark pools heavily constrained. Off-floor cross trades managed via K-Blox books or cleared through official KSD regular market hours.</td>
+                    <td>T+2</td>
+                    <td>09:00–15:30 KST</td>
+                    <td>Strict regulatory bans.<br>0.18% CTT (Seller).</td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">SSE<br><small style="color:var(--text-muted)">Mainland China</small></td>
+                    <td>CNY (¥) / CNH</td>
+                    <td>100 shares</td>
+                    <td>±10% Daily Limit (±20% STAR)</td>
+                    <td>Pre-Open: 09:15–09:25 (09:20–09:25 order cancel restricted)<br>Close: 14:57–15:00 (3-min call auction)<br>Vol: ~5–8% close</td>
+                    <td>Dark pools and OTC internalisers strictly illegal. Large transactions must use exchange Block Trading System (after 15:00).</td>
+                    <td>T+1 / T+0</td>
+                    <td>09:30–11:30<br>13:00–15:00</td>
+                    <td>Strict margin shorting.<br>0.05% Stamp Duty (Seller).</td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">SZSE<br><small style="color:var(--text-muted)">Mainland China</small></td>
+                    <td>CNY (¥) / CNH</td>
+                    <td>100 shares</td>
+                    <td>±10% Daily Limit (±20% ChiNext)</td>
+                    <td>Pre-Open: 09:15–09:25 (09:20–09:25 order cancel restricted)<br>Close: 14:57–15:00 (3-min call auction)<br>Vol: ~6–9% close</td>
+                    <td>Dark pools strictly prohibited. All liquidity must be displayed to Central Order Books or cleared through official SZSE block trading facilities.</td>
+                    <td>T+1 / T+0</td>
+                    <td>09:30–11:30<br>13:00–15:00</td>
+                    <td>Strict margin shorting.<br>0.05% Stamp Duty (Seller).</td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">BURSA<br><small style="color:var(--text-muted)">Malaysia</small></td>
+                    <td>MYR (RM)</td>
+                    <td>100 shares</td>
+                    <td>±30% or ±30 sen daily limit</td>
+                    <td>Pre-Open: 08:30–09:00 (Random uncross 08:59–09:00)<br>Close: 16:45–16:50 (Random close 16:49–16:50)<br>Vol: ~8–12% open/close</td>
+                    <td>Direct Business Trades (DBT) allowed for off-market crossings with reporting to exchange within 15 minutes of trade execution.</td>
+                    <td>T+2</td>
+                    <td>09:00–12:30<br>14:30–17:00</td>
+                    <td>Regulated Short Selling (RSS).<br>0.1% Stamp Duty (Max RM 1,000).</td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">IDX<br><small style="color:var(--text-muted)">Indonesia</small></td>
+                    <td>IDR (Rp)</td>
+                    <td>100 shares</td>
+                    <td>Auto Rejection (±20% to ±35%)</td>
+                    <td>Pre-Open: 08:45–08:55 (LQ45 only)<br>Close: 15:50–16:00 (Random uncross 15:58–16:00)<br>Vol: ~7–11% open/close</td>
+                    <td>Off-exchange crossing permitted on Negotiated Board (Pasar Negosiasi) with immediate automated reporting to IDX. No independent dark pools.</td>
+                    <td>T+2</td>
+                    <td>09:00–12:00<br>13:30–16:00</td>
+                    <td>Restricted margin list.<br>0.1% Final Income Tax on sale.</td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">PSE<br><small style="color:var(--text-muted)">Philippines</small></td>
+                    <td>PHP (₱)</td>
+                    <td>100 shares</td>
+                    <td>+50% Ceiling / -40% Floor limit</td>
+                    <td>Pre-Open: 09:00–09:30 (No order cancellation 09:15–09:30)<br>Close: 14:45–14:50 (Run-off price at 14:50–15:00)<br>Vol: ~8–10% open/close</td>
+                    <td>No private dark pools. Block trades permitted off-book subject to prior approval from the Philippine Stock Exchange.</td>
+                    <td>T+2</td>
+                    <td>09:30–12:00<br>13:00–15:00</td>
+                    <td>Strictly regulated shorting list.<br>0.6% Stock Transaction Tax.</td>
+                </tr>
+                <tr>
+                    <td class="mkt-code">VSE<br><small style="color:var(--text-muted)">Vietnam</small></td>
+                    <td>VND (₫)</td>
+                    <td>100 shares</td>
+                    <td>±7% HOSE / ±10% HNX daily limit</td>
+                    <td>Pre-Open (ATO): 09:00–09:15 (HOSE only)<br>Close (ATC): 14:30–14:45 (HOSE & HNX)<br>Vol: ~10–15% at close</td>
+                    <td>Dark pools unavailable. Put-through (negotiated) market available directly on exchange system for large lot transactions.</td>
+                    <td>T+2</td>
+                    <td>09:00–11:30<br>13:00–15:00</td>
+                    <td>Restricted / Margin capped.<br>0.1% Income Tax on sales.</td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -345,7 +543,7 @@
     <div class="insights-grid">
         <div class="insight-card">
             <h4>🌊 Retail vs. Institutional Execution Dynamics</h4>
-            <p style="margin:0; color:var(--text-muted);">Retail dominance in Vietnam (85%), China (75-82%), and South Korea (65%) introduces significant intraday momentum sweeps and order imbalances. Conversely, HKEX, JPX, and ASX feature heavy international algorithmic and dark pool execution.</p>
+            <p style="margin:0; color:var(--text-muted);">Retail dominance in Vietnam (88%), China (75-82%), and South Korea (65%) introduces significant intraday momentum sweeps and order imbalances. Conversely, HKEX, JPX, and ASX feature heavy international algorithmic and dark pool execution.</p>
         </div>
         <div class="insight-card">
             <h4>⚡ Accelerated Settlement Velocity</h4>
@@ -376,12 +574,22 @@
             const tbody = table.querySelector('tbody');
             const rows = Array.from(tbody.querySelectorAll('tr'));
             
-            const isAsc = table.getAttribute(`data-sort-dir-${colIndex}`) !== 'asc';
+            const currentDir = table.getAttribute(`data-sort-dir-${colIndex}`);
+            const isAsc = currentDir !== 'asc';
 
             rows.sort((a, b) => {
-                const textA = a.cells[colIndex].innerText.trim().toLowerCase();
-                const textB = b.cells[colIndex].innerText.trim().toLowerCase();
-                return isAsc ? textA.localeCompare(textB) : textB.localeCompare(textA);
+                const cellA = a.cells[colIndex] ? a.cells[colIndex].innerText.trim().toLowerCase() : '';
+                const cellB = b.cells[colIndex] ? b.cells[colIndex].innerText.trim().toLowerCase() : '';
+                
+                // Numeric sort fallback if applicable
+                const numA = parseFloat(cellA.replace(/[^0-9.-]+/g, ""));
+                const numB = parseFloat(cellB.replace(/[^0-9.-]+/g, ""));
+
+                if (!isNaN(numA) && !isNaN(numB) && !cellA.includes('%') && !cellA.includes('t+')) {
+                    return isAsc ? numA - numB : numB - numA;
+                }
+
+                return isAsc ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
             });
 
             table.setAttribute(`data-sort-dir-${colIndex}`, isAsc ? 'asc' : 'desc');
