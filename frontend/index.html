@@ -3,531 +3,1090 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APAC Liquidity & Market Microstructure Hub</title>
+    <title>APAC Stock Exchange Microstructure & Regulatory Ledger</title>
+
+    <!-- Vis.js Timeline CSS -->
+    <link href="https://unpkg.com/vis-timeline/styles/vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css" />
 
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background-color: #000000; color: #f1f5f9; padding: 40px 24px; margin: 0; line-height: 1.5; }
-        .container { max-width: 1600px; margin: 0 auto; }
-        
-        /* Header Area */
-        .header-area { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid #1e293b; padding-bottom: 24px; }
-        .header-right-group { display: flex; gap: 12px; align-items: center; }
-        
-        h1 { color: #3b82f6; margin: 0 0 8px 0; font-size: 26px; font-weight: 700; }
-        .subtitle { color: #94a3b8; margin: 0; font-size: 14px; }
-        .agent-status-panel { background-color: #0f172a; border: 1px solid #1e293b; padding: 12px 18px; border-radius: 6px; font-size: 13px; color: #e2e8f0; }
-        
-        /* Navigation Button */
-        .nav-btn {
-            background-color: #3b82f6;
-            color: #ffffff;
-            border: none;
-            padding: 12px 18px;
+        :root {
+            --bg-color: #05070d;
+            --card-bg: #0b0e17;
+            --border-color: #1a2234;
+            --table-header-bg: #0f1523;
+            --table-row-hover: #131b2e;
+            --text-main: #e2e8f0;
+            --text-muted: #64748b;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --badge-dev-bg: #1e1b4b;
+            --badge-dev-text: #a5b4fc;
+            --badge-emg-bg: #31124b;
+            --badge-emg-text: #f0abfc;
+            --new-tag-bg: #065f46;
+            --new-tag-text: #6ee7b7;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin: 0;
+            padding: 24px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .title-area h1 {
+            margin: 0 0 6px 0;
+            font-size: 1.6rem;
+            color: #60a5fa;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-action {
+            background: #0f172a;
+            color: #60a5fa;
+            border: 1px solid #1e3a8a;
             border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-decoration: none;
             cursor: pointer;
-            transition: background-color 0.15s ease;
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            text-decoration: none;
+            transition: all 0.2s ease;
         }
-        .nav-btn:hover { background-color: #2563eb; }
 
-        /* Controls Bar */
-        .controls-bar { display: flex; justify-content: space-between; align-items: center; background-color: #0f172a; border: 1px solid #1e293b; padding: 12px 16px; border-radius: 6px; margin-bottom: 30px; gap: 16px; flex-wrap: wrap; }
-        .search-wrapper { position: relative; flex-grow: 1; max-width: 400px; }
-        .search-wrapper input { width: 100%; background-color: #000000; border: 1px solid #1e293b; color: #ffffff; padding: 8px 12px 8px 34px; border-radius: 4px; font-size: 13px; outline: none; box-sizing: border-box; }
-        .search-wrapper::before { content: "🔍"; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; opacity: 0.5; }
+        .btn-action:hover {
+            background: #1e293b;
+            border-color: #3b82f6;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+            color: #ffffff;
+        }
 
-        /* Section Titles */
-        .section-title { font-size: 14px; font-weight: 700; margin-top: 35px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #1e293b; display: flex; align-items: center; justify-content: space-between; letter-spacing: 0.5px; }
-        .section-title.macro { color: #f59e0b; border-bottom-color: #78350f; }
-        .section-title.comparison { color: #38bdf8; border-bottom-color: #0369a1; }
-        .section-title.insights { color: #10b981; border-bottom-color: #064e3b; }
-        .row-counter { font-size: 11px; background-color: #1e293b; color: #94a3b8; padding: 2px 8px; border-radius: 10px; font-weight: normal; }
+        .status-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            text-align: right;
+        }
 
-        /* Tables */
-        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background-color: #000000; table-layout: fixed; }
-        th.sortable { cursor: pointer; user-select: none; transition: background-color 0.15s; }
-        th.sortable:hover { background-color: #1e293b; color: #ffffff; }
-        th { border: 1px solid #1e293b; text-align: left; padding: 12px 14px; font-size: 11px; background-color: #0f172a; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
-        .sort-icon { display: inline-block; margin-left: 6px; font-size: 10px; color: #475569; }
-        
-        td { border: 1px solid #1e293b; text-align: left; padding: 12px 14px; font-size: 12.5px; color: #e2e8f0; vertical-align: top; white-space: normal; line-height: 1.4; }
-        
-        .clickable-row { transition: background-color 0.15s ease; }
-        .clickable-row:hover { background-color: #0f172a !important; }
-        .clickable-row:hover td { color: #ffffff !important; }
-        .clickable-row:nth-child(2n+1) { background-color: #000000; }
-        .clickable-row:nth-child(2n) { background-color: #05070a; }
+        .status-line { margin-bottom: 4px; }
+        .status-line:last-child { margin-bottom: 0; }
+        .status-online { color: var(--accent-green); font-weight: 600; }
 
-        .td-mkt { font-weight: 700; color: #3b82f6; width: 7%; }
-        .td-country { color: #ffffff; width: 12%; font-weight: 600; }
-        .td-classification { width: 12%; }
-        .td-adt { width: 22%; }
-        .td-flow { width: 22%; }
-        .td-concentrator { width: 25%; color: #e2e8f0; font-size: 13px; line-height: 1.4; white-space: normal; }
+        .delta-banner {
+            background: linear-gradient(90deg, #064e3b 0%, #0f172a 100%);
+            border: 1px solid #059669;
+            border-radius: 8px;
+            padding: 10px 16px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        /* Badges */
-        .class-badge { display: inline-block; padding: 3px 10px; font-size: 10px; font-weight: 700; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.3px; }
-        .class-badge.developed { background-color: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
-        .class-badge.emerging { background-color: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .delta-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: #a7f3d0;
+        }
 
-        /* QoQ Indicators */
-        .qoq-tag { font-size: 11px; font-weight: 700; margin-left: 6px; }
-        .qoq-up { color: #10b981; }
-        .qoq-down { color: #ef4444; }
+        .delta-btn {
+            background: #059669;
+            color: #ffffff;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
 
-        /* Flow Bars */
-        .adt-primary { font-size: 15px; font-weight: 800; color: #ffffff; display: flex; align-items: center; }
-        .adt-usd { font-size: 11px; color: #64748b; }
-        .flow-text-container { font-size: 12px; font-weight: 700; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; }
-        .flow-ret-label { color: #f59e0b; }
-        .flow-inst-label { color: #38bdf8; }
-        .flow-bar-wrapper { width: 100%; height: 6px; background-color: #1e293b; border-radius: 3px; display: flex; overflow: hidden; margin-bottom: 4px; }
-        .flow-bar-ret { height: 100%; background-color: #f59e0b; }
-        .flow-bar-inst { height: 100%; background-color: #38bdf8; }
+        .delta-btn:hover { background: #10b981; }
 
-        /* Flipped 14-Market Characteristics Table Column Sizing */
-        .comp-table-flipped th:nth-child(1) { width: 7%; }  /* Market */
-        .comp-table-flipped th:nth-child(2) { width: 7%; }  /* Currency */
-        .comp-table-flipped th:nth-child(3) { width: 10%; } /* Board Lot */
-        .comp-table-flipped th:nth-child(4) { width: 13%; } /* Price Limits */
-        .comp-table-flipped th:nth-child(5) { width: 15%; } /* Auction Dynamics */
-        .comp-table-flipped th:nth-child(6) { width: 16%; } /* Dark & Off-Exchange */
-        .comp-table-flipped th:nth-child(7) { width: 6%; }  /* Settlement */
-        .comp-table-flipped th:nth-child(8) { width: 11%; } /* Hours */
-        .comp-table-flipped th:nth-child(9) { width: 15%; } /* Short Selling & Taxes */
+        .controls-wrapper {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
 
-        .comp-table-flipped td:first-child { font-weight: 700; color: #3b82f6; }
+        .search-container {
+            position: relative;
+            flex-grow: 1;
+        }
 
-        /* Card Grid */
-        .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 30px; }
-        .insight-card { background-color: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 18px 20px; }
-        .insight-card h3 { margin: 0 0 10px 0; font-size: 14px; color: #38bdf8; display: flex; align-items: center; gap: 8px; }
-        .insight-card p { margin: 0; font-size: 13px; color: #cbd5e1; line-height: 1.6; }
+        .search-input {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px 14px 10px 38px;
+            color: var(--text-main);
+            font-size: 0.875rem;
+            box-sizing: border-box;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .time-filter-select {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 6px;
+            padding: 0 14px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .time-filter-select:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            margin-top: 24px;
+        }
+
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pipeline-title { color: #f59e0b; }
+        .historical-title { color: var(--accent-green); }
+        .roadmap-title { color: #60a5fa; }
+
+        .entry-count-badge {
+            background: #1e293b;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        #visualization {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 24px;
+        }
+
+        .vis-timeline {
+            border: none !important;
+            font-family: inherit !important;
+            background: transparent !important;
+        }
+
+        .vis-item {
+            border-radius: 4px !important;
+            font-size: 0.75rem !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            border-width: 1px !important;
+        }
+
+        .vis-item.high-impact { background-color: #7f1d1d !important; border-color: #fca5a5 !important; }
+        .vis-item.med-impact { background-color: #7c2d12 !important; border-color: #fdba74 !important; }
+        .vis-item.low-impact { background-color: #064e3b !important; border-color: #6ee7b7 !important; }
+
+        .vis-time-axis .vis-text { color: var(--text-muted) !important; }
+        .vis-grid.vis-minor, .vis-grid.vis-major { border-color: #1a2234 !important; }
+
+        .table-wrapper {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        th {
+            background: var(--table-header-bg);
+            color: var(--text-muted);
+            font-weight: 600;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            user-select: none;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            transition: color 0.15s ease, background-color 0.15s ease;
+        }
+
+        th:hover { 
+            color: #60a5fa; 
+            background-color: #131b2e;
+        }
+
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        tr.clickable-row {
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+        }
+
+        tr.clickable-row:hover { background-color: var(--table-row-hover); }
+
+        .mkt-code { 
+            color: #60a5fa; 
+            font-weight: 700; 
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+        .mkt-code:hover { color: #93c5fd; }
+
+        .source-link {
+            color: #38bdf8;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #0f172a;
+            border: 1px solid #1e3a8a;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .source-link:hover {
+            background: #1e293b;
+            color: #38bdf8;
+            border-color: #38bdf8;
+        }
+
+        .badge-dev { background: var(--badge-dev-bg); color: var(--badge-dev-text); padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
+        .badge-emg { background: var(--badge-emg-bg); color: var(--badge-emg-text); padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
+        .tag-new { background: var(--new-tag-bg); color: var(--new-tag-text); font-size: 0.65rem; font-weight: 800; padding: 1px 5px; border-radius: 3px; }
+
+        .badge-impact-high { background: #450a0a; color: #fca5a5; border: 1px solid #991b1b; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; }
+        .badge-impact-med { background: #451a03; color: #fdba74; border: 1px solid #9a3412; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; }
+        .badge-impact-low { background: #064e3b; color: #6ee7b7; border: 1px solid #065f46; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; }
+
+        .eta-container { display: flex; flex-direction: column; gap: 3px; }
+        .eta-countdown { color: var(--accent-blue); font-size: 0.75rem; font-weight: 600; }
+
+        .arrow-btn { color: var(--text-muted); font-size: 0.8rem; text-align: center; }
+
+        .details-row { display: none; background-color: #070a12; }
+        .details-row td { padding: 14px 20px; border-bottom: 1px solid var(--border-color); }
+        .details-card { background: #0d121f; border: 1px solid #1e293b; border-radius: 6px; padding: 14px; color: #cbd5e1; font-size: 0.82rem; line-height: 1.5; }
+        .details-card h4 { margin: 0 0 8px 0; color: #60a5fa; font-size: 0.85rem; }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(3, 5, 10, 0.85);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: 1.3rem;
+            color: #60a5fa;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-modal-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .close-modal-btn:hover { color: #ffffff; }
+
+        .exchange-selector {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .exchange-chip {
+            background: #10172a;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .exchange-chip.active, .exchange-chip:hover {
+            background: #1e3a8a;
+            border-color: #3b82f6;
+            color: #ffffff;
+        }
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header-area">
+
+    <header class="header-container">
+        <div class="title-area">
+            <h1>APAC Stock Exchange Change Microstructure</h1>
+            <p>Automated structural change logging repository covering all 14 primary APAC markets.</p>
+        </div>
+        <div class="header-right">
+            <button class="btn-action" onclick="openDeltaFeedModal()">⚡ What's New Feed</button>
+            <button class="btn-action" onclick="openDrilldownModal()">🏛️ Drilldown by Exchange</button>
+            <!-- Same window link -->
+            <a href="https://chitat73.github.io/microstructure-agent/frontend/index.html" class="btn-action">
+                ⚡ Markets microstructure ↗
+            </a>
+            <div class="status-box">
+                <div class="status-line">⚡ Agent Status: <span class="status-online">• ONLINE</span></div>
+                <div class="status-line" id="last-sync-display">💻 Last Sync Check: Loading...</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="delta-banner">
+        <div class="delta-info">
+            <span>✨ <strong>What's New Feed:</strong> <span id="delta-count-text">Loading updates...</span></span>
+        </div>
+        <button class="delta-btn" onclick="openDeltaFeedModal()">View Delta Feed ↗</button>
+    </div>
+
+    <div class="controls-wrapper">
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="filter-input" class="search-input" placeholder="Filter ledger across all 14 APAC markets by exchange, country, impact or keyword..." onkeyup="applyFilters()">
+        </div>
+
+        <select id="time-window-select" class="time-filter-select" onchange="applyFilters()">
+            <option value="ALL">📅 All Time Windows</option>
+            <option value="Q3-2026">Q3 2026</option>
+            <option value="Q4-2026">Q4 2026</option>
+            <option value="H1-2027">H1 2027</option>
+            <option value="H2-2027">H2 2027</option>
+        </select>
+    </div>
+
+    <div class="section-header">
+        <div class="section-title roadmap-title">
+            <span>📊 ALL-APAC REGULATORY & MICROSTRUCTURE ROADMAP (GANTT VIEW)</span>
+        </div>
+    </div>
+    <div id="visualization"></div>
+
+    <div class="section-header">
+        <div class="section-title pipeline-title">
+            <span>⌛ UPCOMING CHANGES / PIPELINE</span>
+        </div>
+        <span class="entry-count-badge" id="pipeline-count">0 Entries</span>
+    </div>
+
+    <div class="table-wrapper">
+        <table id="pipeline-table">
+            <thead>
+                <tr>
+                    <th onclick="sortTable('pipeline', 'mkt')">MKT <span id="sort-pipeline-mkt">▼▲</span></th>
+                    <th onclick="sortTable('pipeline', 'country')">COUNTRY <span id="sort-pipeline-country">▼▲</span></th>
+                    <th onclick="sortTable('pipeline', 'class')">CLASSIFICATION <span id="sort-pipeline-class">▼▲</span></th>
+                    <th onclick="sortTable('pipeline', 'title')">STRUCTURE INITIATIVE / REGULATORY DESCRIPTION <span id="sort-pipeline-title">▼▲</span></th>
+                    <th onclick="sortTable('pipeline', 'startDate')">EFFECTIVE DATE / ETA <span id="sort-pipeline-startDate">▼▲</span></th>
+                    <th onclick="sortTable('pipeline', 'segment')">MARKET SEGMENT <span id="sort-pipeline-segment">▼▲</span></th>
+                    <th>EXCHANGE CIRCULAR / SOURCE</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="pipeline-body"></tbody>
+        </table>
+    </div>
+
+    <div class="section-header">
+        <div class="section-title historical-title">
+            <span>✅ COMPLETED / IMPLEMENTED HISTORICAL</span>
+        </div>
+        <span class="entry-count-badge" id="historical-count">0 Entries</span>
+    </div>
+
+    <div class="table-wrapper">
+        <table id="historical-table">
+            <thead>
+                <tr>
+                    <th onclick="sortTable('historical', 'mkt')">MKT <span id="sort-historical-mkt">▼▲</span></th>
+                    <th onclick="sortTable('historical', 'country')">COUNTRY <span id="sort-historical-country">▼▲</span></th>
+                    <th onclick="sortTable('historical', 'class')">CLASSIFICATION <span id="sort-historical-class">▼▲</span></th>
+                    <th onclick="sortTable('historical', 'title')">STRUCTURE INITIATIVE / REGULATORY DESCRIPTION <span id="sort-historical-title">▼▲</span></th>
+                    <th onclick="sortTable('historical', 'startDate')">EFFECTIVE DATE / ETA <span id="sort-historical-startDate">▼▲</span></th>
+                    <th onclick="sortTable('historical', 'segment')">MARKET SEGMENT <span id="sort-historical-segment">▼▲</span></th>
+                    <th>EXCHANGE CIRCULAR / SOURCE</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="historical-body"></tbody>
+        </table>
+    </div>
+
+    <div id="drilldown-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-exchange-title">🏛️ Exchange Focus View</h3>
+                <button class="close-modal-btn" onclick="closeDrilldownModal()">✕</button>
+            </div>
+
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">Select Venue to Drilldown:</div>
+            <div class="exchange-selector" id="exchange-chip-container"></div>
+
+            <div style="margin-top: 16px;">
+                <h4 style="color: #60a5fa; font-size: 0.85rem; margin-bottom: 8px;">VENUE GANTT TIMELINE</h4>
+                <div id="modal-visualization" style="background: #080c14; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; margin-bottom: 16px;"></div>
+            </div>
+
             <div>
-                <h1>APAC Liquidity & Market Microstructure Hub</h1>
-                <p class="subtitle">Real-time venue dynamics, execution TCA, and market characteristic analysis.</p>
-            </div>
-            
-            <div class="header-right-group">
-                <!-- Direct Same-Window Link Button -->
-                <button class="nav-btn" onclick="window.location.href='https://chitat73.github.io/asia-microstructure-tracker/'">
-                    Exchange Changes
-                </button>
-                <div class="agent-status-panel">
-                    🤖 Agent Status: <span style="color: #10b981; font-weight: bold;" id="agent-net-status">● ONLINE</span><br>
-                    📅 Last Sync Check: <strong id="agent-timestamp">Aug 06, 2026 14:50 HKT</strong>
-                </div>
-            </div>
-        </div>
-
-        <!-- Filter Bar -->
-        <div class="controls-bar">
-            <div class="search-wrapper">
-                <input type="text" id="masterSearch" oninput="applyFilters()" placeholder="Filter all tables by code, country, sector, or rules..." autocomplete="off">
-            </div>
-        </div>
-
-        <!-- Section 1: Regional Macro Table -->
-        <div class="section-title macro">
-            <span>⌛ APAC REGIONAL MACRO TURNOVER (CLICK HEADERS TO SORT)</span>
-            <span class="row-counter" id="macro-count">0 Records</span>
-        </div>
-        <div id="macro-container">
-            <table id="macro-table">
-                <thead>
-                    <tr>
-                        <th class="sortable td-mkt" onclick="sortMacroTable('code', this)">MKT<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-country" onclick="sortMacroTable('country', this)">Country<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-classification" onclick="sortMacroTable('classification', this)">Classification<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-adt" onclick="sortMacroTable('parsed_turnover_usd', this)">TURNOVER (LOCAL / USD Equiv)<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-flow" onclick="sortMacroTable('parsed_retail_pct', this)">FLOW SPLIT (RET / INST)<span class="sort-icon">▼▲</span></th>
-                        <th class="td-concentrator">Core Liquidity Concentrator & Microstructure</th>
-                    </tr>
-                </thead>
-                <tbody id="macro-body"></tbody>
-            </table>
-        </div>
-
-        <!-- Section 2: ALL 14 APAC Markets Microstructure Matrix (Expanded) -->
-        <div class="section-title comparison">
-            <span>📊 ALL 14 APAC MARKETS MICROSTRUCTURE CHARACTERISTICS MATRIX</span>
-            <span class="row-counter" id="matrix-count">14 Markets Visible</span>
-        </div>
-        
-        <div>
-            <table class="comp-table-flipped">
-                <thead>
-                    <tr>
-                        <th>Market</th>
-                        <th>Currency</th>
-                        <th>Board Lot</th>
-                        <th>Price Limits / Circuit Breakers</th>
-                        <th>Auction Dynamics & Timing</th>
-                        <th>Off-Exchange & Dark Liquidity</th>
-                        <th>Settlement</th>
-                        <th>Hours (Local)</th>
-                        <th>Short Selling & Taxes</th>
-                    </tr>
-                </thead>
-                <tbody id="matrix-body">
-                    <tr class="clickable-row" data-search="hkex hong kong hkd rmb random close cas open close dark pool center point crossing internalisation">
-                        <td>HKEX<br><span style="font-size:11px; color:#94a3b8;">Hong Kong</span></td>
-                        <td>HKD<br><span style="font-size:10px; color:#64748b;">RMB Dual</span></td>
-                        <td>Variable (100–1,000)</td>
-                        <td>VCM (±10% dynamic band)</td>
-                        <td><strong>Pre-Open:</strong> 09:00–09:30<br><strong>CAS Close:</strong> 16:00–16:10 (Random close 16:08–16:10)<br><strong>Vol:</strong> ~12–18% open/close combined</td>
-                        <td>Alternative Liquidity Providers (ALPs) operating under strict Code of Conduct. Mandatory post-trade reporting for manual crosses within 15 mins.</td>
-                        <td>T+2</td>
-                        <td>09:30–12:00<br>13:00–16:00</td>
-                        <td>Designated list; tick rule.<br>0.1% Stamp Duty (B/S).</td>
-                    </tr>
-                    <tr class="clickable-row" data-search="asx australia aud centre point dark pool block trade uncrossing random close trade match">
-                        <td>ASX<br><span style="font-size:11px; color:#94a3b8;">Australia</span></td>
-                        <td>AUD ($)</td>
-                        <td>1 share</td>
-                        <td>Extreme Trade Range (ETR) bands</td>
-                        <td><strong>Pre-Open:</strong> 07:00–10:00 (Batch uncross grouped by alphabet 10:00±15s)<br><strong>Close:</strong> 16:00–16:12 (Random close 16:10±60s)<br><strong>Vol:</strong> ~20–25% total day</td>
-                        <td>Active dark ecosystem. ASX Centre Point (mid-point execution) & Cboe Australia. High threshold block trade exemptions for off-market crosses.</td>
-                        <td>T+2</td>
-                        <td>10:00–16:00 AEST</td>
-                        <td>Covered short selling + reporting.<br>No Stamp Duty.</td>
-                    </tr>
-                    <tr class="clickable-row" data-search="jpx japan jpy tostnet dark liquidity proprietary trading systems pts itau uncrossing closing auction">
-                        <td>JPX<br><span style="font-size:11px; color:#94a3b8;">Japan</span></td>
-                        <td>JPY (¥)</td>
-                        <td>100 shares</td>
-                        <td>Static limits + Dynamic reference bands</td>
-                        <td><strong>Pre-Open:</strong> 08:00–09:00<br><strong>Closing Auction:</strong> 15:25–15:30 JST (Introduced Nov 2024)<br><strong>Vol:</strong> ~15–22% at open/close</td>
-                        <td>ToSTNeT off-floor trading network widely used for VWAP/basket trades. PTS venues (Cboe Japan, Japannext) capture ~10-15% market share.</td>
-                        <td>T+2</td>
-                        <td>09:00–11:30<br>12:30–15:30</td>
-                        <td>Uptick rule on margin.<br>No Stamp Duty.</td>
-                    </tr>
-                    <tr class="clickable-row" data-search="sgx singapore sgd usd alpha capture dark pool internalisation uncrossing random close">
-                        <td>SGX<br><span style="font-size:11px; color:#94a3b8;">Singapore</span></td>
-                        <td>SGD ($) / USD</td>
-                        <td>100 shares</td>
-                        <td>Dynamic Circuit Breakers (±10%)</td>
-                        <td><strong>Pre-Open:</strong> 08:30–08:59 (Random uncross 08:58–08:59)<br><strong>Close:</strong> 17:00–17:16 (Random close 17:05–17:06)<br><strong>Vol:</strong> ~10–14% open/close</td>
-                        <td>Off-exchange married trades allowed with immediate electronic reporting. Non-displayed liquidity pools operate via specialized broker dark nodes.</td>
-                        <td>T+2</td>
-                        <td>09:00–12:00<br>13:00–17:00</td>
-                        <td>Covered shorting + reporting.<br>No Stamp Duty.</td>
-                    </tr>
-                    <tr class="clickable-row" data-search="twse taiwan twd call auction batch auction block trading off exchange non displayed">
-                        <td>TWSE<br><span style="font-size:11px; color:#94a3b8;">Taiwan</span></td>
-                        <td>TWD (NT$)</td>
-                        <td>1,000 shares</td>
-                        <td>Strict ±10% Daily Price Limit</td>
-                        <td><strong>Pre-Open:</strong> 08:30–09:00 (5-min continuous call info preview)<br><strong>Close:</strong> 13:25–13:30 (5-min batch auction uncross)<br><strong>Vol:</strong> ~8–12% at close</td>
-                        <td>Off-exchange dark liquidity strictly restricted. Block trading systems operated directly by TWSE during paired session windows.</td>
-                        <td>T+2</td>
-                        <td>09:00–13:30 NST</td>
-                        <td>SBL quota limits.<br>0.3% Transaction Tax (Seller).</td>
-                    </tr>
-                    <tr class="clickable-row" data-search="nzx new zealand nzd match period pre open closing call auction off exchange">
-                        <td>NZX<br><span style="font-size:11px; color:#94a3b8;">New Zealand</span></td>
-                        <td>NZD ($)</td>
-                        <td>1 share</td>
-                        <td>Dynamic Price Bands</td>
-                        <td><strong>Pre-Open:</strong> 09:00–10:00 (Random uncross within 10:00)<br><strong>Close:</strong> 16:45–17:00 (Random close ~16:55)<br><strong>Vol:</strong> ~15–20% open/close</td>
-                        <td>Off-market negotiated trades allowed via registered participants; must be reported to NZX within regulatory window.</td>
-                        <td>T+2</td>
-                        <td>10:00–16:45 NZST</td>
-                        <td>Covered shorting permitted.<br>No Stamp Duty.</td>
-                    </tr>
-                    <tr class="clickable-row" data-search="nse india inr pre open call auction post closing session dark pool internalization block window">
-                        <td>NSE<br><span style="font-size:11px; color:#94a3b8;">India</span></td>
-                        <td>INR (₹)</td>
-                        <td>1 share</td>
-                        <td>Dynamic Bands (10%, 15%, 20%)</td>
-                        <td><strong>Pre-Open:</strong> 09:00–09:15 (Uncross 09:08–09:12)<br><strong>Close:</strong> 15:30–15:40 (VWAP execution session post-uncross)<br><strong>Vol:</strong> ~5–10% open/close</td>
-                        <td>Dark pools strictly prohibited by SEBI. Off-exchange trading restricted; all institutional volume must pass through lit central book or designated NSE block windows.</td>
-                        <td>T+1 / T+0</td>
-                        <td>09:15–15:30 IST</td>
-                        <td>No Naked Shorting.<br>0.1% STT (Delivery B/S).</td>
-                    </tr>
-                    <tr class="clickable-row" data-search="krx south korea krw batch auction pre open call random end dark pool internalisation">
-                        <td>KRX<br><span style="font-size:11px; color:#94a3b8;">South Korea</span></td>
-                        <td>KRW (₩)</td>
-                        <td>1 share</td>
-                        <td>±30% Limit + Dynamic CBs</td>
-                        <td><strong>Pre-Open:</strong> 08:30–09:00<br><strong>Close:</strong> 15:20–15:30 (10-min batch call auction)<br><strong>Vol:</strong> ~12–16% open/close combined</td>
-                        <td>Dark pools heavily constrained. Off-floor cross trades managed via KRX Block Trading system (K-Blox) pre/post regular market hours.</td>
-                        <td>T+2</td>
-                        <td>09:00–15:30 KST</td>
-                        <td>Strict regulatory bans.<br>0.18% STT (Seller).</td>
-                    </tr>
-                    <tr class="clickable-row" data-search="sse mainland china cny cnh call auction pre open close dark pool internalization forbidden block trading">
-                        <td>SSE<br><span style="font-size:11px; color:#94a3b8;">Mainland China</span></td>
-                        <td>CNY (¥) / CNH</td>
-                        <td>100 shares</td>
-                        <td>±10% Daily Limit (±20% STAR)</td>
-                        <td><strong>Pre-Open:</strong> 09:15–09:25 (09:20–09:25 order cancel restricted)<br><strong>Close:</strong> 14:57–15:00 (3-min call auction)<br><strong>Vol:</strong> ~5–8% close</td>
-                        <td>Dark pools and OTC internalisation strictly illegal. Large transactions must use exchange-regulated Block Trading System (after 15:00).</td>
-                        <td>T+1 / T+0</td>
-                        <td>09:30–11:30<br>13:00–15:00</td>
-                        <td>Strict margin shorting.<br>0.05% Stamp Duty (Seller).</td>
-                    </tr>
-                    <tr class="clickable-row" data-search="szse mainland china cny cnh call auction chinext dark pool internalisation block trading">
-                        <td>SZSE<br><span style="font-size:11px; color:#94a3b8;">Mainland China</span></td>
-                        <td>CNY (¥) / CNH</td>
-                        <td>100 shares</td>
-                        <td>±10% Daily Limit (±20% ChiNext)</td>
-                        <td><strong>Pre-Open:</strong> 09:15–09:25 (09:20–09:25 no cancels)<br><strong>Close:</strong> 14:57–15:00 (3-min call auction)<br><strong>Vol:</strong> ~6–9% close</td>
-                        <td>Dark pools strictly prohibited. All liquidity must be displayed in lit order books or cleared through official SZSE block trading facilities.</td>
-                        <td>T+1 / T+0</td>
-                        <td>09:30–11:30<br>13:00–15:00</td>
-                        <td>Strict margin shorting.<br>0.05% Stamp Duty (Seller).</td>
-                    </tr>
-                    <tr class="clickable-row" data-search="bursa malaysia myr call auction pre open pre close random end dark liquidity direct business trades">
-                        <td>BURSA<br><span style="font-size:11px; color:#94a3b8;">Malaysia</span></td>
-                        <td>MYR (RM)</td>
-                        <td>100 shares</td>
-                        <td>±30% or ±30 sen daily limit</td>
-                        <td><strong>Pre-Open:</strong> 08:30–09:00 (Random uncross 08:59–09:00)<br><strong>Close:</strong> 16:45–16:50 (Random close 16:49–16:50)<br><strong>Vol:</strong> ~8–12% open/close</td>
-                        <td>Direct Business Trades (DBTs) allowed for off-market crossings with reporting to exchange within 15 minutes of trade execution.</td>
-                        <td>T+2</td>
-                        <td>09:00–12:30<br>14:30–17:00</td>
-                        <td>Regulated Short Selling list.<br>0.1% Stamp Duty (Max RM 1,000).</td>
-                    </tr>
-                    <tr class="clickable-row" data-search="idx indonesia idr pre open pre close call auction random uncross dark liquidity crossing">
-                        <td>IDX<br><span style="font-size:11px; color:#94a3b8;">Indonesia</span></td>
-                        <td>IDR (Rp)</td>
-                        <td>100 shares</td>
-                        <td>Auto-Rejection (±20% to ±35%)</td>
-                        <td><strong>Pre-Open:</strong> 08:45–08:55 (LQ45 stocks)<br><strong>Close:</strong> 15:50–16:00 (Random uncross 15:58–16:00)<br><strong>Vol:</strong> ~7–11% open/close</td>
-                        <td>Off-exchange crossing permitted on Negotiated Board (Pasar Negosiasi) with immediate automated reporting to IDX. No independent dark pools.</td>
-                        <td>T+2</td>
-                        <td>09:00–12:00<br>13:30–16:00</td>
-                        <td>Restricted margin list.<br>0.1% Final Income Tax on sale.</td>
-                    </tr>
-                    <tr class="clickable-row" data-search="pse philippines php call auction pre open run off block sales crossing">
-                        <td>PSE<br><span style="font-size:11px; color:#94a3b8;">Philippines</span></td>
-                        <td>PHP (₱)</td>
-                        <td>100 shares</td>
-                        <td>±50% Ceiling / -40% Floor limit</td>
-                        <td><strong>Pre-Open:</strong> 09:00–09:30 (No order cancellation 09:15–09:30)<br><strong>Close:</strong> 14:45–14:50 (Run-off price at 14:50–15:00)<br><strong>Vol:</strong> ~6–10% open/close</td>
-                        <td>No private dark pools. Block sales permitted off-book subject to prior approval from the Philippine Stock Exchange.</td>
-                        <td>T+2</td>
-                        <td>09:30–12:00<br>13:00–15:00</td>
-                        <td>Strictly regulated shorting list.<br>0.6% Stock Transaction Tax.</td>
-                    </tr>
-                    <tr class="clickable-row" data-search="vse vietnam vnd call auction ato atc pre open hose hnx dark liquidity block trades">
-                        <td>VSE<br><span style="font-size:11px; color:#94a3b8;">Vietnam</span></td>
-                        <td>VND (₫)</td>
-                        <td>100 shares</td>
-                        <td>±7% HOSE / ±10% HNX daily limit</td>
-                        <td><strong>Pre-Open (ATO):</strong> 09:00–09:15 (HOSE only)<br><strong>Close (ATC):</strong> 14:30–14:45 (HOSE & HNX)<br><strong>Vol:</strong> ~10–15% at close</td>
-                        <td>Dark pools unavailable. Put-through (negotiated) market available directly on exchange system for large lot transactions.</td>
-                        <td>T+2</td>
-                        <td>09:00–11:30<br>13:00–15:00</td>
-                        <td>Restricted / Margin phased.<br>0.1% Income Tax on sales.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Section 3: Microstructure Insights -->
-        <div class="section-title insights">
-            <span>⚙️ KEY APAC STRUCTURAL DIFFERENCES & MICROSTRUCTURE INSIGHTS</span>
-        </div>
-        <div class="insights-grid">
-            <div class="insight-card">
-                <h3>🌊 Retail vs. Institutional Execution Dynamics</h3>
-                <p>Retail dominance in Vietnam (88%), China (~75-82%), and South Korea (65%) introduces significant intraday momentum sweeps and order imbalances. Conversely, HKEX, JPX, and ASX feature heavy international algorithmic and dark pool execution.</p>
-            </div>
-            <div class="insight-card">
-                <h3>⏱️ Accelerated Settlement Velocity</h3>
-                <p>India leads the region with operational T+1 and instantaneous T+0 rolling settlements. China operates a unique hybrid (T+0 for equity delivery, T+1 for cash), while ASEAN and Australasia mostly maintain standard T+2 cycles.</p>
-            </div>
-            <div class="insight-card">
-                <h3>🛡️ Circuit Breakers & Liquidity Lockups</h3>
-                <p>Strict hard price limits in Taiwan (±10%), China (±10%), and Vietnam (±7%) regularly cause limit-up/limit-down trading freezes. HKEX (VCM) and NSE (Dynamic Bands) utilize brief cooling periods to allow continuous price discovery.</p>
+                <h4 style="color: #f59e0b; font-size: 0.85rem; margin-bottom: 8px;">VENUE INITIATIVES & REGULATORY TIMELINE</h4>
+                <div id="modal-initiatives-list"></div>
             </div>
         </div>
     </div>
 
+    <div id="delta-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">✨ "What's New" Delta Feed (Last 30 Days Updates)</h3>
+                <button class="close-modal-btn" onclick="closeDeltaFeedModal()">✕</button>
+            </div>
+
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0; margin-bottom: 16px;">
+                Highlights exchange regulatory announcements and microstructure updates introduced or revised over the last 14 to 30 days.
+            </p>
+
+            <div id="delta-initiatives-list"></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vis-timeline/standalone/umd/vis-timeline-graph2d.min.js"></script>
+
     <script>
-        const inputData = {
-            "last_updated": "Aug 06, 2026 14:50 HKT",
-            "network_status": "ONLINE",
-            "markets": [
-                { "code": "HKEX", "country": "Hong Kong", "classification": "DEVELOPED MKT", "turnover_local": "HK$ 283.0B", "turnover_usd": "US$ 36.2B", "turnover_qoq": "+12.4%", "retail_qoq": "-1.5%", "pillar_sector": "Financials (29.1% Cap)", "volume_concentrator": "Information Technology (42.5% Vol).", "retail_pct": "12.0%", "institutional_pct": "88.0%", "avg_spread": "1.2 - 1.8 Ticks", "slippage": "8.5 bps" },
-                { "code": "ASX", "country": "Australia", "classification": "DEVELOPED MKT", "turnover_local": "A$ 6.8B", "turnover_usd": "US$ 4.45B", "turnover_qoq": "+3.1%", "retail_qoq": "+0.4%", "pillar_sector": "Materials & Financials", "volume_concentrator": "Global Mining Giants (BHP, Rio) & Big 4 Banks.", "retail_pct": "15.0%", "institutional_pct": "85.0%", "avg_spread": "1.0 - 1.5 Ticks", "slippage": "5.1 bps" },
-                { "code": "JPX", "country": "Japan", "classification": "DEVELOPED MKT", "turnover_local": "¥ 11.6T", "turnover_usd": "US$ 74.1B", "turnover_qoq": "+8.7%", "retail_qoq": "+2.1%", "pillar_sector": "Industrial / Auto Mfg", "volume_concentrator": "Electric Appliances & Tech Equipment.", "retail_pct": "22.0%", "institutional_pct": "78.0%", "avg_spread": "1.0 - 1.3 Ticks", "slippage": "4.2 bps" },
-                { "code": "SGX", "country": "Singapore", "classification": "DEVELOPED MKT", "turnover_local": "S$ 1.8B", "turnover_usd": "US$ 1.39B", "turnover_qoq": "-2.3%", "retail_qoq": "-0.8%", "pillar_sector": "Financials (Local Banks)", "volume_concentrator": "REITs & Micro Index Derivatives.", "retail_pct": "25.0%", "institutional_pct": "75.0%", "avg_spread": "2.5 - 4.0 Ticks", "slippage": "18.0 bps" },
-                { "code": "TWSE", "country": "Taiwan", "classification": "DEVELOPED MKT", "turnover_local": "NT$ 380.0B", "turnover_usd": "US$ 11.6B", "turnover_qoq": "+15.2%", "retail_qoq": "+4.5%", "pillar_sector": "Semiconductors & Electronics", "volume_concentrator": "TSMC & Electronics Supply Chain.", "retail_pct": "55.0%", "institutional_pct": "45.0%", "avg_spread": "1.0 - 1.4 Ticks", "slippage": "5.5 bps" },
-                { "code": "NZX", "country": "New Zealand", "classification": "DEVELOPED MKT", "turnover_local": "NZ$ 0.18B", "turnover_usd": "US$ 0.11B", "turnover_qoq": "-1.1%", "retail_qoq": "0.0%", "pillar_sector": "Utilities & Healthcare", "volume_concentrator": "Defensive Infrastructure & Energy Providers.", "retail_pct": "20.0%", "institutional_pct": "80.0%", "avg_spread": "2.0 - 3.2 Ticks", "slippage": "14.0 bps" },
-                { "code": "NSE", "country": "India", "classification": "EMERGING MKT", "turnover_local": "₹ 985.0B", "turnover_usd": "US$ 11.8B", "turnover_qoq": "+18.6%", "retail_qoq": "+3.2%", "pillar_sector": "Financial Services & IT", "volume_concentrator": "Nifty Heavyweights & High-Beta Tech.", "retail_pct": "38.0%", "institutional_pct": "62.0%", "avg_spread": "0.5 - 1.0 Ticks", "slippage": "3.8 bps" },
-                { "code": "KRX", "country": "South Korea", "classification": "EMERGING MKT", "turnover_local": "₩ 19.4T", "turnover_usd": "US$ 14.1B", "turnover_qoq": "+6.4%", "retail_qoq": "-2.0%", "pillar_sector": "Semiconductors & Automobiles", "volume_concentrator": "Tech Heavyweights (Samsung, SK Hynix).", "retail_pct": "65.0%", "institutional_pct": "35.0%", "avg_spread": "1.0 - 1.4 Ticks", "slippage": "4.8 bps" },
-                { "code": "SSE", "country": "Mainland China", "classification": "EMERGING MKT", "turnover_local": "¥ 420.0B", "turnover_usd": "US$ 58.1B", "turnover_qoq": "-4.2%", "retail_qoq": "-1.1%", "pillar_sector": "Industrial & State Financials", "volume_concentrator": "Large-cap State-Owned Enterprises (SOEs).", "retail_pct": "75.0%", "institutional_pct": "25.0%", "avg_spread": "1.0 - 1.2 Ticks", "slippage": "6.2 bps" },
-                { "code": "SZSE", "country": "Mainland China", "classification": "EMERGING MKT", "turnover_local": "¥ 530.0B", "turnover_usd": "US$ 73.3B", "turnover_qoq": "-3.8%", "retail_qoq": "-0.5%", "pillar_sector": "Information Technology", "volume_concentrator": "ChiNext Growth Tech & Electronics Manufacturing.", "retail_pct": "82.0%", "institutional_pct": "18.0%", "avg_spread": "1.1 - 1.5 Ticks", "slippage": "7.5 bps" },
-                { "code": "BURSA", "country": "Malaysia", "classification": "EMERGING MKT", "turnover_local": "RM 2.9B", "turnover_usd": "US$ 0.63B", "turnover_qoq": "+2.0%", "retail_qoq": "+1.0%", "pillar_sector": "Financials & Plantations", "volume_concentrator": "Banking Groups & Healthcare/Glove Producers.", "retail_pct": "25.0%", "institutional_pct": "75.0%", "avg_spread": "2.0 - 3.5 Ticks", "slippage": "16.5 bps" },
-                { "code": "IDX", "country": "Indonesia", "classification": "EMERGING MKT", "turnover_local": "Rp 11.5T", "turnover_usd": "US$ 0.72B", "turnover_qoq": "+5.3%", "retail_qoq": "+1.8%", "pillar_sector": "Financials & Commodities", "volume_concentrator": "Resource Mining & Large Infrastructure Banks.", "retail_pct": "40.0%", "institutional_pct": "60.0%", "avg_spread": "2.2 - 4.0 Ticks", "slippage": "19.0 bps" },
-                { "code": "PSE", "country": "Philippines", "classification": "EMERGING MKT", "turnover_local": "₱ 6.1B", "turnover_usd": "US$ 0.11B", "turnover_qoq": "-5.1%", "retail_qoq": "-2.4%", "pillar_sector": "Conglomerates & Real Estate", "volume_concentrator": "Family Holding Conglomerates.", "retail_pct": "30.0%", "institutional_pct": "70.0%", "avg_spread": "3.5 - 5.0 Ticks", "slippage": "24.5 bps" },
-                { "code": "VSE", "country": "Vietnam", "classification": "EMERGING MKT", "turnover_local": "₫ 16.8T", "turnover_usd": "US$ 0.66B", "turnover_qoq": "+22.1%", "retail_qoq": "+5.0%", "pillar_sector": "Real Estate & Financials", "volume_concentrator": "Property Development Groups & State Banks.", "retail_pct": "88.0%", "institutional_pct": "12.0%", "avg_spread": "1.5 - 2.5 Ticks", "slippage": "15.5 bps" }
+        // Full 14-Market APAC Dataset with Alternative Venues & Trading Calendar/Weather Rules
+        const ledgerData = {
+            last_sync: "Aug 07, 2026 10:07 HKT",
+            pipeline: [
+                { 
+                    mkt: "ASX", country: "Australia", class: "DEVELOPED MKT", impact: "HIGH",
+                    title: "CHESS Replacement Migration (Phase 1)", 
+                    summary: "Clearing architecture upgrade to distributed messaging.",
+                    eta: "Target Release: Late 2026", startDate: "2026-11-01", window: "Q4-2026", segment: "Settlement M...", new: false, addedDaysAgo: 45,
+                    sourceUrl: "https://www2.asx.com.au/markets/clearing-and-settlement-services/chess-replacement",
+                    sourceName: "ASX CHESS Notice",
+                    fullDetails: "Migration of legacy CHESS database infrastructure to a high-availability distributed model with ISO 20022 messaging standards.",
+                    alternativeVenues: "Cboe Australia (~19%–20% share, ~50% ETF share). Features Centre Point dark midpoint crossing.",
+                    calendarAndWeather: "Open during severe weather. Early close (10:00–14:10 AEST) on Christmas Eve and New Year's Eve."
+                },
+                { 
+                    mkt: "NSE / BSE", country: "India", class: "EMERGING MKT", impact: "HIGH",
+                    title: "T+0 Instant Settlement Expansion", 
+                    summary: "Extends optional instant gross clearance across top 500 listings.",
+                    eta: "Rolling Phases Through 2026", startDate: "2026-12-15", window: "Q4-2026", segment: "Settlement M...", new: false, addedDaysAgo: 60,
+                    sourceUrl: "https://www.sebi.gov.in/legal/circulars/mar-2024/framework-for-introduction-of-beta-version-of-t-0-settlement-cycle_82432.html",
+                    sourceName: "SEBI Circular",
+                    fullDetails: "Provides instantaneous delivery-versus-payment (DVP) settlement capabilities across expanded institutional participant groups.",
+                    alternativeVenues: "Off-exchange dark pools prohibited by SEBI. All executions routed through central exchange books (~0% dark).",
+                    calendarAndWeather: "Diwali Special Muhurat Trading (1-hour evening session). Full day closure on SEBI-announced public/storm holidays."
+                },
+                { 
+                    mkt: "HKEX", country: "Hong Kong", class: "DEVELOPED MKT", impact: "MEDIUM",
+                    title: "Standardized Board Lot Optimization Framework", 
+                    summary: "Reduces odd-lot friction and standardizes order lot buckets.",
+                    eta: "Phase 1 Launch: Target 2027", startDate: "2027-03-31", window: "H1-2027", segment: "Trading Mech...", new: true, addedDaysAgo: 5,
+                    sourceUrl: "https://www.hkex.com.hk/News/Market-Consultations",
+                    sourceName: "HKEX Circular",
+                    fullDetails: "Harmonizes board lot sizes to reduce secondary odd-lot discount spreads and enhance retail-institutional order matching.",
+                    alternativeVenues: "ALPs / Dark Pools (~3% - 5% share). Institutional only; price-improvement rules apply.",
+                    calendarAndWeather: "Severe Weather Trading (SWT): Fully open during T8/Black Rainstorm. Half-days (09:30–12:00 HKT) on Christmas Eve, NYE, and CNY Eve."
+                },
+                { 
+                    mkt: "HKEX", country: "Hong Kong", class: "DEVELOPED MKT", impact: "HIGH",
+                    title: "Derivatives Market Holiday Trading Expansion", 
+                    summary: "Adds major regional holidays to derivatives execution schedule.",
+                    eta: "Target Launch: Late 2026", startDate: "2026-10-01", window: "Q4-2026", segment: "Derivatives", new: false, addedDaysAgo: 40,
+                    sourceUrl: "https://www.hkex.com.hk/Services/Trading/Derivatives/Overview/Holiday-Trading",
+                    sourceName: "HKEX Circular",
+                    fullDetails: "Enables international risk management capabilities for MSCI and Hang Seng futures during Hong Kong public holidays.",
+                    alternativeVenues: "ALPs / Dark Pools (~3% - 5% share). Institutional only; price-improvement rules apply.",
+                    calendarAndWeather: "Severe Weather Trading (SWT): Fully open during T8/Black Rainstorm. Half-days (09:30–12:00 HKT) on Christmas Eve, NYE, and CNY Eve."
+                },
+                { 
+                    mkt: "SGX", country: "Singapore", class: "DEVELOPED MKT", impact: "MEDIUM",
+                    title: "Cross-Border ETF Linkage Framework Expansion", 
+                    summary: "Automated order routing and cross-listing clearing pipelines.",
+                    eta: "Target Rollout: Early 2027", startDate: "2027-02-01", window: "H1-2027", segment: "Market Infrast...", new: true, addedDaysAgo: 12,
+                    sourceUrl: "https://www.sgx.com/securities/etf-linkage",
+                    sourceName: "SGX Newsroom",
+                    fullDetails: "Expands dual-listing and connectivity protocols across regional ASEAN stock exchanges for index ETFs.",
+                    alternativeVenues: "No competing equity PTS. Off-exchange OTC (~5–8%) requires immediate trade reporting via SGX hubs.",
+                    calendarAndWeather: "Half-days (09:00–12:15 SGT with auction) on Christmas Eve, NYE, and CNY Eve."
+                },
+                { 
+                    mkt: "SZSE", country: "Mainland China", class: "EMERGING MKT", impact: "MEDIUM",
+                    title: "ChiNext Growth Board Lot & Price Band Alignment", 
+                    summary: "Standardizes tick sizes across growth enterprise listings.",
+                    eta: "Target Launch: Early 2027", startDate: "2027-02-15", window: "H1-2027", segment: "Trading Mech...", new: true, addedDaysAgo: 8,
+                    sourceUrl: "http://www.szse.cn/disclosure/notice/",
+                    sourceName: "SZSE Circular",
+                    fullDetails: "Aligns price dynamic bands and minimum tick increments for institutional algorithmic execution on ChiNext.",
+                    alternativeVenues: "Dark pools & OTC internalizers prohibited (0%). Off-book trades executed via SZSE block facility.",
+                    calendarAndWeather: "No half-day sessions. Closed on national holidays and aligned with HKEX Connect trading calendar."
+                },
+                { 
+                    mkt: "SSE", country: "Mainland China", class: "EMERGING MKT", impact: "HIGH",
+                    title: "A-Share T+0 Intraday Settlement Sandbox Pilot", 
+                    summary: "Assesses intraday settlement churn for qualified institutional accounts.",
+                    eta: "Feasibility Phase: End-2026", startDate: "2026-12-31", window: "Q4-2026", segment: "Settlement M...", new: false, addedDaysAgo: 50,
+                    sourceUrl: "http://www.sse.com.cn/lawandrules/sserules/",
+                    sourceName: "SSE Notice",
+                    fullDetails: "Controlled sandbox testing of intraday liquidity cycles under capped volatility and short-selling controls.",
+                    alternativeVenues: "Dark pools & OTC internalizers strictly illegal (0%). Large orders block-traded via official SSE Block Trading System.",
+                    calendarAndWeather: "No half-day sessions. Closed during official public holidays; emergency closures governed by CSRC mandate."
+                },
+                { 
+                    mkt: "BURSA", country: "Malaysia", class: "EMERGING MKT", impact: "HIGH",
+                    title: "T+1 Settlement Cycle Readiness Framework", 
+                    summary: "Operational roadmap for shortening settlement cycles from T+2 to T+1.",
+                    eta: "Phase 1 Review: Mid-2027", startDate: "2027-06-30", window: "H1-2027", segment: "Settlement M...", new: true, addedDaysAgo: 18,
+                    sourceUrl: "https://www.bursamalaysia.com/reference/media_centre",
+                    sourceName: "Bursa Announcement",
+                    fullDetails: "Aligns clearing participant facilities with US and regional T+1 settlement acceleration standardizations.",
+                    alternativeVenues: "Direct Business Trades (DBT) allowed for negotiated crossings; reported within 15 minutes (~5–8% share).",
+                    calendarAndWeather: "Half-day sessions (09:00–12:30 MYT) before major cultural holidays (e.g., Hari Raya, Chinese New Year)."
+                },
+                { 
+                    mkt: "IDX", country: "Indonesia", class: "EMERGING MKT", impact: "MEDIUM",
+                    title: "Regulated Short Selling Expansion & Dynamic Uptick Framework", 
+                    summary: "Expands short selling pool across IDX80 index constituents.",
+                    eta: "Target Rollout: Late 2026", startDate: "2026-10-15", window: "Q4-2026", segment: "Trading Mech...", new: true, addedDaysAgo: 10,
+                    sourceUrl: "https://www.idx.co.id/en-us/news/announcement/",
+                    sourceName: "IDX Circular",
+                    fullDetails: "Modernizes securities borrowing and lending (SBL) protocols with automated pre-trade borrow validation.",
+                    alternativeVenues: "Off-exchange crossing permitted on Negotiated Board; reported automatically to IDX (~5% share).",
+                    calendarAndWeather: "No half-day sessions. Subject to national joint-holiday (Cuti Bersama) emergency closures."
+                },
+                { 
+                    mkt: "PSE", country: "Philippines", class: "EMERGING MKT", impact: "MEDIUM",
+                    title: "Securities Lending & Short Selling Integration", 
+                    summary: "Central clearing facility linkage for verified stock borrows.",
+                    eta: "Target Phased Launch: 2027", startDate: "2027-04-01", window: "H1-2027", segment: "Trading Mech...", new: false, addedDaysAgo: 90,
+                    sourceUrl: "https://www.pse.com.ph/category/market-report-announcements/",
+                    sourceName: "PSE Circular",
+                    fullDetails: "Integrates central clearing participant interfaces with automated lending pools for real-time borrow verification.",
+                    alternativeVenues: "No private dark pools. Block trades (>₱50M) approved subject to prior exchange clearance.",
+                    calendarAndWeather: "Market closes on Metro Manila typhoon work suspensions declared by Malacañang Palace. No half-days."
+                },
+                { 
+                    mkt: "HOSE / VSE", country: "Vietnam", class: "EMERGING MKT", impact: "HIGH",
+                    title: "KRX Core IT Platform Cutover & Central Counterparty CCP Launch", 
+                    summary: "New core tech infrastructure activation supporting non-prefunding.",
+                    eta: "Target Launch: Mid-2027", startDate: "2027-05-15", window: "H1-2027", segment: "Market Infrast...", new: false, addedDaysAgo: 75,
+                    sourceUrl: "https://www.hsx.vn/Modules/Cms/Web/NewsFiles",
+                    sourceName: "HOSE Notice",
+                    fullDetails: "Completes KRX tech platform migration enabling central counterparty clearing, intra-day trading, and reduced pre-funding hurdles.",
+                    alternativeVenues: "Dark pools unavailable. Put-through (negotiated) market available on exchange for large block orders (~10–15%).",
+                    calendarAndWeather: "Extended closures for Lunar New Year (Tet Holiday). No half-day trading sessions."
+                },
+                { 
+                    mkt: "NZX", country: "New Zealand", class: "DEVELOPED MKT", impact: "LOW",
+                    title: "Direct Market Access Connectivity Upgrade", 
+                    summary: "Standardizes API gateways for algorithmic order entry.",
+                    eta: "Target Launch: Late 2026", startDate: "2026-11-15", window: "Q4-2026", segment: "Market Infrast...", new: true, addedDaysAgo: 14,
+                    sourceUrl: "https://www.nzx.com/",
+                    sourceName: "NZX Notice",
+                    fullDetails: "Upgrades gateway APIs to lower execution latency for international participants.",
+                    alternativeVenues: "Off-market negotiated trades via registered participants (~10–15%), reported within NZX window.",
+                    calendarAndWeather: "Half-day sessions (10:00–13:00 NZST) on Christmas Eve and New Year's Eve."
+                }
+            ],
+            historical: [
+                { 
+                    mkt: "JPX / TSE", country: "Japan", class: "DEVELOPED MKT", impact: "MEDIUM",
+                    title: "TSE Trading Session Extension & Closing Auction Implementation", 
+                    summary: "Extended cash equity trading close to 15:30 JST with a 5-minute closing auction.",
+                    eta: "Implemented Nov 5, 2024", startDate: "2024-11-05", window: "HISTORICAL", segment: "Trading Hours", new: false, addedDaysAgo: 180,
+                    sourceUrl: "https://www.jpx.co.jp/english/equities/trading/extension/index.html",
+                    sourceName: "JPX Release",
+                    fullDetails: "Extended the trading session by 30 minutes to boost end-of-day liquidity and standardizing closing price discovery.",
+                    alternativeVenues: "Japannext PTS (~10–12%) & Cboe Japan (~4–6%). Total PTS share ~15–18%. Includes night trading (16:30–23:50 JST).",
+                    calendarAndWeather: "No half-day trading sessions (abolished). Market remains open during typhoons; halts only on system failure."
+                },
+                { 
+                    mkt: "HKEX", country: "Hong Kong", class: "DEVELOPED MKT", impact: "HIGH",
+                    title: "Severe Weather Trading (SWT) Continuous Operation Framework", 
+                    summary: "Markets remain fully open during severe typhoons and extreme weather.",
+                    eta: "Implemented Sept 23, 2024", startDate: "2024-09-23", window: "HISTORICAL", segment: "Market Infrast...", new: false, addedDaysAgo: 200,
+                    sourceUrl: "https://www.hkex.com.hk/Services/Trading/Severe-Weather-Trading",
+                    sourceName: "HKEX Circular",
+                    fullDetails: "Enables continuous electronic trading and clearing operational readiness during Signal 8+ typhoon conditions.",
+                    alternativeVenues: "ALPs / Dark Pools (~3% - 5% share). Institutional only; price-improvement rules apply.",
+                    calendarAndWeather: "Severe Weather Trading (SWT): Fully open during T8/Black Rainstorm. Half-days (09:30–12:00 HKT) on Christmas Eve, NYE, and CNY Eve."
+                },
+                { 
+                    mkt: "SGX", country: "Singapore", class: "DEVELOPED MKT", impact: "HIGH",
+                    title: "Iris-ST Next-Gen Low-Latency Matching Engine Migration", 
+                    summary: "Deployed sub-millisecond execution matching engine for equity & derivatives.",
+                    eta: "Implemented July 2026", startDate: "2026-07-01", window: "Q3-2026", segment: "Market Infrast...", new: true, addedDaysAgo: 25,
+                    sourceUrl: "https://www.sgx.com/securities/trading-technology",
+                    sourceName: "SGX Notice",
+                    fullDetails: "Upgraded core matching architecture providing sub-millisecond execution cycles and modernized risk gateways.",
+                    alternativeVenues: "No competing equity PTS. Off-exchange OTC (~5–8%) requires immediate trade reporting via SGX hubs.",
+                    calendarAndWeather: "Half-days (09:00–12:15 SGT with auction) on Christmas Eve, NYE, and CNY Eve."
+                },
+                { 
+                    mkt: "TWSE", country: "Taiwan", class: "DEVELOPED MKT", impact: "LOW",
+                    title: "Continuous Auction Micro-Interval Matching Acceleration", 
+                    summary: "Reduced matching intervals and modernized order routing bandwidth.",
+                    eta: "Implemented Late 2025", startDate: "2025-11-15", window: "HISTORICAL", segment: "Trading Mech...", new: false, addedDaysAgo: 220,
+                    sourceUrl: "https://www.twse.com.tw/en/page/announcement/notice.html",
+                    sourceName: "TWSE Circular",
+                    fullDetails: "Accelerates order execution throughput for retail and high-frequency institutional market makers.",
+                    alternativeVenues: "Off-exchange/dark liquidity virtually nonexistent (~0%). All trading centralized on TWSE order book.",
+                    calendarAndWeather: "Market completely CLOSES if Taipei City Govt declares typhoon work stoppage. No half-day trading."
+                },
+                { 
+                    mkt: "KRX", country: "South Korea", class: "DEVELOPED MKT", impact: "MEDIUM",
+                    title: "Next-Gen Alternative Trading System (ATS) Linkage", 
+                    summary: "Off-hours multilateral trading facility integration.",
+                    eta: "Implemented Mid-2026", startDate: "2026-06-15", window: "Q2-2026", segment: "Trading Hours", new: false, addedDaysAgo: 50,
+                    sourceUrl: "https://global.krx.co.kr/main/main.jsp",
+                    sourceName: "KRX Notice",
+                    fullDetails: "Integrated off-exchange trading venues to expand retail and institutional trading flexibility outside regular cash hours.",
+                    alternativeVenues: "Next-Gen ATS (Alternative Trading System) operational for off-hours multilateral trading (~3–5% share).",
+                    calendarAndWeather: "Market closed on last business day of December. Delayed 1-hour opening (10:00 KST) on CSAT exam day."
+                },
+                { 
+                    mkt: "SET", country: "Thailand", class: "EMERGING MKT", impact: "LOW",
+                    title: "Dynamic Circuit Breaker & Auto-Throttling Rules", 
+                    summary: "Dynamic volatility price bands to control algorithmic spikes.",
+                    eta: "Implemented Q2 2025", startDate: "2025-05-10", window: "HISTORICAL", segment: "Trading Mech...", new: false, addedDaysAgo: 300,
+                    sourceUrl: "https://www.set.or.th/en/rules-regulations/rules-guidelines",
+                    sourceName: "SET Rules PDF",
+                    fullDetails: "Introduced multi-tiered dynamic circuit breakers to manage short-duration order imbalances and algorithmic spikes.",
+                    alternativeVenues: "Off-exchange OTC permitted for institutional crossings, reported to SET.",
+                    calendarAndWeather: "Closed on national holidays; no half-day sessions."
+                }
             ]
         };
 
-        let macroData = [];
-        let activeSortKey = null;
-        let activeSortDir = 'asc';
+        const sortState = {
+            pipeline: { key: null, asc: true },
+            historical: { key: null, asc: true }
+        };
 
-        function parseUSDValue(usdStr) {
-            if(!usdStr) return 0;
-            const clean = usdStr.replace(/[^0-9.]/g, '');
-            const val = parseFloat(clean);
-            if(usdStr.includes('B')) return val * 1000000000;
-            if(usdStr.includes('M')) return val * 1000000;
-            return val;
-        }
+        let modalTimeline = null;
 
-        function parsePercent(pctStr) {
-            if(!pctStr) return 0;
-            return parseFloat(pctStr.replace(/[^0-9.]/g, ''));
-        }
+        function initGanttChart() {
+            const container = document.getElementById('visualization');
+            const items = new vis.DataSet();
 
-        function formatQoQ(qoqStr) {
-            if(!qoqStr) return '';
-            const isUp = qoqStr.startsWith('+');
-            const isDown = qoqStr.startsWith('-');
-            const arrow = isUp ? '↑' : (isDown ? '↓' : '•');
-            const cls = isUp ? 'qoq-up' : (isDown ? 'qoq-down' : '');
-            return `<span class="qoq-tag ${cls}">${arrow} ${qoqStr} QoQ</span>`;
-        }
+            let idCounter = 1;
+            [...ledgerData.pipeline, ...ledgerData.historical].forEach(item => {
+                let className = "low-impact";
+                if (item.impact === "HIGH") className = "high-impact";
+                if (item.impact === "MEDIUM") className = "med-impact";
 
-        function processMacroData(payload) {
-            document.getElementById('agent-timestamp').textContent = payload.last_updated;
-            document.getElementById('agent-net-status').textContent = `● ${payload.network_status}`;
-
-            macroData = payload.markets.map(m => {
-                return {
-                    ...m,
-                    parsed_turnover_usd: parseUSDValue(m.turnover_usd),
-                    parsed_retail_pct: parsePercent(m.retail_pct),
-                    isDeveloped: m.classification.includes("DEVELOPED")
-                };
+                items.add({
+                    id: idCounter++,
+                    content: `<b>[${item.mkt}]</b> ${item.title}`,
+                    start: item.startDate,
+                    className: className
+                });
             });
+
+            const options = {
+                height: '260px',
+                stack: true,
+                style: 'box',
+                horizontalScroll: true,
+                zoomKey: 'ctrlKey',
+                start: '2026-06-01',
+                end: '2027-08-01'
+            };
+
+            new vis.Timeline(container, items, options);
         }
 
-        function renderMacroTable(dataset) {
-            const tbody = document.getElementById('macro-body');
-            document.getElementById('macro-count').textContent = `${dataset.length} Records`;
-            tbody.innerHTML = '';
+        function formatETAWithCountdown(etaString, isPipeline) {
+            if (!isPipeline) return `<div>${etaString}</div>`;
 
-            dataset.forEach(item => {
-                const retPct = item.parsed_retail_pct;
-                const instPct = (100 - retPct).toFixed(1);
-                const classBadge = item.isDeveloped ? '<span class="class-badge developed">Developed Mkt</span>' : '<span class="class-badge emerging">Emerging Mkt</span>';
-                const turnoverQoQHTML = formatQoQ(item.turnover_qoq);
-                const retailQoQHTML = formatQoQ(item.retail_qoq);
+            const yearMatch = etaString.match(/\b(20\d\d)\b/);
+            if (!yearMatch) return `<div>${etaString}</div>`;
 
-                tbody.insertAdjacentHTML('beforeend', `
-                    <tr class="clickable-row">
-                        <td class="td-mkt">${item.code}</td>
-                        <td class="td-country">${item.country}</td>
-                        <td class="td-classification">${classBadge}</td>
-                        <td class="td-adt">
-                            <div class="adt-primary">${item.turnover_local} ${turnoverQoQHTML}</div>
-                            <div style="display: flex; gap: 8px; align-items: center; margin-top: 2px;">
-                                <span class="adt-usd">${item.turnover_usd}</span>
+            const targetYear = parseInt(yearMatch[1], 10);
+            let month = 11; 
+            if (etaString.toLowerCase().includes("early")) month = 2;
+            else if (etaString.toLowerCase().includes("mid")) month = 5;
+
+            const targetDate = new Date(Date.UTC(targetYear, month, 30));
+            const now = new Date();
+            
+            const diffTime = targetDate - now;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            const countdownHTML = diffDays > 0 
+                ? `<span class="eta-countdown">⏳ ~${diffDays} days remaining</span>` 
+                : `<span class="eta-countdown" style="color: #10b981;">⚡ Pending Deployment</span>`;
+
+            return `<div class="eta-container"><div>${etaString}</div>${countdownHTML}</div>`;
+        }
+
+        function renderTable(tableBodyId, dataList, isPipeline) {
+            const body = document.getElementById(tableBodyId);
+            body.innerHTML = dataList.map((item, index) => {
+                const classBadge = item.class === "DEVELOPED MKT" ? "badge-dev" : "badge-emg";
+                const newTag = item.addedDaysAgo <= 30 ? `<span class="tag-new">NEW (${item.addedDaysAgo}d ago)</span>` : "";
+
+                let impactBadge = "";
+                if (item.impact === "HIGH") impactBadge = `<span class="badge-impact-high">HIGH IMPACT</span>`;
+                else if (item.impact === "MEDIUM") impactBadge = `<span class="badge-impact-med">MED IMPACT</span>`;
+                else impactBadge = `<span class="badge-impact-low">LOW IMPACT</span>`;
+
+                const rowId = `${tableBodyId}-detail-${index}`;
+                const arrowId = `${tableBodyId}-arrow-${index}`;
+                const sourceBtn = item.sourceUrl 
+                    ? `<a href="${item.sourceUrl}" target="_blank" class="source-link" onclick="event.stopPropagation();">📄 ${item.sourceName || 'Circular'} ↗</a>` 
+                    : `<span style="color: var(--text-muted); font-size: 0.75rem;">N/A</span>`;
+
+                return `
+                    <tr class="clickable-row" data-window="${item.window || 'ALL'}">
+                        <td class="mkt-code" onclick="openDrilldownModal('${item.mkt}')">${item.mkt}</td>
+                        <td onclick="toggleDetails('${rowId}', '${arrowId}')">${item.country}</td>
+                        <td onclick="toggleDetails('${rowId}', '${arrowId}')"><span class="${classBadge}">${item.class}</span></td>
+                        <td onclick="toggleDetails('${rowId}', '${arrowId}')">
+                            <div style="font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
+                                ${impactBadge} ${item.title}${newTag}
+                            </div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">
+                                <strong style="color: #94a3b8;">Technical Breakdown:</strong> ${item.summary}
                             </div>
                         </td>
-                        <td class="td-flow">
-                            <div class="flow-text-container">
-                                <div>
-                                    <span class="flow-ret-label">${retPct.toFixed(1)}% Ret</span> / 
-                                    <span class="flow-inst-label">${instPct}% Inst</span>
+                        <td onclick="toggleDetails('${rowId}', '${arrowId}')">${formatETAWithCountdown(item.eta, isPipeline)}</td>
+                        <td onclick="toggleDetails('${rowId}', '${arrowId}')">${item.segment}</td>
+                        <td>${sourceBtn}</td>
+                        <td class="arrow-btn" id="${arrowId}" onclick="toggleDetails('${rowId}', '${arrowId}')">▼</td>
+                    </tr>
+                    <tr id="${rowId}" class="details-row">
+                        <td colspan="8">
+                            <div class="details-card">
+                                <h4>🔍 Market Structure Impact Details (${item.mkt} - ${item.country}):</h4>
+                                <p style="margin: 0 0 8px 0;">${item.fullDetails}</p>
+                                
+                                <div class="grid-2col">
+                                    <div>
+                                        <strong style="color: #60a5fa;">🏬 Alternative Venues / PTS Share:</strong>
+                                        <p style="margin: 4px 0 0 0; font-size: 0.8rem;">${item.alternativeVenues || 'Centralized exchange order book.'}</p>
+                                    </div>
+                                    <div>
+                                        <strong style="color: #f59e0b;">📅 Trading Calendar & Weather Rules:</strong>
+                                        <p style="margin: 4px 0 0 0; font-size: 0.8rem;">${item.calendarAndWeather || 'Standard trading calendar.'}</p>
+                                    </div>
                                 </div>
-                                ${retailQoQHTML}
-                            </div>
-                            <div class="flow-bar-wrapper">
-                                <div class="flow-bar-ret" style="width: ${retPct}%;"></div>
-                                <div class="flow-bar-inst" style="width: ${instPct}%;"></div>
-                            </div>
-                        </td>
-                        <td class="td-concentrator">
-                            <strong>${item.pillar_sector}</strong> • ${item.volume_concentrator}
-                            <div style="font-size:11px; color:#64748b; margin-top:3px;">
-                                Spread: ${item.avg_spread} | Slippage: ${item.slippage}
+
+                                ${item.sourceUrl ? `<div style="margin-top: 10px;"><strong>Official Source:</strong> <a href="${item.sourceUrl}" target="_blank" style="color: #60a5fa;">${item.sourceUrl}</a></div>` : ''}
                             </div>
                         </td>
                     </tr>
-                `);
-            });
-        }
-
-        function applyFilters() {
-            const query = document.getElementById('masterSearch').value.toLowerCase().trim();
+                `;
+            }).join('');
             
-            // 1. Filter Regional Macro Table
-            const filterMacro = macroData.filter(item => 
-                item.code.toLowerCase().includes(query) || 
-                item.country.toLowerCase().includes(query) || 
-                item.pillar_sector.toLowerCase().includes(query) ||
-                item.volume_concentrator.toLowerCase().includes(query) ||
-                item.classification.toLowerCase().includes(query)
-            );
-            renderMacroTable(filterMacro);
-
-            // 2. Filter Microstructure Characteristics Matrix
-            const matrixRows = document.querySelectorAll('#matrix-body tr');
-            let visibleMatrixCount = 0;
-
-            matrixRows.forEach(row => {
-                const searchContent = row.getAttribute('data-search') || row.innerText.toLowerCase();
-                if (searchContent.includes(query)) {
-                    row.style.display = '';
-                    visibleMatrixCount++;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            document.getElementById('matrix-count').textContent = `${visibleMatrixCount} Markets Visible`;
-        }
-
-        function sortMacroTable(key, thElement) {
-            if (activeSortKey === key) { 
-                activeSortDir = activeSortDir === 'asc' ? 'desc' : 'asc'; 
-            } else { 
-                activeSortKey = key; 
-                activeSortDir = 'asc'; 
-            }
-            
-            thElement.parentNode.querySelectorAll('th').forEach(th => { 
-                const icon = th.querySelector('.sort-icon'); 
-                if (icon) icon.textContent = '▼▲'; 
-            });
-            thElement.querySelector('.sort-icon').textContent = activeSortDir === 'asc' ? '▲' : '▼';
-            
-            macroData.sort((a, b) => { 
-                let valA = a[key]; 
-                let valB = b[key]; 
-                if (typeof valA === 'string') valA = valA.toLowerCase(); 
-                if (typeof valB === 'string') valB = valB.toLowerCase(); 
-                if (valA < valB) return activeSortDir === 'asc' ? -1 : 1; 
-                if (valA > valB) return activeSortDir === 'asc' ? 1 : -1; 
-                return 0; 
-            });
             applyFilters();
         }
 
-        processMacroData(inputData);
-        applyFilters();
+        function sortTable(tableType, key) {
+            const isPipeline = (tableType === 'pipeline');
+            const dataList = isPipeline ? ledgerData.pipeline : ledgerData.historical;
+            const state = sortState[tableType];
+
+            if (state.key === key) {
+                state.asc = !state.asc;
+            } else {
+                state.key = key;
+                state.asc = true;
+            }
+
+            dataList.sort((a, b) => {
+                let valA = (a[key] || "").toString().toLowerCase();
+                let valB = (b[key] || "").toString().toLowerCase();
+
+                if (valA < valB) return state.asc ? -1 : 1;
+                if (valA > valB) return state.asc ? 1 : -1;
+                return 0;
+            });
+
+            const keys = ['mkt', 'country', 'class', 'title', 'startDate', 'segment'];
+            keys.forEach(k => {
+                const el = document.getElementById(`sort-${tableType}-${k}`);
+                if (el) el.innerText = "▼▲";
+            });
+
+            const activeIndicator = document.getElementById(`sort-${tableType}-${key}`);
+            if (activeIndicator) {
+                activeIndicator.innerText = state.asc ? "▲" : "▼";
+            }
+
+            const bodyId = isPipeline ? 'pipeline-body' : 'historical-body';
+            renderTable(bodyId, dataList, isPipeline);
+        }
+
+        function toggleDetails(rowId, arrowId) {
+            const detailRow = document.getElementById(rowId);
+            const arrow = document.getElementById(arrowId);
+            if (detailRow.style.display === "table-row") {
+                detailRow.style.display = "none";
+                if (arrow) arrow.innerText = "▼";
+            } else {
+                detailRow.style.display = "table-row";
+                if (arrow) arrow.innerText = "▲";
+            }
+        }
+
+        function openDrilldownModal(defaultMarket = "HKEX") {
+            const modal = document.getElementById('drilldown-modal');
+            modal.style.display = "flex";
+
+            const allItems = [...ledgerData.pipeline, ...ledgerData.historical];
+            const uniqueMarkets = [...new Set(allItems.map(i => i.mkt))];
+
+            const chipContainer = document.getElementById('exchange-chip-container');
+            chipContainer.innerHTML = uniqueMarkets.map(mkt => `
+                <div class="exchange-chip ${mkt === defaultMarket ? 'active' : ''}" onclick="selectExchangeDrilldown('${mkt}')">${mkt}</div>
+            `).join('');
+
+            selectExchangeDrilldown(defaultMarket);
+        }
+
+        function closeDrilldownModal() {
+            document.getElementById('drilldown-modal').style.display = "none";
+        }
+
+        function selectExchangeDrilldown(mktCode) {
+            document.querySelectorAll('.exchange-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.innerText === mktCode);
+            });
+
+            document.getElementById('modal-exchange-title').innerText = `🏛️ ${mktCode} Microstructure Drilldown View`;
+
+            const allItems = [...ledgerData.pipeline, ...ledgerData.historical];
+            const filteredItems = allItems.filter(i => i.mkt === mktCode);
+
+            const container = document.getElementById('modal-visualization');
+            container.innerHTML = "";
+            
+            const visItems = new vis.DataSet();
+            filteredItems.forEach((item, idx) => {
+                let className = "low-impact";
+                if (item.impact === "HIGH") className = "high-impact";
+                if (item.impact === "MEDIUM") className = "med-impact";
+
+                visItems.add({
+                    id: idx + 1,
+                    content: item.title,
+                    start: item.startDate,
+                    className: className
+                });
+            });
+
+            const options = {
+                height: '180px',
+                stack: true,
+                style: 'box',
+                start: '2024-01-01',
+                end: '2027-12-31'
+            };
+
+            if (modalTimeline) modalTimeline.destroy();
+            modalTimeline = new vis.Timeline(container, visItems, options);
+
+            const listContainer = document.getElementById('modal-initiatives-list');
+            listContainer.innerHTML = filteredItems.map(item => `
+                <div style="background: #0d121f; border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; margin-bottom: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="font-weight: 700; color: #60a5fa; font-size: 0.88rem;">${item.title}</span>
+                        <span class="badge-impact-${item.impact === 'HIGH' ? 'high' : item.impact === 'MEDIUM' ? 'med' : 'low'}">${item.impact} IMPACT</span>
+                    </div>
+                    <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px;">
+                        <strong>ETA / Status:</strong> ${item.eta} | <strong>Segment:</strong> ${item.segment}
+                    </div>
+                    <div style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4; margin-bottom: 8px;">${item.fullDetails}</div>
+                    <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 4px;"><strong>Alternative Venues:</strong> ${item.alternativeVenues}</div>
+                    <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 8px;"><strong>Calendar/Weather:</strong> ${item.calendarAndWeather}</div>
+                    ${item.sourceUrl ? `<div><a href="${item.sourceUrl}" target="_blank" class="source-link">📄 Direct Source Circular (${item.sourceName || 'Link'}) ↗</a></div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function openDeltaFeedModal() {
+            const modal = document.getElementById('delta-modal');
+            modal.style.display = "flex";
+
+            const allItems = [...ledgerData.pipeline, ...ledgerData.historical];
+            const deltaItems = allItems.filter(i => i.addedDaysAgo <= 30);
+
+            const listContainer = document.getElementById('delta-initiatives-list');
+            listContainer.innerHTML = deltaItems.map(item => `
+                <div style="background: #0d121f; border: 1px solid var(--border-color); border-radius: 6px; padding: 14px; margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <div>
+                            <span style="font-weight: 800; color: #38bdf8; font-size: 0.9rem;">[${item.mkt}]</span>
+                            <span style="font-weight: 700; color: #ffffff; font-size: 0.9rem; margin-left: 6px;">${item.title}</span>
+                        </div>
+                        <span class="tag-new">ADDED ${item.addedDaysAgo} DAYS AGO</span>
+                    </div>
+                    <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">
+                        <strong>Country:</strong> ${item.country} | <strong>ETA:</strong> ${item.eta} | <strong>Segment:</strong> ${item.segment}
+                    </div>
+                    <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.4; margin-bottom: 10px;">${item.fullDetails}</div>
+                    ${item.sourceUrl ? `<div><a href="${item.sourceUrl}" target="_blank" class="source-link">📄 View Exchange Announcement (${item.sourceName || 'Link'}) ↗</a></div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function closeDeltaFeedModal() {
+            document.getElementById('delta-modal').style.display = "none";
+        }
+
+        function applyFilters() {
+            const query = document.getElementById('filter-input').value.toLowerCase();
+            const timeWindow = document.getElementById('time-window-select').value;
+
+            ["pipeline-body", "historical-body"].forEach(bodyId => {
+                const mainRows = document.querySelectorAll(`#${bodyId} tr.clickable-row`);
+                mainRows.forEach(row => {
+                    const text = row.innerText.toLowerCase();
+                    const rowWindow = row.getAttribute('data-window');
+                    const detailRow = row.nextElementSibling;
+
+                    const matchesQuery = text.includes(query);
+                    const matchesWindow = (timeWindow === "ALL" || rowWindow === timeWindow);
+
+                    if (matchesQuery && matchesWindow) {
+                        row.style.display = "table-row";
+                    } else {
+                        row.style.display = "none";
+                        if (detailRow && detailRow.classList.contains('details-row')) {
+                            detailRow.style.display = "none";
+                        }
+                    }
+                });
+            });
+        }
+
+        function initPage() {
+            document.getElementById('last-sync-display').innerText = `💻 Last Sync Check: ${ledgerData.last_sync}`;
+            renderTable('pipeline-body', ledgerData.pipeline, true);
+            renderTable('historical-body', ledgerData.historical, false);
+            document.getElementById('pipeline-count').innerText = `${ledgerData.pipeline.length} Entries`;
+            document.getElementById('historical-count').innerText = `${ledgerData.historical.length} Entries`;
+
+            const allItems = [...ledgerData.pipeline, ...ledgerData.historical];
+            const deltaCount = allItems.filter(i => i.addedDaysAgo <= 30).length;
+            document.getElementById('delta-count-text').innerText = `${deltaCount} exchange updates logged in the last 30 days.`;
+
+            initGanttChart();
+        }
+
+        initPage();
     </script>
 </body>
 </html>
