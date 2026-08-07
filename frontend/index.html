@@ -27,20 +27,41 @@
         .search-wrapper::before { content: "🔍"; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; opacity: 0.5; }
 
         /* Section Titles */
-        .section-title { font-size: 14px; font-weight: 700; margin-top: 20px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #78350f; display: flex; align-items: center; justify-content: space-between; letter-spacing: 0.5px; color: #f59e0b; }
+        .section-title { font-size: 14px; font-weight: 700; margin-top: 35px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #1e293b; display: flex; align-items: center; justify-content: space-between; letter-spacing: 0.5px; }
+        .section-title.macro { color: #f59e0b; border-bottom-color: #78350f; }
+        .section-title.pipeline { color: #f59e0b; border-bottom-color: #451a03; }
+        .section-title.implemented { color: #10b981; border-bottom-color: #064e3b; }
         .row-counter { font-size: 11px; background-color: #1e293b; color: #94a3b8; padding: 2px 8px; border-radius: 10px; font-weight: normal; }
 
         /* Main Table Styles */
-        table { width: 100%; border-collapse: collapse; margin-bottom: 40px; background-color: #000000; table-layout: fixed; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background-color: #000000; table-layout: fixed; }
         th.sortable { cursor: pointer; user-select: none; transition: background-color 0.15s; }
         th.sortable:hover { background-color: #1e293b; color: #ffffff; }
         th { border: 1px solid #1e293b; text-align: left; padding: 12px 16px; font-size: 11px; background-color: #0f172a; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
         .sort-icon { display: inline-block; margin-left: 6px; font-size: 10px; color: #475569; }
         
-        td { border: 1px solid #1e293b; text-align: left; padding: 14px 16px; font-size: 13.5px; color: #e2e8f0; vertical-align: middle; }
-        .macro-row { transition: background-color 0.15s ease; }
-        .macro-row:nth-child(even) { background-color: #05070a; }
-        .macro-row:hover { background-color: #0f172a; }
+        td { border: 1px solid #1e293b; text-align: left; padding: 14px 16px; font-size: 13.5px; color: #e2e8f0; vertical-align: middle; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        
+        .clickable-row { cursor: pointer; transition: background-color 0.15s ease; }
+        .clickable-row:hover { background-color: #0f172a !important; }
+        .clickable-row:hover td { color: #ffffff !important; }
+        .clickable-row:nth-child(4n+1) { background-color: #000000; }
+        .clickable-row:nth-child(4n+3) { background-color: #05070a; }
+
+        .clickable-row.is-new-row { border-left: 3px solid #00f0ff; animation: pulseGlow 2s infinite ease-in-out; }
+        @keyframes pulseGlow { 0% { background-color: rgba(0, 240, 255, 0.02); } 50% { background-color: rgba(0, 240, 255, 0.07); } 100% { background-color: rgba(0, 240, 255, 0.02); } }
+        .new-entry-badge { background-color: #00f0ff; color: #000000; font-size: 10px; font-weight: 900; padding: 1px 5px; border-radius: 3px; margin-left: 8px; display: inline-block; vertical-align: middle; box-shadow: 0 0 8px rgba(0, 240, 255, 0.6); }
+
+        /* Drilldown Formatting */
+        .drilldown-row { background-color: #020617 !important; display: none; }
+        .drilldown-row.active { display: table-row; }
+        .drilldown-panel { padding: 20px 24px; color: #cbd5e1; font-size: 13.5px; border-left: 4px solid #3b82f6; background-color: #090d16; }
+        .drilldown-grid { display: grid; grid-template-columns: 140px 1fr; gap: 14px 16px; }
+        .field-label { font-weight: 600; color: #64748b; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; align-self: start; padding-top: 2px; }
+        .field-value { color: #e2e8f0; line-height: 1.6; white-space: normal !important; }
+        
+        .source-link-btn { display: inline-flex; align-items: center; gap: 6px; background-color: #1e293b; color: #3b82f6; border: 1px solid #334155; padding: 6px 14px; font-size: 12px; font-weight: bold; border-radius: 4px; text-decoration: none; margin-top: 5px; transition: all 0.1s ease; cursor: pointer; }
+        .source-link-btn:hover { background-color: #2563eb; color: #ffffff; border-color: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
 
         /* Column Specific Formatting */
         .td-mkt { font-weight: 700; color: #3b82f6; width: 7%; }
@@ -48,34 +69,51 @@
         .td-classification { width: 12%; }
         .td-adt { width: 22%; }
         .td-flow { width: 22%; }
-        .td-concentrator { width: 25%; color: #e2e8f0; font-size: 13px; line-height: 1.4; }
+        .td-concentrator { width: 25%; color: #e2e8f0; font-size: 13px; line-height: 1.4; white-space: normal; }
+        
+        .td-initiative { width: 34%; color: #ffffff; text-overflow: ellipsis; }
+        .td-eta { font-weight: 500; width: 18%; color: #cbd5e1; }
+        .td-category { width: 10%; color: #94a3b8; }
+        .td-toggle { width: 2%; text-align: center; color: #475569; font-weight: bold; font-size: 14px; }
 
-        /* Classification Badges */
+        /* Badges */
         .class-badge { display: inline-block; padding: 3px 10px; font-size: 10px; font-weight: 700; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.3px; }
         .class-badge.developed { background-color: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
         .class-badge.emerging { background-color: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
 
-        /* ADT & Flow Specific Styling */
+        .severity-badge { display: inline-block; padding: 2px 8px; font-size: 11px; font-weight: 600; border-radius: 4px; text-transform: uppercase; }
+        .severity-badge.critical { background-color: #7f1d1d; color: #fca5a5; border: 1px solid #b91c1c; }
+        .severity-badge.high { background-color: #7c2d12; color: #ffedd5; border: 1px solid #ea580c; }
+        .severity-badge.medium { background-color: #713f12; color: #fef9c3; border: 1px solid #ca8a04; }
+        .severity-badge.low { background-color: #064e3b; color: #d1fae5; border: 1px solid #16a34a; }
+
+        /* ADT & Flow Specific Layout */
         .adt-primary { font-size: 15px; font-weight: 800; color: #ffffff; }
-        .adt-usd { font-size: 11px; color: #64748b; margin-top: 1px; }
+        .adt-usd { font-size: 11px; color: #64748b; }
         
-        .flow-text-container { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+        .flow-text-container { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
         .flow-ret-label { color: #f59e0b; }
         .flow-inst-label { color: #38bdf8; }
         
-        /* Flow Bar Visual Representation */
-        .flow-bar-wrapper { width: 100%; height: 6px; background-color: #1e293b; border-radius: 3px; display: flex; overflow: hidden; margin-bottom: 6px; }
+        .flow-bar-wrapper { width: 100%; height: 6px; background-color: #1e293b; border-radius: 3px; display: flex; overflow: hidden; margin-bottom: 4px; }
         .flow-bar-ret { height: 100%; background-color: #f59e0b; }
         .flow-bar-inst { height: 100%; background-color: #38bdf8; }
 
-        /* Delta & Trend Badges */
         .trend-badge { font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 3px; }
         .trend-badge.up { color: #10b981; }
         .trend-badge.down { color: #f87171; }
         .trend-badge.flat { color: #94a3b8; }
-        .trend-period { font-size: 10px; color: #64748b; font-weight: normal; margin-left: 3px; }
+        .trend-period { font-size: 10px; color: #64748b; font-weight: normal; margin-left: 2px; }
+
+        .countdown-ticker { font-size: 11px; font-weight: bold; padding: 2px 6px; border-radius: 4px; margin-left: 6px; display: inline-block; }
+        .countdown-ticker.upcoming { background-color: #451a03; color: #f59e0b; border: 1px solid #78350f; }
+        .countdown-ticker.passed { background-color: #064e3b; color: #10b981; border: 1px solid #065f46; }
 
         .status-msg { text-align: center; font-weight: 500; color: #64748b; padding: 30px; background-color: #0f172a; border: 1px dashed #1e293b; border-radius: 6px; }
+        
+        .impact-list { margin: 0; padding-left: 0; list-style-type: none; }
+        .impact-list li { margin-bottom: 8px; position: relative; padding-left: 20px; }
+        .impact-list li::before { content: "➔"; position: absolute; left: 0; color: #3b82f6; font-size: 12px; }
     </style>
 </head>
 
@@ -94,12 +132,12 @@
                 </a>
                 <div class="agent-status-panel">
                     🤖 Agent Status: <span style="color: #10b981; font-weight: bold;">● ONLINE</span><br>
-                    📅 Last Sync Check: <strong id="agent-timestamp">Aug 06, 2026 14:50 HKT</strong>
+                    📅 Last Sync Check: <strong id="agent-timestamp">Aug 07, 2026 10:07 HKT</strong>
                 </div>
             </div>
         </div>
 
-        <!-- Controls -->
+        <!-- Controls Bar -->
         <div class="controls-bar">
             <div class="search-wrapper">
                 <input type="text" id="masterSearch" oninput="applyFilters()" placeholder="Filter ledger by market, country, segment or keyword..." autocomplete="off">
@@ -109,13 +147,11 @@
             </div>
         </div>
 
-        <!-- Table Title -->
-        <div class="section-title">
+        <!-- TABLE 1: APAC REGIONAL MACRO TURNOVER -->
+        <div class="section-title macro">
             <span>⌛ APAC REGIONAL MACRO TURNOVER (CLICK HEADERS TO SORT)</span>
             <span class="row-counter" id="macro-count">0 Records</span>
         </div>
-
-        <!-- Macro Table -->
         <div id="macro-container">
             <table id="macro-table">
                 <thead>
@@ -130,105 +166,140 @@
                 </thead>
                 <tbody id="macro-body"></tbody>
             </table>
-            <div id="macro-loading" class="status-msg" style="display: none;">Loading market dynamics...</div>
+        </div>
+
+        <!-- TABLE 2: UPCOMING CHANGES / PIPELINE -->
+        <div class="section-title pipeline">
+            <span>⏳ UPCOMING CHANGES / PIPELINE (CLICK HEADERS TO SORT)</span>
+            <span class="row-counter" id="pipeline-count">0 Records</span>
+        </div>
+        <div id="pipeline-container">
+            <table id="pipeline-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th class="sortable td-mkt" onclick="sortTable('pipeline', 'exchange', this)">MKT<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-country" onclick="sortTable('pipeline', 'countryFull', this)">Country<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-classification" onclick="sortTable('pipeline', 'isDeveloped', this)">Classification<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-initiative" onclick="sortTable('pipeline', 'initiative', this)">Structure Initiative / Regulatory Description<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-eta" onclick="sortTable('pipeline', 'eta', this)">Effective Date / ETA<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-category" onclick="sortTable('pipeline', 'category', this)">Market Segment<span class="sort-icon">▼▲</span></th>
+                        <th class="td-toggle"></th>
+                    </tr>
+                </thead>
+                <tbody id="pipeline-body"></tbody>
+            </table>
+            <div id="pipeline-loading" class="status-msg">Scanning pipeline entries...</div>
+        </div>
+
+        <!-- TABLE 3: COMPLETED / IMPLEMENTED HISTORICAL -->
+        <div class="section-title implemented">
+            <span>✅ COMPLETED / IMPLEMENTED HISTORICAL (CLICK HEADERS TO SORT)</span>
+            <span class="row-counter" id="implemented-count">0 Records</span>
+        </div>
+        <div id="implemented-container">
+            <table id="implemented-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th class="sortable td-mkt" onclick="sortTable('implemented', 'exchange', this)">MKT<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-country" onclick="sortTable('implemented', 'countryFull', this)">Country<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-classification" onclick="sortTable('implemented', 'isDeveloped', this)">Classification<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-initiative" onclick="sortTable('implemented', 'initiative', this)">Structure Initiative / Regulatory Description<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-eta" onclick="sortTable('implemented', 'eta', this)">Effective Date / ETA<span class="sort-icon">▼▲</span></th>
+                        <th class="sortable td-category" onclick="sortTable('implemented', 'category', this)">Market Segment<span class="sort-icon">▼▲</span></th>
+                        <th class="td-toggle"></th>
+                    </tr>
+                </thead>
+                <tbody id="implemented-body"></tbody>
+            </table>
+            <div id="implemented-loading" class="status-msg">Scanning implemented entries...</div>
         </div>
     </div>
 
     <script>
-        // Sample Market Dataset with QoQ Historical Baseline Data
+        const countryMap = {
+            'jp': 'Japan', 'au': 'Australia', 'hk': 'Hong Kong', 'sg': 'Singapore',
+            'tw': 'Taiwan', 'kr': 'South Korea', 'nz': 'New Zealand', 'cn': 'Mainland China',
+            'in': 'India', 'my': 'Malaysia', 'th': 'Thailand', 'id': 'Indonesia',
+            'ph': 'Philippines', 'vn': 'Vietnam'
+        };
+
+        const developedMarkets = ['jpx', 'asx', 'hkex', 'sgx', 'twse', 'krx', 'nzx'];
+
+        // Table 1 Data Source
         const macroData = [
-            {
-                exchange: 'HKEX', country: 'Hong Kong', isDeveloped: 1, ccy: 'HK$',
-                currentAdt: 283.0, prevAdt: 261.5, usdEquiv: '36.2B',
-                retailPct: 12.0, prevRetailPct: 10.5,
-                concentrator: '<strong>Financials (29.1% Cap)</strong> • <strong>Information Technology (42.5% Vol)</strong>.'
-            },
-            {
-                exchange: 'ASX', country: 'Australia', isDeveloped: 1, ccy: 'A$',
-                currentAdt: 6.8, prevAdt: 6.95, usdEquiv: '4.45B',
-                retailPct: 15.0, prevRetailPct: 15.0,
-                concentrator: '<strong>Materials & Financials</strong> • Global Mining Giants (BHP, Rio) & Big 4 Banks.'
-            },
-            {
-                exchange: 'JPX', country: 'Japan', isDeveloped: 1, ccy: '¥',
-                currentAdt: 11600.0, prevAdt: 10800.0, usdEquiv: '74.1B', // Stored in Billions equivalent (11.6T)
-                displayCcy: '¥ 11.6T',
-                retailPct: 22.0, prevRetailPct: 19.5,
-                concentrator: '<strong>Industrial / Auto Mfg</strong> • Electric Appliances & Tech Equipment.'
-            },
-            {
-                exchange: 'SGX', country: 'Singapore', isDeveloped: 1, ccy: 'S$',
-                currentAdt: 1.8, prevAdt: 1.72, usdEquiv: '1.39B',
-                retailPct: 25.0, prevRetailPct: 27.0,
-                concentrator: '<strong>Financials (Local Banks)</strong> • REITs & Micro Index Derivatives.'
-            },
-            {
-                exchange: 'TWSE', country: 'Taiwan', isDeveloped: 1, ccy: 'NT$',
-                currentAdt: 380.0, prevAdt: 345.0, usdEquiv: '11.6B',
-                retailPct: 55.0, prevRetailPct: 51.0,
-                concentrator: '<strong>Semiconductors & Electronics</strong> • TSMC & Electronics Supply Chain.'
-            },
-            {
-                exchange: 'NZX', country: 'New Zealand', isDeveloped: 1, ccy: 'NZ$',
-                currentAdt: 0.18, prevAdt: 0.19, usdEquiv: '0.11B',
-                retailPct: 20.0, prevRetailPct: 20.0,
-                concentrator: '<strong>Utilities & Healthcare</strong> • Defensive Infrastructure & Energy Providers.'
-            },
-            {
-                exchange: 'NSE', country: 'India', isDeveloped: 0, ccy: '₹',
-                currentAdt: 985.0, prevAdt: 910.0, usdEquiv: '11.8B',
-                retailPct: 38.0, prevRetailPct: 35.5,
-                concentrator: '<strong>Financial Services & IT</strong> • Nifty Heavyweights & High-Beta.'
-            }
+            { exchange: 'HKEX', country: 'Hong Kong', isDeveloped: 1, ccy: 'HK$', currentAdt: 283.0, prevAdt: 261.5, usdEquiv: '36.2B', retailPct: 12.0, prevRetailPct: 10.5, concentrator: '<strong>Financials (29.1% Cap)</strong> • <strong>Information Technology (42.5% Vol)</strong>.' },
+            { exchange: 'ASX', country: 'Australia', isDeveloped: 1, ccy: 'A$', currentAdt: 6.8, prevAdt: 6.95, usdEquiv: '4.45B', retailPct: 15.0, prevRetailPct: 15.0, concentrator: '<strong>Materials & Financials</strong> • Global Mining Giants (BHP, Rio) & Big 4 Banks.' },
+            { exchange: 'JPX', country: 'Japan', isDeveloped: 1, ccy: '¥', currentAdt: 11600.0, prevAdt: 10800.0, usdEquiv: '74.1B', displayCcy: '¥ 11.6T', retailPct: 22.0, prevRetailPct: 19.5, concentrator: '<strong>Industrial / Auto Mfg</strong> • Electric Appliances & Tech Equipment.' },
+            { exchange: 'SGX', country: 'Singapore', isDeveloped: 1, ccy: 'S$', currentAdt: 1.8, prevAdt: 1.72, usdEquiv: '1.39B', retailPct: 25.0, prevRetailPct: 27.0, concentrator: '<strong>Financials (Local Banks)</strong> • REITs & Micro Index Derivatives.' },
+            { exchange: 'TWSE', country: 'Taiwan', isDeveloped: 1, ccy: 'NT$', currentAdt: 380.0, prevAdt: 345.0, usdEquiv: '11.6B', retailPct: 55.0, prevRetailPct: 51.0, concentrator: '<strong>Semiconductors & Electronics</strong> • TSMC & Electronics Supply Chain.' },
+            { exchange: 'NZX', country: 'New Zealand', isDeveloped: 1, ccy: 'NZ$', currentAdt: 0.18, prevAdt: 0.19, usdEquiv: '0.11B', retailPct: 20.0, prevRetailPct: 20.0, concentrator: '<strong>Utilities & Healthcare</strong> • Defensive Infrastructure & Energy Providers.' },
+            { exchange: 'NSE', country: 'India', isDeveloped: 0, ccy: '₹', currentAdt: 985.0, prevAdt: 910.0, usdEquiv: '11.8B', retailPct: 38.0, prevRetailPct: 35.5, concentrator: '<strong>Financial Services & IT</strong> • Nifty Heavyweights & High-Beta.' }
         ];
 
-        let activeSortKey = null;
-        let activeSortDir = 'asc';
+        let rawPipelineDataset = []; let rawImplementedDataset = [];
+        let activeSortKeys = { macro: null, pipeline: null, implemented: null };
+        let activeSortDirs = { macro: 'asc', pipeline: 'asc', implemented: 'asc' };
 
+        function calculateCountdown(etaText) {
+            if (!etaText) return { text: '', html: '' };
+            const clean = etaText.toLowerCase(); const now = new Date("2026-08-05"); let targetDate = null;
+
+            if (clean.includes('nov 5, 2024')) targetDate = new Date("2024-11-05");
+            else if (clean.includes('sept 23, 2024')) targetDate = new Date("2024-09-23");
+            else if (clean.includes('q2 2025')) targetDate = new Date("2025-06-30");
+            else if (clean.includes('late 2025')) targetDate = new Date("2025-11-30");
+            else if (clean.includes('july 2026')) targetDate = new Date("2026-07-01");
+            else if (clean.includes('mid-2026')) targetDate = new Date("2026-06-30");
+            else if (clean.includes('target 2026')) targetDate = new Date("2026-12-31");
+            else if (clean.includes('early 2027')) targetDate = new Date("2027-03-31");
+            else if (clean.includes('mid-2027')) targetDate = new Date("2027-06-30");
+            else if (clean.includes('late 2026')) targetDate = new Date("2026-11-30");
+            else if (clean.includes('end-2027')) targetDate = new Date("2027-12-31");
+            else if (clean.includes('2026 / 2027')) targetDate = new Date("2027-01-01");
+
+            if (!targetDate) return { text: '', html: '' };
+            const diffDays = Math.ceil((targetDate - now) / (1000 * 60 * 60 * 24));
+            return diffDays < 0 ? { text: `[Passed]`, html: `<span class="countdown-ticker passed">✓ Implemented</span>` } : { text: `[${diffDays} Days To Go]`, html: `<span class="countdown-ticker upcoming">⏳ ${diffDays} Days To Go</span>` };
+        }
+
+        function formatImpact(impactText) {
+            if (!impactText) return 'No metrics logged.';
+            let listItems = '';
+            impactText.split('\n').forEach(line => {
+                let cleanLine = line.replace(/^[•\s\-]+/, '').trim();
+                if (cleanLine) listItems += `<li>${cleanLine}</li>`;
+            });
+            return listItems ? `<ul class="impact-list">${listItems}</ul>` : 'No metrics parsed.';
+        }
+
+        let viewedInitiatives = JSON.parse(localStorage.getItem('microstructure_viewed_logs') || '[]');
+
+        // Render Macro Table
         function renderMacroTable(dataset) {
             const tbody = document.getElementById('macro-body');
-            const counterBadge = document.getElementById('macro-count');
+            document.getElementById('macro-count').textContent = `${dataset.length} Records`;
             tbody.innerHTML = '';
-            counterBadge.textContent = `${dataset.length} Records`;
 
             dataset.forEach(item => {
-                // Correct Flow Calculation: Institutional % is always remainder of 100%
                 const retPct = item.retailPct;
                 const instPct = (100 - retPct).toFixed(1);
-
-                // Calculate ADT QoQ Change
                 const adtDelta = ((item.currentAdt - item.prevAdt) / item.prevAdt) * 100;
-                let adtTrendHtml = '';
-                if (adtDelta > 0) {
-                    adtTrendHtml = `<span class="trend-badge up">▲ +${adtDelta.toFixed(1)}%<span class="trend-period">vs Q1</span></span>`;
-                } else if (adtDelta < 0) {
-                    adtTrendHtml = `<span class="trend-badge down">▼ ${adtDelta.toFixed(1)}%<span class="trend-period">vs Q1</span></span>`;
-                } else {
-                    adtTrendHtml = `<span class="trend-badge flat">● Unchanged<span class="trend-period">vs Q1</span></span>`;
-                }
+                let adtTrendHtml = adtDelta > 0 ? `<span class="trend-badge up">▲ +${adtDelta.toFixed(1)}%<span class="trend-period">vs Q1</span></span>` : (adtDelta < 0 ? `<span class="trend-badge down">▼ ${adtDelta.toFixed(1)}%<span class="trend-period">vs Q1</span></span>` : `<span class="trend-badge flat">● Flat<span class="trend-period">vs Q1</span></span>`);
 
-                // Calculate Flow Shift (Retail Movement)
                 const flowShift = retPct - item.prevRetailPct;
-                let flowTrendHtml = '';
-                if (flowShift > 0) {
-                    flowTrendHtml = `<span class="trend-badge up">Ret ▲ +${flowShift.toFixed(1)}%<span class="trend-period">QoQ</span></span>`;
-                } else if (flowShift < 0) {
-                    flowTrendHtml = `<span class="trend-badge down">Ret ▼ ${Math.abs(flowShift).toFixed(1)}%<span class="trend-period">QoQ</span></span>`;
-                } else {
-                    flowTrendHtml = `<span class="trend-badge flat">Flow Split Flat<span class="trend-period">QoQ</span></span>`;
-                }
+                let flowTrendHtml = flowShift > 0 ? `<span class="trend-badge up">Ret ▲ +${flowShift.toFixed(1)}%<span class="trend-period">QoQ</span></span>` : (flowShift < 0 ? `<span class="trend-badge down">Ret ▼ ${Math.abs(flowShift).toFixed(1)}%<span class="trend-period">QoQ</span></span>` : `<span class="trend-badge flat">Flat<span class="trend-period">QoQ</span></span>`);
 
                 const adtDisplay = item.displayCcy ? item.displayCcy : `${item.ccy} ${item.currentAdt}B`;
                 const classBadge = item.isDeveloped ? '<span class="class-badge developed">Developed Mkt</span>' : '<span class="class-badge emerging">Emerging Mkt</span>';
 
                 tbody.insertAdjacentHTML('beforeend', `
-                    <tr class="macro-row">
+                    <tr class="clickable-row">
                         <td class="td-mkt">${item.exchange}</td>
                         <td class="td-country">${item.country}</td>
                         <td class="td-classification">${classBadge}</td>
                         <td class="td-adt">
                             <div class="adt-primary">${adtDisplay}</div>
-                            <div style="display: flex; gap: 10px; align-items: center; margin-top: 2px;">
+                            <div style="display: flex; gap: 8px; align-items: center; margin-top: 2px;">
                                 <span class="adt-usd">US$ ${item.usdEquiv}</span>
                                 ${adtTrendHtml}
                             </div>
@@ -250,46 +321,146 @@
             });
         }
 
-        function applyFilters() {
-            const query = document.getElementById('masterSearch').value.toLowerCase().trim();
-            const filtered = macroData.filter(item => 
-                item.exchange.toLowerCase().includes(query) ||
-                item.country.toLowerCase().includes(query) ||
-                item.concentrator.toLowerCase().includes(query)
-            );
-            renderMacroTable(filtered);
+        // Render Pipeline & Implemented Tables
+        function renderTableSection(section, dataset) {
+            const tbody = document.getElementById(`${section}-body`); 
+            const loadingMsg = document.getElementById(`${section}-loading`);
+            const targetTable = document.getElementById(`${section}-table`); 
+            const counterBadge = document.getElementById(`${section}-count`);
+            
+            tbody.innerHTML = ''; 
+            counterBadge.textContent = `${dataset.length} Entries`;
+            
+            if (dataset.length === 0) { 
+                loadingMsg.style.display = 'block'; 
+                loadingMsg.textContent = `No matches found.`; 
+                targetTable.style.display = 'none'; 
+                return; 
+            }
+            
+            loadingMsg.style.display = 'none'; 
+            targetTable.style.display = 'table';
+
+            dataset.forEach(item => {
+                const uniqueId = `drill-${section}-${item.signature}`;
+                const classBadge = item.isDeveloped ? '<span class="class-badge developed">Developed Mkt</span>' : '<span class="class-badge emerging">Emerging Mkt</span>';
+                
+                tbody.insertAdjacentHTML('beforeend', `
+                    <tr class="${item.isNew ? 'clickable-row is-new-row' : 'clickable-row'}" onclick="handleRowInteraction('${uniqueId}', '${item.signature}', this)">
+                        <td class="td-mkt">${item.exchange}</td>
+                        <td class="td-country">${item.countryFull}</td>
+                        <td class="td-classification">${classBadge}</td>
+                        <td class="td-initiative">${item.initiative}${item.isNew ? '<span class="new-entry-badge">NEW</span>' : ''}</td>
+                        <td class="td-eta">${item.eta} ${item.countdownHtml}</td>
+                        <td class="td-category">${item.category}</td>
+                        <td class="td-toggle" id="arrow-${uniqueId}">▼</td>
+                    </tr>
+                    <tr class="drilldown-row" id="${uniqueId}"><td colspan="7"><div class="drilldown-panel"><div class="drilldown-grid">
+                        <div class="field-label">Risk Severity:</div><div class="field-value"><span class="severity-badge ${item.severity.toLowerCase()}">${item.severity}</span></div>
+                        <div class="field-label">Detailed Impact:</div><div class="field-value">${item.formattedImpact}</div>
+                        <div class="field-label">Official Feeds:</div><div class="field-value">
+                            <a href="${item.sourceUrl}" target="_blank" rel="noopener noreferrer" class="source-link-btn" onclick="event.stopPropagation();">
+                                🔍 Locate Official Source Document
+                            </a>
+                        </div>
+                    </div></div></td></tr>
+                `);
+            });
         }
 
+        // Fetch JSON & Initialize All 3 Tables
+        fetch('data.json')
+            .then(response => response.json())
+            .then(data => {
+                let globalTimestamp = "N/A";
+                data.forEach((item) => {
+                    const ex = item.exchange || item.EXCHANGE || 'N/A'; 
+                    const countryCode = item.country || item.COUNTRY || '';
+                    const init = item.initiative || item.INITIATIVE || 'N/A'; 
+                    const eta = item.eta || item.ETA || 'N/A';
+                    const cat = item.category || item.CATEGORY || 'N/A'; 
+                    const impactText = item.impact || item.IMPACT || '';
+                    const severity = (item.severity_level || item.SEVERITY_LEVEL || 'Normal');
+                    const timelineStatus = (item.timeline_status || item.TIMELINE_STATUS || '').toLowerCase();
+                    const directSourceUrl = item.source_url || item.SOURCE_URL || 'https://google.com';
+
+                    if(item.last_updated || item.LAST_UPDATED) globalTimestamp = item.last_updated || item.LAST_UPDATED;
+
+                    const initiativeSignature = `${ex}-${init}-${eta}`.replace(/\s+/g, '_');
+                    const countdownData = calculateCountdown(eta);
+
+                    const normalizedItem = {
+                        exchange: ex, countryFull: countryMap[countryCode.trim().toLowerCase()] || countryCode || 'Global',
+                        isDeveloped: developedMarkets.includes(ex.trim().toLowerCase()) ? 1 : 0, initiative: init,
+                        eta: eta, category: cat, severity: severity, formattedImpact: formatImpact(impactText),
+                        signature: initiativeSignature, isNew: !viewedInitiatives.includes(initiativeSignature),
+                        countdownHtml: countdownData.html, sourceUrl: directSourceUrl
+                    };
+
+                    const isImplemented = timelineStatus.includes('historical') || eta.toLowerCase().includes('implemented') || countdownData.text.includes('Passed');
+                    if (isImplemented) rawImplementedDataset.push(normalizedItem); else rawPipelineDataset.push(normalizedItem);
+                });
+                
+                document.getElementById('agent-timestamp').textContent = globalTimestamp; 
+                applyFilters();
+            })
+            .catch(error => { 
+                document.getElementById('pipeline-loading').textContent = `❌ Sync Error: ${error.message}`; 
+            });
+
+        // Filter Logic
+        function applyFilters() {
+            const query = document.getElementById('masterSearch').value.toLowerCase().trim();
+            
+            const filterMacro = macroData.filter(item => item.exchange.toLowerCase().includes(query) || item.country.toLowerCase().includes(query) || item.concentrator.toLowerCase().includes(query));
+            renderMacroTable(filterMacro);
+
+            const filterArray = (arr) => arr.filter(item => item.exchange.toLowerCase().includes(query) || item.countryFull.toLowerCase().includes(query) || item.initiative.toLowerCase().includes(query) || item.category.toLowerCase().includes(query));
+            renderTableSection('pipeline', filterArray(rawPipelineDataset)); 
+            renderTableSection('implemented', filterArray(rawImplementedDataset));
+        }
+
+        // Sorting Logic
         function sortMacroTable(key, thElement) {
-            if (activeSortKey === key) {
-                activeSortDir = activeSortDir === 'asc' ? 'desc' : 'asc';
-            } else {
-                activeSortKey = key;
-                activeSortDir = 'asc';
-            }
-
-            // Reset table icons
-            thElement.parentNode.querySelectorAll('th').forEach(th => {
-                const icon = th.querySelector('.sort-icon');
-                if (icon) icon.textContent = '▼▲';
-            });
-            thElement.querySelector('.sort-icon').textContent = activeSortDir === 'asc' ? '▲' : '▼';
-
-            macroData.sort((a, b) => {
-                let valA = a[key];
-                let valB = b[key];
-                if (typeof valA === 'string') valA = valA.toLowerCase();
-                if (typeof valB === 'string') valB = valB.toLowerCase();
-                if (valA < valB) return activeSortDir === 'asc' ? -1 : 1;
-                if (valA > valB) return activeSortDir === 'asc' ? 1 : -1;
-                return 0;
-            });
-
+            if (activeSortKeys.macro === key) { activeSortDirs.macro = activeSortDirs.macro === 'asc' ? 'desc' : 'asc'; } else { activeSortKeys.macro = key; activeSortDirs.macro = 'asc'; }
+            thElement.parentNode.querySelectorAll('th').forEach(th => { const icon = th.querySelector('.sort-icon'); if (icon) icon.textContent = '▼▲'; });
+            thElement.querySelector('.sort-icon').textContent = activeSortDirs.macro === 'asc' ? '▲' : '▼';
+            macroData.sort((a, b) => { let valA = a[key]; let valB = b[key]; if (typeof valA === 'string') valA = valA.toLowerCase(); if (typeof valB === 'string') valB = valB.toLowerCase(); if (valA < valB) return activeSortDirs.macro === 'asc' ? -1 : 1; if (valA > valB) return activeSortDirs.macro === 'asc' ? 1 : -1; return 0; });
             applyFilters();
         }
 
-        // Initial Page Render
-        renderMacroTable(macroData);
+        function sortTable(section, key, thElement) {
+            const targetData = section === 'pipeline' ? rawPipelineDataset : rawImplementedDataset;
+            if (activeSortKeys[section] === key) activeSortDirs[section] = activeSortDirs[section] === 'asc' ? 'desc' : 'asc'; else { activeSortKeys[section] = key; activeSortDirs[section] = 'asc'; }
+            thElement.parentNode.querySelectorAll('th').forEach(th => { const icon = th.querySelector('.sort-icon'); if (icon) icon.textContent = '▼▲'; });
+            thElement.querySelector('.sort-icon').textContent = activeSortDirs[section] === 'asc' ? '▲' : '▼';
+            targetData.sort((a, b) => { let valA = a[key]; let valB = b[key]; if (typeof valA === 'string') valA = valA.toLowerCase(); if (typeof valB === 'string') valB = valB.toLowerCase(); if (valA < valB) return activeSortDirs[section] === 'asc' ? -1 : 1; if (valA > valB) return activeSortDirs[section] === 'asc' ? 1 : -1; return 0; });
+            applyFilters();
+        }
+
+        // Expandable Row Logic
+        function handleRowInteraction(rowId, signature, masterElement) {
+            const targetedPanel = document.getElementById(rowId); 
+            const arrowIndicator = document.getElementById('arrow-' + rowId);
+            if (targetedPanel.classList.contains('active')) { 
+                targetedPanel.classList.remove('active'); 
+                arrowIndicator.textContent = '▼'; 
+                masterElement.style.backgroundColor = ''; 
+            } else {
+                targetedPanel.classList.add('active'); 
+                arrowIndicator.textContent = '▲'; 
+                masterElement.style.backgroundColor = '#0f172a';
+                if (!viewedInitiatives.includes(signature)) {
+                    viewedInitiatives.push(signature); 
+                    localStorage.setItem('microstructure_viewed_logs', JSON.stringify(viewedInitiatives));
+                    masterElement.classList.remove('is-new-row'); 
+                    const badge = masterElement.querySelector('.new-entry-badge'); 
+                    if(badge) badge.remove();
+                    let itemMatch = rawPipelineDataset.find(x => x.signature === signature) || rawImplementedDataset.find(x => x.signature === signature); 
+                    if(itemMatch) itemMatch.isNew = false;
+                }
+            }
+        }
     </script>
 </body>
 </html>
