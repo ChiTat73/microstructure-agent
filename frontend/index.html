@@ -13,9 +13,6 @@
         .header-area { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid #1e293b; padding-bottom: 24px; }
         .header-right-group { display: flex; gap: 12px; align-items: stretch; }
         
-        .hub-btn { background-color: #000000; color: #38bdf8; border: 1px solid #1e293b; padding: 0 16px; border-radius: 6px; font-family: monospace; font-size: 11px; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s ease; }
-        .hub-btn:hover { border-color: #38bdf8; background-color: #090d16; }
-
         h1 { color: #3b82f6; margin: 0 0 8px 0; font-size: 26px; font-weight: 700; }
         .subtitle { color: #94a3b8; margin: 0; font-size: 14px; }
         .agent-status-panel { background-color: #0f172a; border: 1px solid #1e293b; padding: 12px 18px; border-radius: 6px; font-size: 13px; color: #e2e8f0; }
@@ -29,8 +26,8 @@
         /* Section Titles */
         .section-title { font-size: 14px; font-weight: 700; margin-top: 35px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #1e293b; display: flex; align-items: center; justify-content: space-between; letter-spacing: 0.5px; }
         .section-title.macro { color: #f59e0b; border-bottom-color: #78350f; }
-        .section-title.pipeline { color: #f59e0b; border-bottom-color: #451a03; }
-        .section-title.implemented { color: #10b981; border-bottom-color: #064e3b; }
+        .section-title.comparison { color: #38bdf8; border-bottom-color: #0369a1; }
+        .section-title.insights { color: #10b981; border-bottom-color: #064e3b; }
         .row-counter { font-size: 11px; background-color: #1e293b; color: #94a3b8; padding: 2px 8px; border-radius: 10px; font-weight: normal; }
 
         /* Main Table Styles */
@@ -42,26 +39,11 @@
         
         td { border: 1px solid #1e293b; text-align: left; padding: 14px 16px; font-size: 13.5px; color: #e2e8f0; vertical-align: middle; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         
-        .clickable-row { cursor: pointer; transition: background-color 0.15s ease; }
+        .clickable-row { transition: background-color 0.15s ease; }
         .clickable-row:hover { background-color: #0f172a !important; }
         .clickable-row:hover td { color: #ffffff !important; }
-        .clickable-row:nth-child(4n+1) { background-color: #000000; }
-        .clickable-row:nth-child(4n+3) { background-color: #05070a; }
-
-        .clickable-row.is-new-row { border-left: 3px solid #00f0ff; animation: pulseGlow 2s infinite ease-in-out; }
-        @keyframes pulseGlow { 0% { background-color: rgba(0, 240, 255, 0.02); } 50% { background-color: rgba(0, 240, 255, 0.07); } 100% { background-color: rgba(0, 240, 255, 0.02); } }
-        .new-entry-badge { background-color: #00f0ff; color: #000000; font-size: 10px; font-weight: 900; padding: 1px 5px; border-radius: 3px; margin-left: 8px; display: inline-block; vertical-align: middle; box-shadow: 0 0 8px rgba(0, 240, 255, 0.6); }
-
-        /* Drilldown Formatting */
-        .drilldown-row { background-color: #020617 !important; display: none; }
-        .drilldown-row.active { display: table-row; }
-        .drilldown-panel { padding: 20px 24px; color: #cbd5e1; font-size: 13.5px; border-left: 4px solid #3b82f6; background-color: #090d16; }
-        .drilldown-grid { display: grid; grid-template-columns: 140px 1fr; gap: 14px 16px; }
-        .field-label { font-weight: 600; color: #64748b; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; align-self: start; padding-top: 2px; }
-        .field-value { color: #e2e8f0; line-height: 1.6; white-space: normal !important; }
-        
-        .source-link-btn { display: inline-flex; align-items: center; gap: 6px; background-color: #1e293b; color: #3b82f6; border: 1px solid #334155; padding: 6px 14px; font-size: 12px; font-weight: bold; border-radius: 4px; text-decoration: none; margin-top: 5px; transition: all 0.1s ease; cursor: pointer; }
-        .source-link-btn:hover { background-color: #2563eb; color: #ffffff; border-color: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+        .clickable-row:nth-child(2n+1) { background-color: #000000; }
+        .clickable-row:nth-child(2n) { background-color: #05070a; }
 
         /* Column Specific Formatting */
         .td-mkt { font-weight: 700; color: #3b82f6; width: 7%; }
@@ -70,22 +52,11 @@
         .td-adt { width: 22%; }
         .td-flow { width: 22%; }
         .td-concentrator { width: 25%; color: #e2e8f0; font-size: 13px; line-height: 1.4; white-space: normal; }
-        
-        .td-initiative { width: 34%; color: #ffffff; text-overflow: ellipsis; }
-        .td-eta { font-weight: 500; width: 18%; color: #cbd5e1; }
-        .td-category { width: 10%; color: #94a3b8; }
-        .td-toggle { width: 2%; text-align: center; color: #475569; font-weight: bold; font-size: 14px; }
 
         /* Badges */
         .class-badge { display: inline-block; padding: 3px 10px; font-size: 10px; font-weight: 700; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.3px; }
         .class-badge.developed { background-color: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
         .class-badge.emerging { background-color: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
-
-        .severity-badge { display: inline-block; padding: 2px 8px; font-size: 11px; font-weight: 600; border-radius: 4px; text-transform: uppercase; }
-        .severity-badge.critical { background-color: #7f1d1d; color: #fca5a5; border: 1px solid #b91c1c; }
-        .severity-badge.high { background-color: #7c2d12; color: #ffedd5; border: 1px solid #ea580c; }
-        .severity-badge.medium { background-color: #713f12; color: #fef9c3; border: 1px solid #ca8a04; }
-        .severity-badge.low { background-color: #064e3b; color: #d1fae5; border: 1px solid #16a34a; }
 
         /* ADT & Flow Formatting */
         .adt-primary { font-size: 15px; font-weight: 800; color: #ffffff; }
@@ -99,15 +70,17 @@
         .flow-bar-ret { height: 100%; background-color: #f59e0b; }
         .flow-bar-inst { height: 100%; background-color: #38bdf8; }
 
-        .countdown-ticker { font-size: 11px; font-weight: bold; padding: 2px 6px; border-radius: 4px; margin-left: 6px; display: inline-block; }
-        .countdown-ticker.upcoming { background-color: #451a03; color: #f59e0b; border: 1px solid #78350f; }
-        .countdown-ticker.passed { background-color: #064e3b; color: #10b981; border: 1px solid #065f46; }
+        /* Card Grid for Structural Differences */
+        .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-bottom: 30px; }
+        .insight-card { background-color: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 18px 20px; }
+        .insight-card h3 { margin: 0 0 10px 0; font-size: 14px; color: #38bdf8; display: flex; align-items: center; gap: 8px; }
+        .insight-card p { margin: 0; font-size: 13px; color: #cbd5e1; line-height: 1.6; }
 
-        .status-msg { text-align: center; font-weight: 500; color: #64748b; padding: 30px; background-color: #0f172a; border: 1px dashed #1e293b; border-radius: 6px; }
-        
-        .impact-list { margin: 0; padding-left: 0; list-style-type: none; }
-        .impact-list li { margin-bottom: 8px; position: relative; padding-left: 20px; }
-        .impact-list li::before { content: "➔"; position: absolute; left: 0; color: #3b82f6; font-size: 12px; }
+        .comp-table td { white-space: normal; line-height: 1.5; font-size: 13px; }
+        .comp-table td:first-child { font-weight: 600; color: #94a3b8; width: 18%; }
+        .comp-table td:nth-child(2) { width: 27%; }
+        .comp-table td:nth-child(3) { width: 27%; }
+        .comp-table td:nth-child(4) { width: 28%; }
     </style>
 </head>
 
@@ -117,13 +90,10 @@
         <div class="header-area">
             <div>
                 <h1>APAC Liquidity & Market Microstructure Hub</h1>
-                <p class="subtitle">Real-time venue dynamics, execution TCA, and algorithmic routing parameters.</p>
+                <p class="subtitle">Real-time venue dynamics, execution TCA, and market characteristic analysis.</p>
             </div>
             
             <div class="header-right-group">
-                <a href="amendments.html" class="hub-btn">
-                    ⚡ Stock exchange amendment details
-                </a>
                 <div class="agent-status-panel">
                     🤖 Agent Status: <span style="color: #10b981; font-weight: bold;" id="agent-net-status">● ONLINE</span><br>
                     📅 Last Sync Check: <strong id="agent-timestamp">Aug 06, 2026 14:50 HKT</strong>
@@ -134,10 +104,7 @@
         <!-- Controls Bar -->
         <div class="controls-bar">
             <div class="search-wrapper">
-                <input type="text" id="masterSearch" oninput="applyFilters()" placeholder="Filter ledger by market, country, segment or keyword..." autocomplete="off">
-            </div>
-            <div style="font-size: 12px; color: #64748b;">
-                💡 <span style="color: #00f0ff; font-weight: bold;">Neon blue rows</span> signify new data entries added since your last session.
+                <input type="text" id="masterSearch" oninput="applyFilters()" placeholder="Filter live market ledger by code, country, or sector..." autocomplete="off">
             </div>
         </div>
 
@@ -162,99 +129,112 @@
             </table>
         </div>
 
-        <!-- TABLE 2: UPCOMING CHANGES / PIPELINE -->
-        <div class="section-title pipeline">
-            <span>⏳ UPCOMING CHANGES / PIPELINE (CLICK HEADERS TO SORT)</span>
-            <span class="row-counter" id="pipeline-count">0 Records</span>
+        <!-- SECTION 2: CORE MARKET CHARACTERISTICS COMPARISON -->
+        <div class="section-title comparison">
+            <span>📊 CROSS-JURISDICTION MARKET CHARACTERISTICS</span>
         </div>
-        <div id="pipeline-container">
-            <table id="pipeline-table">
+        <div>
+            <table class="comp-table">
                 <thead>
                     <tr>
-                        <th class="sortable td-mkt" onclick="sortTable('pipeline', 'exchange', this)">MKT<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-country" onclick="sortTable('pipeline', 'countryFull', this)">Country<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-classification" onclick="sortTable('pipeline', 'isDeveloped', this)">Classification<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-initiative" onclick="sortTable('pipeline', 'initiative', this)">Structure Initiative / Regulatory Description<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-eta" onclick="sortTable('pipeline', 'eta', this)">Effective Date / ETA<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-category" onclick="sortTable('pipeline', 'category', this)">Market Segment<span class="sort-icon">▼▲</span></th>
-                        <th class="td-toggle"></th>
+                        <th>Characteristic</th>
+                        <th>US Markets (NYSE / NASDAQ)</th>
+                        <th>Hong Kong Exchange (HKEX)</th>
+                        <th>Japan Stock Market (TSE)</th>
                     </tr>
                 </thead>
-                <tbody id="pipeline-body"></tbody>
+                <tbody>
+                    <tr>
+                        <td>Trading Currency</td>
+                        <td>USD</td>
+                        <td>HKD</td>
+                        <td>JPY</td>
+                    </tr>
+                    <tr>
+                        <td>Board Lot Size</td>
+                        <td>1 Share (Odd lots traded seamlessly)</td>
+                        <td>Varies by stock (e.g., 100, 500, 1,000 shares per lot)</td>
+                        <td>Standardized to 100 shares per lot</td>
+                    </tr>
+                    <tr>
+                        <td>Price Limits / Circuit Breakers</td>
+                        <td>Market-wide circuit breakers (7%, 13%, 20%) & LULD</td>
+                        <td>Volatility Control Mechanism (VCM) for select large/mid-caps</td>
+                        <td>Dynamic price limits per stock based on previous day's close</td>
+                    </tr>
+                    <tr>
+                        <td>Settlement Cycle</td>
+                        <td>T+1</td>
+                        <td>T+2</td>
+                        <td>T+2</td>
+                    </tr>
+                    <tr>
+                        <td>Trading Sessions</td>
+                        <td>Continuous (09:30–16:00 EST) + Extended Hours</td>
+                        <td>Split Session: 09:30–12:00 & 13:00–16:00 HKT</td>
+                        <td>Split Session: 09:00–11:30 & 12:30–15:30 JST</td>
+                    </tr>
+                    <tr>
+                        <td>Short Selling Rules</td>
+                        <td>Alternative Uptick Rule (Rule 201) on -10% drop</td>
+                        <td>Designated Security List only; strict covered short selling</td>
+                        <td>Allowed under price restrictions (Uptick rule enforced)</td>
+                    </tr>
+                    <tr>
+                        <td>Stamp Duty / Taxes</td>
+                        <td>None (SEC/FINRA regulatory fees only)</td>
+                        <td>0.1% per trade (Buyer and Seller)</td>
+                        <td>None (Capital gains tax applied at investor level)</td>
+                    </tr>
+                </tbody>
             </table>
-            <div id="pipeline-loading" class="status-msg" style="display: none;">Scanning pipeline entries...</div>
         </div>
 
-        <!-- TABLE 3: COMPLETED / IMPLEMENTED HISTORICAL -->
-        <div class="section-title implemented">
-            <span>✅ COMPLETED / IMPLEMENTED HISTORICAL (CLICK HEADERS TO SORT)</span>
-            <span class="row-counter" id="implemented-count">0 Records</span>
+        <!-- SECTION 3: KEY STRUCTURAL DIFFERENCES -->
+        <div class="section-title insights">
+            <span>⚙️ KEY STRUCTURAL DIFFERENCES & MICROSTRUCTURE</span>
         </div>
-        <div id="implemented-container">
-            <table id="implemented-table">
-                <thead>
-                    <tr>
-                        <th class="sortable td-mkt" onclick="sortTable('implemented', 'exchange', this)">MKT<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-country" onclick="sortTable('implemented', 'countryFull', this)">Country<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-classification" onclick="sortTable('implemented', 'isDeveloped', this)">Classification<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-initiative" onclick="sortTable('implemented', 'initiative', this)">Structure Initiative / Regulatory Description<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-eta" onclick="sortTable('implemented', 'eta', this)">Effective Date / ETA<span class="sort-icon">▼▲</span></th>
-                        <th class="sortable td-category" onclick="sortTable('implemented', 'category', this)">Market Segment<span class="sort-icon">▼▲</span></th>
-                        <th class="td-toggle"></th>
-                    </tr>
-                </thead>
-                <tbody id="implemented-body"></tbody>
-            </table>
-            <div id="implemented-loading" class="status-msg" style="display: none;">Scanning implemented entries...</div>
+        <div class="insights-grid">
+            <div class="insight-card">
+                <h3>⚡ Liquidity & Microstructure</h3>
+                <p>US markets operate on a highly fragmented multi-exchange order model with heavy dark pool and retail internalization, whereas HKEX and TSE run centralized, order-driven limit order books.</p>
+            </div>
+            <div class="insight-card">
+                <h3>👥 Investor Base Composition</h3>
+                <p>US equity markets feature balanced institutional and active retail participation; Hong Kong relies heavily on international institutional capital and Southbound mainland flows via Stock Connect; Japan is dominated by domestic corporate cross-holdings, domestic retail, and foreign institutional funds.</p>
+            </div>
+            <div class="insight-card">
+                <h3>🏛️ Corporate Actions & Dividends</h3>
+                <p>US dividends are typically quarterly with 15–30% withholding tax for non-residents; Hong Kong dividends are generally semi-annual or annual with zero withholding tax for foreign direct holders; Japan distributions are mostly semi-annual with standard tax treaty rates.</p>
+            </div>
         </div>
     </div>
 
     <script>
-        // Directly embedding your JSON Payload
         const inputData = {
             "last_updated": "Aug 06, 2026 14:50 HKT",
             "network_status": "ONLINE",
             "markets": [
-                { "code": "HKEX", "country": "Hong Kong", "classification": "DEVELOPED MKT", "turnover_local": "HK$ 283.0B", "turnover_usd": "US$ 36.2B", "pillar_sector": "Financials (29.1% Cap)", "volume_concentrator": "Information Technology (42.5% Vol).", "retail_pct": "12.0%", "institutional_pct": "88.0%", "avg_spread": "1.2 - 1.8 Ticks", "slippage": "8.5 bps", "off_exchange_pct": "18.5%", "trader_advisory": "High Closing Auction Session (CAS) risk; imbalances heavily flatten between 16:00 and 16:10 HKT.", "safeguard": "VCM (±10% Cool-Off)", "lot_size": "Variable (Issuer Defined)", "queue_rule": "Wide queue depth on TMT names; tight aggregation on low-vol Financial counters." },
-                { "code": "ASX", "country": "Australia", "classification": "DEVELOPED MKT", "turnover_local": "A$ 6.8B", "turnover_usd": "US$ 4.45B", "pillar_sector": "Materials & Financials", "volume_concentrator": "Global Mining Giants (BHP, Rio) & Big 4 Banks.", "retail_pct": "15.0%", "institutional_pct": "85.0%", "avg_spread": "1.0 - 1.5 Ticks", "slippage": "5.1 bps", "off_exchange_pct": "28.0%", "trader_advisory": "CHESS Core Clearing Replacement Program underway. High mid-market crossing volume.", "safeguard": "Anomalous Price Bands", "lot_size": "Fixed Lot (Size Varies)", "queue_rule": "Aggressive order routing sweeping Centre Point hidden pools simultaneously with the lit book." },
-                { "code": "JPX", "country": "Japan", "classification": "DEVELOPED MKT", "turnover_local": "¥ 11.6T", "turnover_usd": "US$ 74.1B", "pillar_sector": "Industrial / Auto Mfg", "volume_concentrator": "Electric Appliances & Tech Equipment.", "retail_pct": "22.0%", "institutional_pct": "78.0%", "avg_spread": "1.0 - 1.3 Ticks", "slippage": "4.2 bps", "off_exchange_pct": "35.0%+", "trader_advisory": "TSE trading session extension implemented. High concentration of cross-trading in PTS systems.", "safeguard": "Static Price Limits", "lot_size": "Fixed 100 Shares Base", "queue_rule": "Smart order routing (SOR) active to bridge TSE Lit books with ToSTNeT crossing networks." },
-                { "code": "SGX", "country": "Singapore", "classification": "DEVELOPED MKT", "turnover_local": "S$ 1.8B", "turnover_usd": "US$ 1.39B", "pillar_sector": "Financials (Local Banks)", "volume_concentrator": "REITs & Micro Index Derivatives.", "retail_pct": "25.0%", "institutional_pct": "75.0%", "avg_spread": "2.5 - 4.0 Ticks", "slippage": "18.0 bps", "off_exchange_pct": "12.0%", "trader_advisory": "Next-Gen Iris-ST Core Trading Engine migration complete. Liquidity deeply tied to index derivatives.", "safeguard": "Dynamic Circuit Breaker", "lot_size": "Fixed 100 Shares Base", "queue_rule": "Passive queue positioning utilizing dark pools to prevent front-running signal leakage." },
-                { "code": "TWSE", "country": "Taiwan", "classification": "DEVELOPED MKT", "turnover_local": "NT$ 380.0B", "turnover_usd": "US$ 11.6B", "pillar_sector": "Semiconductors & Electronics", "volume_concentrator": "TSMC & Electronics Supply Chain.", "retail_pct": "55.0%", "institutional_pct": "45.0%", "avg_spread": "1.0 - 1.4 Ticks", "slippage": "5.5 bps", "off_exchange_pct": "6.0%", "trader_advisory": "Continuous Auction format completely optimized. Extreme foreign institutional capital sensitivity.", "safeguard": "±10% Price Limits", "lot_size": "Fixed 1000 Shares Base", "queue_rule": "Execute with single-stock hardware hedging metrics; track underlying global ADR spreads." },
-                { "code": "NZX", "country": "New Zealand", "classification": "DEVELOPED MKT", "turnover_local": "NZ$ 0.18B", "turnover_usd": "US$ 0.11B", "pillar_sector": "Utilities & Healthcare", "volume_concentrator": "Defensive Infrastructure & Energy Providers.", "retail_pct": "20.0%", "institutional_pct": "80.0%", "avg_spread": "2.0 - 3.2 Ticks", "slippage": "14.0 bps", "off_exchange_pct": "14.5%", "trader_advisory": "Core Trading System API Standardization Upgrade live. Low intraday asset turnover profile.", "safeguard": "Price Band Limits", "lot_size": "Fixed 1 Share Base", "queue_rule": "Utilize time-weighted average price (TWAP) schedules over multi-hour execution windows." },
-                { "code": "NSE", "country": "India", "classification": "EMERGING MKT", "turnover_local": "₹ 985.0B", "turnover_usd": "US$ 11.8B", "pillar_sector": "Financial Services & IT", "volume_concentrator": "Nifty Heavyweights & High-Beta Tech.", "retail_pct": "38.0%", "institutional_pct": "62.0%", "avg_spread": "0.5 - 1.0 Ticks", "slippage": "3.8 bps", "off_exchange_pct": "4.5%", "trader_advisory": "Instantaneous T+0 Cross-Settlement transition ongoing. High-velocity co-located execution required.", "safeguard": "Dynamic Price Bands", "lot_size": "Fixed 1 Share Base", "queue_rule": "Extreme queue priority velocity; prioritize immediate-or-cancel (IOC) sweeping styles." },
-                { "code": "KRX", "country": "South Korea", "classification": "EMERGING MKT", "turnover_local": "₩ 19.4T", "turnover_usd": "US$ 14.1B", "pillar_sector": "Semiconductors & Automobiles", "volume_concentrator": "Tech Heavyweights (Samsung, SK Hynix).", "retail_pct": "65.0%", "institutional_pct": "35.0%", "avg_spread": "1.0 - 1.4 Ticks", "slippage": "4.8 bps", "off_exchange_pct": "6.5%", "trader_advisory": "MSCI classification evaluation extended. Onshore extended night session FX trading rules apply.", "safeguard": "±30% Daily Limits", "lot_size": "Fixed 1 Share Base", "queue_rule": "High-frequency co-location queue sweeps; monitor thematic retail program momentum indicators." },
-                { "code": "SSE", "country": "Mainland China", "classification": "EMERGING MKT", "turnover_local": "¥ 420.0B", "turnover_usd": "US$ 58.1B", "pillar_sector": "Industrial & State Financials", "volume_concentrator": "Large-cap State-Owned Enterprises (SOEs).", "retail_pct": "75.0%", "institutional_pct": "25.0%", "avg_spread": "1.0 - 1.2 Ticks", "slippage": "6.2 bps", "off_exchange_pct": "2.0%", "trader_advisory": "A-Share T+1 intraday settlement assessment ongoing. Heavy retail sentiment patterns.", "safeguard": "±10% Daily Limits", "lot_size": "Fixed 100 Shares Base", "queue_rule": "Iceberg order execution recommended to hide size from retail momentum sentiment scanners." },
-                { "code": "SZSE", "country": "Mainland China", "classification": "EMERGING MKT", "turnover_local": "¥ 530.0B", "turnover_usd": "US$ 73.3B", "pillar_sector": "Information Technology", "volume_concentrator": "ChiNext Growth Tech & Electronics Manufacturing.", "retail_pct": "82.0%", "institutional_pct": "18.0%", "avg_spread": "1.1 - 1.5 Ticks", "slippage": "7.5 bps", "off_exchange_pct": "1.5%", "trader_advisory": "ChiNext Multi-Tier Board Lot Alignment implemented. High structural daily volatility footprint.", "safeguard": "±20% Growth Limits", "lot_size": "Fixed 100 Shares Base", "queue_rule": "Dynamic passive scaling; avoid chasing order imbalances into daily limit locks." },
-                { "code": "BURSA", "country": "Malaysia", "classification": "EMERGING MKT", "turnover_local": "RM 2.9B", "turnover_usd": "US$ 0.63B", "pillar_sector": "Financials & Plantations", "volume_concentrator": "Banking Groups & Healthcare/Glove Producers.", "retail_pct": "25.0%", "institutional_pct": "75.0%", "avg_spread": "2.0 - 3.5 Ticks", "slippage": "16.5 bps", "off_exchange_pct": "9.5%", "trader_advisory": "T+1 Settlement Feasibility Assessment in review. Slower trading velocity profile.", "safeguard": "Static Circuit Breakers", "lot_size": "Fixed 100 Shares Base", "queue_rule": "Passive block crossing placement; minimize active aggressive market sweeps." },
-                { "code": "IDX", "country": "Indonesia", "classification": "EMERGING MKT", "turnover_local": "Rp 11.5T", "turnover_usd": "US$ 0.72B", "pillar_sector": "Financials & Commodities", "volume_concentrator": "Resource Mining & Large Infrastructure Banks.", "retail_pct": "40.0%", "institutional_pct": "60.0%", "avg_spread": "2.2 - 4.0 Ticks", "slippage": "19.0 bps", "off_exchange_pct": "7.0%", "trader_advisory": "Intraday Short Selling Expansion Framework introduced to structurally increase market depth.", "safeguard": "Asymmetric Auto-Rejection", "lot_size": "Fixed 100 Shares Base", "queue_rule": "Layer bid orders below structural support; capture commodity-driven market sweeps." },
-                { "code": "PSE", "country": "Philippines", "classification": "EMERGING MKT", "turnover_local": "₱ 6.1B", "turnover_usd": "US$ 0.11B", "pillar_sector": "Conglomerates & Real Estate", "volume_concentrator": "Family Holding Conglomerates.", "retail_pct": "30.0%", "institutional_pct": "70.0%", "avg_spread": "3.5 - 5.0 Ticks", "slippage": "24.5 bps", "off_exchange_pct": "5.5%", "trader_advisory": "Securities Lending & Short Selling integration phase active. Watch for liquidity squeezes.", "safeguard": "Static Price Halts", "lot_size": "Variable (Board Lot Scale)", "queue_rule": "Avoid continuous sweeping; use manual broker crosses for size blocks above 5M PHP." },
-                { "code": "VSE", "country": "Vietnam", "classification": "EMERGING MKT", "turnover_local": "₫ 16.8T", "turnover_usd": "US$ 0.66B", "pillar_sector": "Real Estate & Financials", "volume_concentrator": "Property Development Groups & State Banks.", "retail_pct": "88.0%", "institutional_pct": "12.0%", "avg_spread": "1.5 - 2.5 Ticks", "slippage": "15.5 bps", "off_exchange_pct": "1.0%", "trader_advisory": "KRX Trading Infrastructure Activation complete. Transitioning to T+0 settlement systems.", "safeguard": "±7% Daily Limits", "lot_size": "Fixed 100 Shares Base", "queue_rule": "Track retail margin utilization metrics; build defensive parameters around daily limits." }
+                { "code": "HKEX", "country": "Hong Kong", "classification": "DEVELOPED MKT", "turnover_local": "HK$ 283.0B", "turnover_usd": "US$ 36.2B", "pillar_sector": "Financials (29.1% Cap)", "volume_concentrator": "Information Technology (42.5% Vol).", "retail_pct": "12.0%", "institutional_pct": "88.0%", "avg_spread": "1.2 - 1.8 Ticks", "slippage": "8.5 bps" },
+                { "code": "ASX", "country": "Australia", "classification": "DEVELOPED MKT", "turnover_local": "A$ 6.8B", "turnover_usd": "US$ 4.45B", "pillar_sector": "Materials & Financials", "volume_concentrator": "Global Mining Giants (BHP, Rio) & Big 4 Banks.", "retail_pct": "15.0%", "institutional_pct": "85.0%", "avg_spread": "1.0 - 1.5 Ticks", "slippage": "5.1 bps" },
+                { "code": "JPX", "country": "Japan", "classification": "DEVELOPED MKT", "turnover_local": "¥ 11.6T", "turnover_usd": "US$ 74.1B", "pillar_sector": "Industrial / Auto Mfg", "volume_concentrator": "Electric Appliances & Tech Equipment.", "retail_pct": "22.0%", "institutional_pct": "78.0%", "avg_spread": "1.0 - 1.3 Ticks", "slippage": "4.2 bps" },
+                { "code": "SGX", "country": "Singapore", "classification": "DEVELOPED MKT", "turnover_local": "S$ 1.8B", "turnover_usd": "US$ 1.39B", "pillar_sector": "Financials (Local Banks)", "volume_concentrator": "REITs & Micro Index Derivatives.", "retail_pct": "25.0%", "institutional_pct": "75.0%", "avg_spread": "2.5 - 4.0 Ticks", "slippage": "18.0 bps" },
+                { "code": "TWSE", "country": "Taiwan", "classification": "DEVELOPED MKT", "turnover_local": "NT$ 380.0B", "turnover_usd": "US$ 11.6B", "pillar_sector": "Semiconductors & Electronics", "volume_concentrator": "TSMC & Electronics Supply Chain.", "retail_pct": "55.0%", "institutional_pct": "45.0%", "avg_spread": "1.0 - 1.4 Ticks", "slippage": "5.5 bps" },
+                { "code": "NZX", "country": "New Zealand", "classification": "DEVELOPED MKT", "turnover_local": "NZ$ 0.18B", "turnover_usd": "US$ 0.11B", "pillar_sector": "Utilities & Healthcare", "volume_concentrator": "Defensive Infrastructure & Energy Providers.", "retail_pct": "20.0%", "institutional_pct": "80.0%", "avg_spread": "2.0 - 3.2 Ticks", "slippage": "14.0 bps" },
+                { "code": "NSE", "country": "India", "classification": "EMERGING MKT", "turnover_local": "₹ 985.0B", "turnover_usd": "US$ 11.8B", "pillar_sector": "Financial Services & IT", "volume_concentrator": "Nifty Heavyweights & High-Beta Tech.", "retail_pct": "38.0%", "institutional_pct": "62.0%", "avg_spread": "0.5 - 1.0 Ticks", "slippage": "3.8 bps" },
+                { "code": "KRX", "country": "South Korea", "classification": "EMERGING MKT", "turnover_local": "₩ 19.4T", "turnover_usd": "US$ 14.1B", "pillar_sector": "Semiconductors & Automobiles", "volume_concentrator": "Tech Heavyweights (Samsung, SK Hynix).", "retail_pct": "65.0%", "institutional_pct": "35.0%", "avg_spread": "1.0 - 1.4 Ticks", "slippage": "4.8 bps" },
+                { "code": "SSE", "country": "Mainland China", "classification": "EMERGING MKT", "turnover_local": "¥ 420.0B", "turnover_usd": "US$ 58.1B", "pillar_sector": "Industrial & State Financials", "volume_concentrator": "Large-cap State-Owned Enterprises (SOEs).", "retail_pct": "75.0%", "institutional_pct": "25.0%", "avg_spread": "1.0 - 1.2 Ticks", "slippage": "6.2 bps" },
+                { "code": "SZSE", "country": "Mainland China", "classification": "EMERGING MKT", "turnover_local": "¥ 530.0B", "turnover_usd": "US$ 73.3B", "pillar_sector": "Information Technology", "volume_concentrator": "ChiNext Growth Tech & Electronics Manufacturing.", "retail_pct": "82.0%", "institutional_pct": "18.0%", "avg_spread": "1.1 - 1.5 Ticks", "slippage": "7.5 bps" },
+                { "code": "BURSA", "country": "Malaysia", "classification": "EMERGING MKT", "turnover_local": "RM 2.9B", "turnover_usd": "US$ 0.63B", "pillar_sector": "Financials & Plantations", "volume_concentrator": "Banking Groups & Healthcare/Glove Producers.", "retail_pct": "25.0%", "institutional_pct": "75.0%", "avg_spread": "2.0 - 3.5 Ticks", "slippage": "16.5 bps" },
+                { "code": "IDX", "country": "Indonesia", "classification": "EMERGING MKT", "turnover_local": "Rp 11.5T", "turnover_usd": "US$ 0.72B", "pillar_sector": "Financials & Commodities", "volume_concentrator": "Resource Mining & Large Infrastructure Banks.", "retail_pct": "40.0%", "institutional_pct": "60.0%", "avg_spread": "2.2 - 4.0 Ticks", "slippage": "19.0 bps" },
+                { "code": "PSE", "country": "Philippines", "classification": "EMERGING MKT", "turnover_local": "₱ 6.1B", "turnover_usd": "US$ 0.11B", "pillar_sector": "Conglomerates & Real Estate", "volume_concentrator": "Family Holding Conglomerates.", "retail_pct": "30.0%", "institutional_pct": "70.0%", "avg_spread": "3.5 - 5.0 Ticks", "slippage": "24.5 bps" },
+                { "code": "VSE", "country": "Vietnam", "classification": "EMERGING MKT", "turnover_local": "₫ 16.8T", "turnover_usd": "US$ 0.66B", "pillar_sector": "Real Estate & Financials", "volume_concentrator": "Property Development Groups & State Banks.", "retail_pct": "88.0%", "institutional_pct": "12.0%", "avg_spread": "1.5 - 2.5 Ticks", "slippage": "15.5 bps" }
             ]
         };
 
-        const countryMap = {
-            'jp': 'Japan', 'au': 'Australia', 'hk': 'Hong Kong', 'sg': 'Singapore',
-            'tw': 'Taiwan', 'kr': 'South Korea', 'nz': 'New Zealand', 'cn': 'Mainland China',
-            'in': 'India', 'my': 'Malaysia', 'th': 'Thailand', 'id': 'Indonesia',
-            'ph': 'Philippines', 'vn': 'Vietnam'
-        };
-
-        const developedMarkets = ['jpx', 'asx', 'hkex', 'sgx', 'twse', 'krx', 'nzx'];
-
-        // Pipeline Fallback Data
-        const defaultPipelineData = [
-            { exchange: "HKEX", country: "hk", initiative: "Severe Weather Trading Operation (SWT)", eta: "Sept 23, 2024", category: "Market Ops", severity_level: "High", timeline_status: "historical", impact: "• Trading remains open during Typhoon Signal 8 or higher.\n• Eliminates session disruptions." },
-            { exchange: "JPX", country: "jp", initiative: "Trading Hour Extension (3:30 PM Close)", eta: "Nov 5, 2024", category: "Microstructure", severity_level: "Medium", timeline_status: "historical", impact: "• Extends TSE closing session by 30 minutes to 15:30 JST.\n• Introduces Closing Auction session." },
-            { exchange: "TWSE", country: "tw", initiative: "T+1 Settlement Modernization Roadmap", eta: "Late 2026", category: "Settlement", severity_level: "High", timeline_status: "pipeline", impact: "• Feasibility assessment for transitioning from T+2 to T+1.\n• Aligns TWSE with US market standards." },
-            { exchange: "KRX", country: "kr", initiative: "Short Selling Systemic Overhaul & Reboot", eta: "Q2 2025", category: "Regulation", severity_level: "Critical", timeline_status: "pipeline", impact: "• End of temporary short-selling ban with mandatory NSDS monitoring.\n• Standardized institutional borrow terms." },
-            { exchange: "NSE", country: "in", initiative: "Optional T+0 Rolling Settlement Expansion", eta: "Late 2026", category: "Settlement", severity_level: "Medium", timeline_status: "pipeline", impact: "• Instantaneous intraday settlement rollout for top 500 equities.\n• Reduces capital lockup." }
-        ];
-
         let macroData = [];
-        let rawPipelineDataset = []; 
-        let rawImplementedDataset = [];
-        let activeSortKeys = { macro: null, pipeline: null, implemented: null };
-        let activeSortDirs = { macro: 'asc', pipeline: 'asc', implemented: 'asc' };
+        let activeSortKey = null;
+        let activeSortDir = 'asc';
 
         function parseUSDValue(usdStr) {
             if(!usdStr) return 0;
@@ -281,62 +261,6 @@
                     parsed_retail_pct: parsePercent(m.retail_pct),
                     isDeveloped: m.classification.includes("DEVELOPED")
                 };
-            });
-        }
-
-        function calculateCountdown(etaText) {
-            if (!etaText) return { text: '', html: '' };
-            const clean = etaText.toLowerCase(); const now = new Date("2026-08-06"); let targetDate = null;
-
-            if (clean.includes('nov 5, 2024')) targetDate = new Date("2024-11-05");
-            else if (clean.includes('sept 23, 2024')) targetDate = new Date("2024-09-23");
-            else if (clean.includes('q2 2025')) targetDate = new Date("2025-06-30");
-            else if (clean.includes('late 2026')) targetDate = new Date("2026-11-30");
-
-            if (!targetDate) return { text: '', html: '' };
-            const diffDays = Math.ceil((targetDate - now) / (1000 * 60 * 60 * 24));
-            return diffDays < 0 ? { text: `[Passed]`, html: `<span class="countdown-ticker passed">✓ Implemented</span>` } : { text: `[${diffDays} Days To Go]`, html: `<span class="countdown-ticker upcoming">⏳ ${diffDays} Days To Go</span>` };
-        }
-
-        function formatImpact(impactText) {
-            if (!impactText) return 'No metrics logged.';
-            let listItems = '';
-            impactText.split('\n').forEach(line => {
-                let cleanLine = line.replace(/^[•\s\-]+/, '').trim();
-                if (cleanLine) listItems += `<li>${cleanLine}</li>`;
-            });
-            return listItems ? `<ul class="impact-list">${listItems}</ul>` : 'No metrics parsed.';
-        }
-
-        let viewedInitiatives = JSON.parse(localStorage.getItem('microstructure_viewed_logs') || '[]');
-
-        function processRawItems(dataArray) {
-            rawPipelineDataset = [];
-            rawImplementedDataset = [];
-            dataArray.forEach((item) => {
-                const ex = item.exchange || item.EXCHANGE || 'N/A'; 
-                const countryCode = item.country || item.COUNTRY || '';
-                const init = item.initiative || item.INITIATIVE || 'N/A'; 
-                const eta = item.eta || item.ETA || 'N/A';
-                const cat = item.category || item.CATEGORY || 'N/A'; 
-                const impactText = item.impact || item.IMPACT || '';
-                const severity = (item.severity_level || item.SEVERITY_LEVEL || 'Normal');
-                const timelineStatus = (item.timeline_status || item.TIMELINE_STATUS || '').toLowerCase();
-                const directSourceUrl = item.source_url || item.SOURCE_URL || 'https://google.com';
-
-                const initiativeSignature = `${ex}-${init}-${eta}`.replace(/\s+/g, '_');
-                const countdownData = calculateCountdown(eta);
-
-                const normalizedItem = {
-                    exchange: ex, countryFull: countryMap[countryCode.trim().toLowerCase()] || countryCode || 'Global',
-                    isDeveloped: developedMarkets.includes(ex.trim().toLowerCase()) ? 1 : 0, initiative: init,
-                    eta: eta, category: cat, severity: severity, formattedImpact: formatImpact(impactText),
-                    signature: initiativeSignature, isNew: !viewedInitiatives.includes(initiativeSignature),
-                    countdownHtml: countdownData.html, sourceUrl: directSourceUrl
-                };
-
-                const isImplemented = timelineStatus.includes('historical') || eta.toLowerCase().includes('implemented') || countdownData.text.includes('Passed');
-                if (isImplemented) rawImplementedDataset.push(normalizedItem); else rawPipelineDataset.push(normalizedItem);
             });
         }
 
@@ -382,56 +306,8 @@
             });
         }
 
-        function renderTableSection(section, dataset) {
-            const tbody = document.getElementById(`${section}-body`); 
-            const loadingMsg = document.getElementById(`${section}-loading`);
-            const targetTable = document.getElementById(`${section}-table`); 
-            const counterBadge = document.getElementById(`${section}-count`);
-            
-            tbody.innerHTML = ''; 
-            counterBadge.textContent = `${dataset.length} Entries`;
-            
-            if (dataset.length === 0) { 
-                loadingMsg.style.display = 'block'; 
-                loadingMsg.textContent = `No matches found.`; 
-                targetTable.style.display = 'none'; 
-                return; 
-            }
-            
-            loadingMsg.style.display = 'none'; 
-            targetTable.style.display = 'table';
-
-            dataset.forEach(item => {
-                const uniqueId = `drill-${section}-${item.signature}`;
-                const classBadge = item.isDeveloped ? '<span class="class-badge developed">Developed Mkt</span>' : '<span class="class-badge emerging">Emerging Mkt</span>';
-                
-                tbody.insertAdjacentHTML('beforeend', `
-                    <tr class="${item.isNew ? 'clickable-row is-new-row' : 'clickable-row'}" onclick="handleRowInteraction('${uniqueId}', '${item.signature}', this)">
-                        <td class="td-mkt">${item.exchange}</td>
-                        <td class="td-country">${item.countryFull}</td>
-                        <td class="td-classification">${classBadge}</td>
-                        <td class="td-initiative">${item.initiative}${item.isNew ? '<span class="new-entry-badge">NEW</span>' : ''}</td>
-                        <td class="td-eta">${item.eta} ${item.countdownHtml}</td>
-                        <td class="td-category">${item.category}</td>
-                        <td class="td-toggle" id="arrow-${uniqueId}">▼</td>
-                    </tr>
-                    <tr class="drilldown-row" id="${uniqueId}"><td colspan="7"><div class="drilldown-panel"><div class="drilldown-grid">
-                        <div class="field-label">Risk Severity:</div><div class="field-value"><span class="severity-badge ${item.severity.toLowerCase()}">${item.severity}</span></div>
-                        <div class="field-label">Detailed Impact:</div><div class="field-value">${item.formattedImpact}</div>
-                        <div class="field-label">Official Feeds:</div><div class="field-value">
-                            <a href="${item.sourceUrl}" target="_blank" rel="noopener noreferrer" class="source-link-btn" onclick="event.stopPropagation();">
-                                🔍 Locate Official Source Document
-                            </a>
-                        </div>
-                    </div></div></td></tr>
-                `);
-            });
-        }
-
-        // Filter Logic
         function applyFilters() {
             const query = document.getElementById('masterSearch').value.toLowerCase().trim();
-            
             const filterMacro = macroData.filter(item => 
                 item.code.toLowerCase().includes(query) || 
                 item.country.toLowerCase().includes(query) || 
@@ -439,57 +315,36 @@
                 item.volume_concentrator.toLowerCase().includes(query)
             );
             renderMacroTable(filterMacro);
-
-            const filterArray = (arr) => arr.filter(item => item.exchange.toLowerCase().includes(query) || item.countryFull.toLowerCase().includes(query) || item.initiative.toLowerCase().includes(query) || item.category.toLowerCase().includes(query));
-            renderTableSection('pipeline', filterArray(rawPipelineDataset)); 
-            renderTableSection('implemented', filterArray(rawImplementedDataset));
         }
 
-        // Sorting Logic
         function sortMacroTable(key, thElement) {
-            if (activeSortKeys.macro === key) { activeSortDirs.macro = activeSortDirs.macro === 'asc' ? 'desc' : 'asc'; } else { activeSortKeys.macro = key; activeSortDirs.macro = 'asc'; }
-            thElement.parentNode.querySelectorAll('th').forEach(th => { const icon = th.querySelector('.sort-icon'); if (icon) icon.textContent = '▼▲'; });
-            thElement.querySelector('.sort-icon').textContent = activeSortDirs.macro === 'asc' ? '▲' : '▼';
-            macroData.sort((a, b) => { let valA = a[key]; let valB = b[key]; if (typeof valA === 'string') valA = valA.toLowerCase(); if (typeof valB === 'string') valB = valB.toLowerCase(); if (valA < valB) return activeSortDirs.macro === 'asc' ? -1 : 1; if (valA > valB) return activeSortDirs.macro === 'asc' ? 1 : -1; return 0; });
-            applyFilters();
-        }
-
-        function sortTable(section, key, thElement) {
-            const targetData = section === 'pipeline' ? rawPipelineDataset : rawImplementedDataset;
-            if (activeSortKeys[section] === key) activeSortDirs[section] = activeSortDirs[section] === 'asc' ? 'desc' : 'asc'; else { activeSortKeys[section] = key; activeSortDirs[section] = 'asc'; }
-            thElement.parentNode.querySelectorAll('th').forEach(th => { const icon = th.querySelector('.sort-icon'); if (icon) icon.textContent = '▼▲'; });
-            thElement.querySelector('.sort-icon').textContent = activeSortDirs[section] === 'asc' ? '▲' : '▼';
-            targetData.sort((a, b) => { let valA = a[key]; let valB = b[key]; if (typeof valA === 'string') valA = valA.toLowerCase(); if (typeof valB === 'string') valB = valB.toLowerCase(); if (valA < valB) return activeSortDirs[section] === 'asc' ? -1 : 1; if (valA > valB) return activeSortDirs[section] === 'asc' ? 1 : -1; return 0; });
-            applyFilters();
-        }
-
-        // Expandable Row Logic
-        function handleRowInteraction(rowId, signature, masterElement) {
-            const targetedPanel = document.getElementById(rowId); 
-            const arrowIndicator = document.getElementById('arrow-' + rowId);
-            if (targetedPanel.classList.contains('active')) { 
-                targetedPanel.classList.remove('active'); 
-                arrowIndicator.textContent = '▼'; 
-                masterElement.style.backgroundColor = ''; 
-            } else {
-                targetedPanel.classList.add('active'); 
-                arrowIndicator.textContent = '▲'; 
-                masterElement.style.backgroundColor = '#0f172a';
-                if (!viewedInitiatives.includes(signature)) {
-                    viewedInitiatives.push(signature); 
-                    localStorage.setItem('microstructure_viewed_logs', JSON.stringify(viewedInitiatives));
-                    masterElement.classList.remove('is-new-row'); 
-                    const badge = masterElement.querySelector('.new-entry-badge'); 
-                    if(badge) badge.remove();
-                    let itemMatch = rawPipelineDataset.find(x => x.signature === signature) || rawImplementedDataset.find(x => x.signature === signature); 
-                    if(itemMatch) itemMatch.isNew = false;
-                }
+            if (activeSortKey === key) { 
+                activeSortDir = activeSortDir === 'asc' ? 'desc' : 'asc'; 
+            } else { 
+                activeSortKey = key; 
+                activeSortDir = 'asc'; 
             }
+            
+            thElement.parentNode.querySelectorAll('th').forEach(th => { 
+                const icon = th.querySelector('.sort-icon'); 
+                if (icon) icon.textContent = '▼▲'; 
+            });
+            thElement.querySelector('.sort-icon').textContent = activeSortDir === 'asc' ? '▲' : '▼';
+            
+            macroData.sort((a, b) => { 
+                let valA = a[key]; 
+                let valB = b[key]; 
+                if (typeof valA === 'string') valA = valA.toLowerCase(); 
+                if (typeof valB === 'string') valB = valB.toLowerCase(); 
+                if (valA < valB) return activeSortDir === 'asc' ? -1 : 1; 
+                if (valA > valB) return activeSortDir === 'asc' ? 1 : -1; 
+                return 0; 
+            });
+            applyFilters();
         }
 
-        // Run Initialization
+        // Initialize Page
         processMacroData(inputData);
-        processRawItems(defaultPipelineData);
         applyFilters();
     </script>
 </body>
