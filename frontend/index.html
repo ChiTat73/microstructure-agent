@@ -9,7 +9,7 @@
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background-color: #000000; color: #f1f5f9; padding: 40px 24px; margin: 0; line-height: 1.5; }
         .container { max-width: 1400px; margin: 0 auto; }
         
-        /* Header & Navigation Area */
+        /* Header Area */
         .header-area { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid #1e293b; padding-bottom: 24px; }
         .header-right-group { display: flex; gap: 12px; align-items: stretch; }
         
@@ -17,7 +17,7 @@
         .subtitle { color: #94a3b8; margin: 0; font-size: 14px; }
         .agent-status-panel { background-color: #0f172a; border: 1px solid #1e293b; padding: 12px 18px; border-radius: 6px; font-size: 13px; color: #e2e8f0; }
         
-        /* Controls & Filter Bar */
+        /* Controls Bar */
         .controls-bar { display: flex; justify-content: space-between; align-items: center; background-color: #0f172a; border: 1px solid #1e293b; padding: 12px 16px; border-radius: 6px; margin-bottom: 30px; gap: 16px; flex-wrap: wrap; }
         .search-wrapper { position: relative; flex-grow: 1; max-width: 400px; }
         .search-wrapper input { width: 100%; background-color: #000000; border: 1px solid #1e293b; color: #ffffff; padding: 8px 12px 8px 34px; border-radius: 4px; font-size: 13px; outline: none; box-sizing: border-box; }
@@ -30,7 +30,7 @@
         .section-title.insights { color: #10b981; border-bottom-color: #064e3b; }
         .row-counter { font-size: 11px; background-color: #1e293b; color: #94a3b8; padding: 2px 8px; border-radius: 10px; font-weight: normal; }
 
-        /* Main Table Styles */
+        /* Tables */
         table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background-color: #000000; table-layout: fixed; }
         th.sortable { cursor: pointer; user-select: none; transition: background-color 0.15s; }
         th.sortable:hover { background-color: #1e293b; color: #ffffff; }
@@ -45,7 +45,6 @@
         .clickable-row:nth-child(2n+1) { background-color: #000000; }
         .clickable-row:nth-child(2n) { background-color: #05070a; }
 
-        /* Column Specific Formatting */
         .td-mkt { font-weight: 700; color: #3b82f6; width: 7%; }
         .td-country { color: #ffffff; width: 12%; font-weight: 600; }
         .td-classification { width: 12%; }
@@ -58,29 +57,29 @@
         .class-badge.developed { background-color: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
         .class-badge.emerging { background-color: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
 
-        /* ADT & Flow Formatting */
+        /* Flow Bars */
         .adt-primary { font-size: 15px; font-weight: 800; color: #ffffff; }
         .adt-usd { font-size: 11px; color: #64748b; }
-        
         .flow-text-container { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
         .flow-ret-label { color: #f59e0b; }
         .flow-inst-label { color: #38bdf8; }
-        
         .flow-bar-wrapper { width: 100%; height: 6px; background-color: #1e293b; border-radius: 3px; display: flex; overflow: hidden; margin-bottom: 4px; }
         .flow-bar-ret { height: 100%; background-color: #f59e0b; }
         .flow-bar-inst { height: 100%; background-color: #38bdf8; }
 
-        /* Card Grid for Structural Differences */
-        .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-bottom: 30px; }
+        /* Comparison Table Styling */
+        .comp-table td { white-space: normal; line-height: 1.5; font-size: 13px; }
+        .comp-table td:first-child { font-weight: 600; color: #94a3b8; width: 16%; }
+        .comp-table td:nth-child(2) { width: 21%; }
+        .comp-table td:nth-child(3) { width: 21%; }
+        .comp-table td:nth-child(4) { width: 21%; }
+        .comp-table td:nth-child(5) { width: 21%; }
+
+        /* Card Grid */
+        .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 30px; }
         .insight-card { background-color: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 18px 20px; }
         .insight-card h3 { margin: 0 0 10px 0; font-size: 14px; color: #38bdf8; display: flex; align-items: center; gap: 8px; }
         .insight-card p { margin: 0; font-size: 13px; color: #cbd5e1; line-height: 1.6; }
-
-        .comp-table td { white-space: normal; line-height: 1.5; font-size: 13px; }
-        .comp-table td:first-child { font-weight: 600; color: #94a3b8; width: 18%; }
-        .comp-table td:nth-child(2) { width: 27%; }
-        .comp-table td:nth-child(3) { width: 27%; }
-        .comp-table td:nth-child(4) { width: 28%; }
     </style>
 </head>
 
@@ -101,14 +100,14 @@
             </div>
         </div>
 
-        <!-- Controls Bar -->
+        <!-- Filter Bar -->
         <div class="controls-bar">
             <div class="search-wrapper">
                 <input type="text" id="masterSearch" oninput="applyFilters()" placeholder="Filter live market ledger by code, country, or sector..." autocomplete="off">
             </div>
         </div>
 
-        <!-- TABLE 1: APAC REGIONAL MACRO TURNOVER -->
+        <!-- Section 1: Regional Macro Table -->
         <div class="section-title macro">
             <span>⌛ APAC REGIONAL MACRO TURNOVER (CLICK HEADERS TO SORT)</span>
             <span class="row-counter" id="macro-count">0 Records</span>
@@ -129,83 +128,91 @@
             </table>
         </div>
 
-        <!-- SECTION 2: CORE MARKET CHARACTERISTICS COMPARISON -->
+        <!-- Section 2: APAC Market Characteristics Comparison -->
         <div class="section-title comparison">
-            <span>📊 CROSS-JURISDICTION MARKET CHARACTERISTICS</span>
+            <span>📊 CROSS-JURISDICTION APAC MARKET CHARACTERISTICS</span>
         </div>
         <div>
             <table class="comp-table">
                 <thead>
                     <tr>
                         <th>Characteristic</th>
-                        <th>US Markets (NYSE / NASDAQ)</th>
-                        <th>Hong Kong Exchange (HKEX)</th>
-                        <th>Japan Stock Market (TSE)</th>
+                        <th>Hong Kong (HKEX)</th>
+                        <th>Japan (JPX / TSE)</th>
+                        <th>Taiwan (TWSE)</th>
+                        <th>India (NSE)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>Trading Currency</td>
-                        <td>USD</td>
-                        <td>HKD</td>
+                        <td>HKD (Dual-counter RMB)</td>
                         <td>JPY</td>
+                        <td>TWD (NT$)</td>
+                        <td>INR (₹)</td>
                     </tr>
                     <tr>
                         <td>Board Lot Size</td>
-                        <td>1 Share (Odd lots traded seamlessly)</td>
-                        <td>Varies by stock (e.g., 100, 500, 1,000 shares per lot)</td>
-                        <td>Standardized to 100 shares per lot</td>
+                        <td>Variable by issuer (100, 500, 1,000)</td>
+                        <td>Standardized 100 shares per lot</td>
+                        <td>Fixed 1,000 shares (Odd lots separate)</td>
+                        <td>Fixed 1 share per lot</td>
                     </tr>
                     <tr>
                         <td>Price Limits / Circuit Breakers</td>
-                        <td>Market-wide circuit breakers (7%, 13%, 20%) & LULD</td>
-                        <td>Volatility Control Mechanism (VCM) for select large/mid-caps</td>
-                        <td>Dynamic price limits per stock based on previous day's close</td>
+                        <td>Volatility Control Mechanism (VCM ±10%)</td>
+                        <td>Dynamic & Static price limits per stock</td>
+                        <td>Strict ±10% daily price limit</td>
+                        <td>Dynamic price bands (cooling-off periods)</td>
                     </tr>
                     <tr>
                         <td>Settlement Cycle</td>
-                        <td>T+1</td>
                         <td>T+2</td>
                         <td>T+2</td>
+                        <td>T+2</td>
+                        <td>T+1 / Optional T+0</td>
                     </tr>
                     <tr>
                         <td>Trading Sessions</td>
-                        <td>Continuous (09:30–16:00 EST) + Extended Hours</td>
-                        <td>Split Session: 09:30–12:00 & 13:00–16:00 HKT</td>
-                        <td>Split Session: 09:00–11:30 & 12:30–15:30 JST</td>
+                        <td>09:30–12:00 & 13:00–16:00 HKT (CAS to 16:10)</td>
+                        <td>09:00–11:30 & 12:30–15:30 JST</td>
+                        <td>09:00–13:30 TWD Continuous Auction</td>
+                        <td>09:15–15:30 IST Continuous Auction</td>
                     </tr>
                     <tr>
                         <td>Short Selling Rules</td>
-                        <td>Alternative Uptick Rule (Rule 201) on -10% drop</td>
-                        <td>Designated Security List only; strict covered short selling</td>
-                        <td>Allowed under price restrictions (Uptick rule enforced)</td>
+                        <td>Designated Security List; tick rule enforced</td>
+                        <td>Uptick rule enforced on margin/bulk orders</td>
+                        <td>SBL quota restrictions & uptick rules</td>
+                        <td>Institutional mandatory disclosure; no Naked Shorting</td>
                     </tr>
                     <tr>
                         <td>Stamp Duty / Taxes</td>
-                        <td>None (SEC/FINRA regulatory fees only)</td>
-                        <td>0.1% per trade (Buyer and Seller)</td>
-                        <td>None (Capital gains tax applied at investor level)</td>
+                        <td>0.1% Stamp Duty (Buyer & Seller) + SFC Fees</td>
+                        <td>No Stamp Duty (Capital gains tax)</td>
+                        <td>0.3% Securities Transaction Tax (Seller)</td>
+                        <td>STT (0.1% delivery) + Stamp Duty & Exchange Charges</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- SECTION 3: KEY STRUCTURAL DIFFERENCES -->
+        <!-- Section 3: Microstructure Insights -->
         <div class="section-title insights">
-            <span>⚙️ KEY STRUCTURAL DIFFERENCES & MICROSTRUCTURE</span>
+            <span>⚙️ KEY APAC STRUCTURAL DIFFERENCES & MICROSTRUCTURE</span>
         </div>
         <div class="insights-grid">
             <div class="insight-card">
-                <h3>⚡ Liquidity & Microstructure</h3>
-                <p>US markets operate on a highly fragmented multi-exchange order model with heavy dark pool and retail internalization, whereas HKEX and TSE run centralized, order-driven limit order books.</p>
+                <h3>🌊 Retail vs. Institutional Flow</h3>
+                <p>Taiwan (~55%) and India (~38%) feature heavy retail flow leading to intra-day order imbalances. In contrast, HKEX and JPX are primarily driven by algorithmic foreign institutional order flow.</p>
             </div>
             <div class="insight-card">
-                <h3>👥 Investor Base Composition</h3>
-                <p>US equity markets feature balanced institutional and active retail participation; Hong Kong relies heavily on international institutional capital and Southbound mainland flows via Stock Connect; Japan is dominated by domestic corporate cross-holdings, domestic retail, and foreign institutional funds.</p>
+                <h3>⏱️ Settlement Velocity</h3>
+                <p>India leads APAC with operational T+1 and instant T+0 settlement modes, whereas cross-border hubs like HKEX and TSE maintain T+2 to accommodate global multi-currency clearing workflows.</p>
             </div>
             <div class="insight-card">
-                <h3>🏛️ Corporate Actions & Dividends</h3>
-                <p>US dividends are typically quarterly with 15–30% withholding tax for non-residents; Hong Kong dividends are generally semi-annual or annual with zero withholding tax for foreign direct holders; Japan distributions are mostly semi-annual with standard tax treaty rates.</p>
+                <h3>🛡️ Circuit Breakers & Risk</h3>
+                <p>TWSE enforces strict hard limits (±10%), which can lead to liquidity lockups during high-volatility events, while HKEX and NSE utilize dynamic price bands to maintain continuous price discovery.</p>
             </div>
         </div>
     </div>
@@ -343,7 +350,6 @@
             applyFilters();
         }
 
-        // Initialize Page
         processMacroData(inputData);
         applyFilters();
     </script>
