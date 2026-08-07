@@ -347,21 +347,44 @@ tr:hover td { background-color: #0f1d38; }
                 return;
             }
 
-            marketsData.forEach(m => {
-                const tagStyle = m.classification === "DEVELOPED MKT" ? "tag-dev" : "tag-eme";
-                
-                macroBody.innerHTML += `
-                    <tr>
-                        <td><span class="mkt-badge">${m.code}</span></td>
-                        <td style="color:#ffffff; font-weight:500;">${m.country}</td>
-                        <td><span class="tag ${tagStyle}">${m.classification}</span></td>
-                        <td>
-                            <div class="highlight-text">${m.turnover_local}</div>
-                            <div style="color:#64748b; font-size:11px; margin-top:2px;">${m.turnover_usd}</div>
-                        </td>
-                        <td class="tag-concentrator"><span class="neon-blue">${m.pillar_sector}</span> • ${m.volume_concentrator}</td>
-                    </tr>
-                `;
+       marketsData.forEach(m => {
+    const tagStyle = m.classification === "DEVELOPED MKT" ? "tag-dev" : "tag-eme";
+    
+    // Fallback percentages if not defined in data.json
+    const retVal = m.retail_pct || '15%';
+    const instVal = m.inst_pct || '85%';
+    
+    // Extract numerical values for bar width calculation
+    const retNum = parseFloat(retVal) || 15;
+    const instNum = parseFloat(instVal) || 85;
+
+    macroBody.innerHTML += `
+        <tr>
+            <td><span class="mkt-badge">${m.code}</span></td>
+            <td style="color:#ffffff; font-weight:500;">${m.country}</td>
+            <td><span class="tag ${tagStyle}">${m.classification}</span></td>
+            <td>
+                <div class="highlight-text">${m.turnover_local}</div>
+                <div style="color:#64748b; font-size:11px; margin-top:2px;">${m.turnover_usd}</div>
+            </td>
+            <td>
+                <div class="flow-container">
+                    <div class="flow-ratio">
+                        <span class="flow-retail">${retVal}</span> <span style="color:#64748b; font-weight:normal;">Ret</span> / 
+                        <span class="flow-inst">${instVal}</span> <span style="color:#64748b; font-weight:normal;">Inst</span>
+                    </div>
+                    <div class="flow-bar">
+                        <div class="flow-bar-retail" style="width: ${retNum}%;"></div>
+                        <div class="flow-bar-inst" style="width: ${instNum}%;"></div>
+                    </div>
+                </div>
+            </td>
+            <td class="tag-concentrator"><span class="neon-blue">${m.pillar_sector}</span> • ${m.volume_concentrator}</td>
+        </tr>
+    `;
+
+    // ... costBody and rulesBody rendering remains below ...
+});
 
                 costBody.innerHTML += `
                     <tr>
