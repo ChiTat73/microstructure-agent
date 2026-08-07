@@ -87,7 +87,7 @@
         .status-online { color: var(--accent-green); font-weight: 600; }
 
         .search-container {
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .search-input {
@@ -104,6 +104,99 @@
         .search-input:focus {
             outline: none;
             border-color: var(--accent-cyan);
+        }
+
+        /* QUICK FILTER CHIPS */
+        .chips-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .chip-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .chip-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 4px 10px;
+            border-radius: 14px;
+            font-size: 0.72rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .chip-btn:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .chip-btn.active {
+            background: #0284c7;
+            border-color: var(--accent-cyan);
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* COLUMN TOGGLE DROPDOWN */
+        .controls-wrapper {
+            position: relative;
+        }
+
+        .col-toggle-btn {
+            background: #0d1424;
+            color: var(--accent-cyan);
+            border: 1px solid #1e293b;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .col-toggle-btn:hover {
+            background: #1e293b;
+        }
+
+        .col-toggle-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 28px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            min-width: 180px;
+        }
+
+        .col-toggle-dropdown.show {
+            display: block;
+        }
+
+        .col-toggle-dropdown label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            cursor: pointer;
+        }
+
+        .col-toggle-dropdown label:last-child {
+            margin-bottom: 0;
         }
 
         .section-header {
@@ -216,7 +309,16 @@
     </header>
 
     <div class="search-container">
-        <input type="text" id="global-filter" class="search-input" placeholder="🔍 Filter all tables by code, country, sector, thresholds, or rules..." onkeyup="filterTables()">
+        <input type="text" id="global-filter" class="search-input" placeholder="🔍 Filter all tables by code, country, sector, thresholds, or rules..." onkeyup="applyAllFilters()">
+    </div>
+
+    <!-- QUICK EXECUTION FILTER CHIPS -->
+    <div class="chips-container">
+        <span class="chip-label">Execution Presets:</span>
+        <button class="chip-btn" id="chip-t1" onclick="toggleChip('chip-t1', 't1')">⚡ T+1 / T+0 Settlement Only</button>
+        <button class="chip-btn" id="chip-dark" onclick="toggleChip('chip-dark', 'dark')">🕶️ Dark / Off-Exchange Available</button>
+        <button class="chip-btn" id="chip-short" onclick="toggleChip('chip-short', 'short')">📉 Short Selling Permitted</button>
+        <button class="chip-btn" onclick="clearChips()" style="border-style: dashed; color: var(--text-muted);">Reset Filters</button>
     </div>
 
     <!-- TABLE 1: TURNOVER & LIQUIDITY -->
@@ -238,7 +340,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-code">HKEX</td>
                     <td>Hong Kong</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
@@ -246,7 +348,7 @@
                     <td>12.0% Ret / 88.0% Inst <span class="txt-red">-2.5% QoQ</span></td>
                     <td><strong>Financials (28.1% Cap) • Information Technology (27.5% Vol)</strong><br><small style="color:var(--text-muted)">Spread: 1.2 - 1.8 Ticks | Slippage: 8.4 bps</small></td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-code">ASX</td>
                     <td>Australia</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
@@ -254,7 +356,7 @@
                     <td>15.0% Ret / 85.0% Inst <span class="txt-green">+0.8% QoQ</span></td>
                     <td><strong>Materials & Financials • Global Mining Giants (BHP, Rio) & Big 4 Banks.</strong><br><small style="color:var(--text-muted)">Spread: 1.0 - 1.5 Ticks | Slippage: 4.1 bps</small></td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-code">JPX</td>
                     <td>Japan</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
@@ -262,7 +364,7 @@
                     <td>22.0% Ret / 78.0% Inst <span class="txt-green">+2.1% QoQ</span></td>
                     <td><strong>Industrial / Auto Mfg • Electric Appliances & Tech Equipment.</strong><br><small style="color:var(--text-muted)">Spread: 1.0 - 1.4 Ticks | Slippage: 4.7 bps</small></td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-code">SGX</td>
                     <td>Singapore</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
@@ -270,7 +372,7 @@
                     <td>25.0% Ret / 75.0% Inst <span class="txt-red">-0.8% QoQ</span></td>
                     <td><strong>Financials (Local Banks) • REITs & Micro Index Derivatives.</strong><br><small style="color:var(--text-muted)">Spread: 2.4 - 3.2 Ticks | Slippage: 12.2 bps</small></td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="false" data-short="true">
                     <td class="mkt-code">TWSE</td>
                     <td>Taiwan</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
@@ -278,7 +380,7 @@
                     <td>55.0% Ret / 45.0% Inst <span class="txt-green">+4.5% QoQ</span></td>
                     <td><strong>Semiconductors & Electronics • TSMC & Electronics Supply Chain.</strong><br><small style="color:var(--text-muted)">Spread: 1.0 - 1.4 Ticks | Slippage: 4.8 bps</small></td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-code">NZX</td>
                     <td>New Zealand</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
@@ -286,7 +388,7 @@
                     <td>20.0% Ret / 80.0% Inst <span class="txt-green">+0.1% QoQ</span></td>
                     <td><strong>Utilities & Healthcare • Defensive Infrastructure & Power Providers.</strong><br><small style="color:var(--text-muted)">Spread: 2.2 - 3.2 Ticks | Slippage: 14.2 bps</small></td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+1" data-dark="false" data-short="false">
                     <td class="mkt-code">NSE</td>
                     <td>India</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -294,7 +396,7 @@
                     <td>38.0% Ret / 62.0% Inst <span class="txt-green">+3.2% QoQ</span></td>
                     <td><strong>Financial Services & IT • Nifty Heavyweights & High-Beta Tech.</strong><br><small style="color:var(--text-muted)">Spread: 1.1 - 1.6 Ticks | Slippage: 3.8 bps</small></td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="false" data-short="false">
                     <td class="mkt-code">KRX</td>
                     <td>South Korea</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
@@ -302,7 +404,7 @@
                     <td>65.0% Ret / 35.0% Inst <span class="txt-red">-2.2% QoQ</span></td>
                     <td><strong>Semiconductors & Automobiles • Tech Heavyweights (Samsung, SK Hynix).</strong><br><small style="color:var(--text-muted)">Spread: 1.0 - 1.4 Ticks | Slippage: 4.9 bps</small></td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+1" data-dark="false" data-short="true">
                     <td class="mkt-code">SSE</td>
                     <td>Mainland China</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -310,7 +412,7 @@
                     <td>75.0% Ret / 25.0% Inst <span class="txt-red">-1.5% QoQ</span></td>
                     <td><strong>Industrial & State Financials • Large-cap State-Owned Enterprises (SOE).</strong><br><small style="color:var(--text-muted)">Spread: 1.2 - 1.7 Ticks | Slippage: 6.2 bps</small></td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+1" data-dark="false" data-short="true">
                     <td class="mkt-code">SZSE</td>
                     <td>Mainland China</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -318,7 +420,7 @@
                     <td>82.0% Ret / 18.0% Inst <span class="txt-red">-0.5% QoQ</span></td>
                     <td><strong>Information Technology • ChiNext Growth Tech & Electronics Manufacturing.</strong><br><small style="color:var(--text-muted)">Spread: 1.1 - 1.6 Ticks | Slippage: 7.1 bps</small></td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-code">BURSA</td>
                     <td>Malaysia</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -326,7 +428,7 @@
                     <td>25.0% Ret / 75.0% Inst <span class="txt-green">+1.0% QoQ</span></td>
                     <td><strong>Financials & Plantations • Banking Groups & Commodity Exporters.</strong><br><small style="color:var(--text-muted)">Spread: 2.0 - 3.0 Ticks | Slippage: 14.6 bps</small></td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="false" data-short="false">
                     <td class="mkt-code">IDX</td>
                     <td>Indonesia</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -334,7 +436,7 @@
                     <td>40.0% Ret / 60.0% Inst <span class="txt-green">+1.8% QoQ</span></td>
                     <td><strong>Financials & Commodities • Resource Mining & Large Infrastructure Banks.</strong><br><small style="color:var(--text-muted)">Spread: 2.2 - 3.5 Ticks | Slippage: 19.2 bps</small></td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="false" data-short="false">
                     <td class="mkt-code">PSE</td>
                     <td>Philippines</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -342,7 +444,7 @@
                     <td>30.0% Ret / 70.0% Inst <span class="txt-red">-2.0% QoQ</span></td>
                     <td><strong>Conglomerates & Real Estate • Family Holding Conglomerates.</strong><br><small style="color:var(--text-muted)">Spread: 2.6 - 4.0 Ticks | Slippage: 24.6 bps</small></td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="false" data-short="false">
                     <td class="mkt-code">VSE</td>
                     <td>Vietnam</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -357,7 +459,23 @@
     <!-- TABLE 2: MICROSTRUCTURE CHARACTERISTICS MATRIX -->
     <div class="section-header">
         <div class="section-title">📊 ALL 14 APAC MARKETS MICROSTRUCTURE CHARACTERISTICS MATRIX</div>
-        <span class="badge-count">14 Markets Visible</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="controls-wrapper">
+                <button class="col-toggle-btn" onclick="toggleDropdown()">👁️ View Columns</button>
+                <div class="col-toggle-dropdown" id="columnDropdown">
+                    <label><input type="checkbox" checked onclick="toggleColumn(1)" data-col="1"> Currency</label>
+                    <label><input type="checkbox" checked onclick="toggleColumn(2)" data-col="2"> Board Lot</label>
+                    <label><input type="checkbox" checked onclick="toggleColumn(3)" data-col="3"> Price Limits / Circuit Breakers</label>
+                    <label><input type="checkbox" checked onclick="toggleColumn(4)" data-col="4"> Auction Timing</label>
+                    <label><input type="checkbox" checked onclick="toggleColumn(5)" data-col="5"> Dark / Off-Exchange</label>
+                    <label><input type="checkbox" checked onclick="toggleColumn(6)" data-col="6"> Block Thresholds</label>
+                    <label><input type="checkbox" checked onclick="toggleColumn(7)" data-col="7"> Settlement</label>
+                    <label><input type="checkbox" checked onclick="toggleColumn(8)" data-col="8"> Trading Hours</label>
+                    <label><input type="checkbox" checked onclick="toggleColumn(9)" data-col="9"> Short Selling & Taxes</label>
+                </div>
+            </div>
+            <span class="badge-count" id="matrix-count">14 Markets Visible</span>
+        </div>
     </div>
 
     <div class="table-wrapper">
@@ -377,7 +495,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-code">HKEX<br><small style="color:var(--text-muted)">Hong Kong</small></td>
                     <td>HKD<br><small style="color:var(--text-muted)">Main Board</small></td>
                     <td>Variable (100–1,000)</td>
@@ -389,7 +507,7 @@
                     <td>09:30–12:00<br>13:00–16:00</td>
                     <td>Designated list; tick rule.<br>0.1% Stamp Duty (Seller).</td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-code">ASX<br><small style="color:var(--text-muted)">Australia</small></td>
                     <td>AUD ($)</td>
                     <td>1 share</td>
@@ -401,7 +519,7 @@
                     <td>10:00–16:00 AEST</td>
                     <td>Covered short selling + reporting.<br>No Stamp Duty.</td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-code">JPX<br><small style="color:var(--text-muted)">Japan</small></td>
                     <td>JPY (¥)</td>
                     <td>100 shares</td>
@@ -413,7 +531,7 @@
                     <td>09:00–11:30<br>12:30–15:30</td>
                     <td>Uptick rule on margin.<br>No Stamp Duty.</td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-code">SGX<br><small style="color:var(--text-muted)">Singapore</small></td>
                     <td>SGD ($) / USD</td>
                     <td>100 shares</td>
@@ -425,7 +543,7 @@
                     <td>09:00–12:00<br>13:00–17:00</td>
                     <td>Covered shorting + reporting.<br>No Stamp Duty.</td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="false" data-short="true">
                     <td class="mkt-code">TWSE<br><small style="color:var(--text-muted)">Taiwan</small></td>
                     <td>TWD (NT$)</td>
                     <td>1,000 shares</td>
@@ -437,7 +555,7 @@
                     <td>09:00–13:30 NST</td>
                     <td>SBL quota limits.<br>0.3% Transaction Tax (Seller).</td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-code">NZX<br><small style="color:var(--text-muted)">New Zealand</small></td>
                     <td>NZD ($)</td>
                     <td>1 share</td>
@@ -449,7 +567,7 @@
                     <td>10:00–16:45 NZST</td>
                     <td>Covered shorting permitted.<br>No Stamp Duty.</td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+1" data-dark="false" data-short="false">
                     <td class="mkt-code">NSE<br><small style="color:var(--text-muted)">India</small></td>
                     <td>INR (₹)</td>
                     <td>1 share</td>
@@ -461,7 +579,7 @@
                     <td>09:15–15:30 IST</td>
                     <td>No Naked Shorting.<br>0.1% STT (Delivery B/S).</td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="false" data-short="false">
                     <td class="mkt-code">KRX<br><small style="color:var(--text-muted)">South Korea</small></td>
                     <td>KRW (₩)</td>
                     <td>1 share</td>
@@ -473,7 +591,7 @@
                     <td>09:00–15:30 KST</td>
                     <td>Strict regulatory bans.<br>0.18% CTT (Seller).</td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+1" data-dark="false" data-short="true">
                     <td class="mkt-code">SSE<br><small style="color:var(--text-muted)">Mainland China</small></td>
                     <td>CNY (¥) / CNH</td>
                     <td>100 shares</td>
@@ -485,7 +603,7 @@
                     <td>09:30–11:30<br>13:00–15:00</td>
                     <td>Strict margin shorting.<br>0.05% Stamp Duty (Seller).</td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+1" data-dark="false" data-short="true">
                     <td class="mkt-code">SZSE<br><small style="color:var(--text-muted)">Mainland China</small></td>
                     <td>CNY (¥) / CNH</td>
                     <td>100 shares</td>
@@ -497,7 +615,7 @@
                     <td>09:30–11:30<br>13:00–15:00</td>
                     <td>Strict margin shorting.<br>0.05% Stamp Duty (Seller).</td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-code">BURSA<br><small style="color:var(--text-muted)">Malaysia</small></td>
                     <td>MYR (RM)</td>
                     <td>100 shares</td>
@@ -509,7 +627,7 @@
                     <td>09:00–12:30<br>14:30–17:00</td>
                     <td>Regulated Short Selling (RSS).<br>0.1% Stamp Duty (Max RM 1,000).</td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="false" data-short="false">
                     <td class="mkt-code">IDX<br><small style="color:var(--text-muted)">Indonesia</small></td>
                     <td>IDR (Rp)</td>
                     <td>100 shares</td>
@@ -521,7 +639,7 @@
                     <td>09:00–12:00<br>13:30–16:00</td>
                     <td>Restricted margin list.<br>0.1% Final Income Tax on sale.</td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="false" data-short="false">
                     <td class="mkt-code">PSE<br><small style="color:var(--text-muted)">Philippines</small></td>
                     <td>PHP (₱)</td>
                     <td>100 shares</td>
@@ -533,7 +651,7 @@
                     <td>09:30–12:00<br>13:00–15:00</td>
                     <td>Strictly regulated shorting list.<br>0.6% Stock Transaction Tax.</td>
                 </tr>
-                <tr>
+                <tr data-settlement="T+2" data-dark="false" data-short="false">
                     <td class="mkt-code">VSE<br><small style="color:var(--text-muted)">Vietnam</small></td>
                     <td>VND (₫)</td>
                     <td>100 shares</td>
@@ -570,17 +688,86 @@
     </div>
 
     <script>
-        function filterTables() {
+        const activeFilters = {
+            t1: false,
+            dark: false,
+            short: false
+        };
+
+        function toggleChip(id, filterType) {
+            activeFilters[filterType] = !activeFilters[filterType];
+            document.getElementById(id).classList.toggle('active');
+            applyAllFilters();
+        }
+
+        function clearChips() {
+            activeFilters.t1 = false;
+            activeFilters.dark = false;
+            activeFilters.short = false;
+
+            document.querySelectorAll('.chip-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('global-filter').value = '';
+            applyAllFilters();
+        }
+
+        function applyAllFilters() {
             const query = document.getElementById('global-filter').value.toLowerCase();
             const tables = ['turnover-table', 'matrix-table'];
 
             tables.forEach(tableId => {
                 const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+                let visibleCount = 0;
+
                 rows.forEach(row => {
-                    const text = row.innerText.toLowerCase();
-                    row.style.display = text.includes(query) ? '' : 'none';
+                    const textMatches = row.innerText.toLowerCase().includes(query);
+                    const settlementMatch = !activeFilters.t1 || row.getAttribute('data-settlement') === 'T+1';
+                    const darkMatch = !activeFilters.dark || row.getAttribute('data-dark') === 'true';
+                    const shortMatch = !activeFilters.short || row.getAttribute('data-short') === 'true';
+
+                    if (textMatches && settlementMatch && darkMatch && shortMatch) {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
                 });
+
+                if (tableId === 'matrix-table') {
+                    document.getElementById('matrix-count').innerText = `${visibleCount} Markets Visible`;
+                }
             });
+        }
+
+        function toggleDropdown() {
+            document.getElementById('columnDropdown').classList.toggle('show');
+        }
+
+        function toggleColumn(colIndex) {
+            const table = document.getElementById('matrix-table');
+            const ths = table.querySelectorAll('th');
+            const rows = table.querySelectorAll('tbody tr');
+
+            if (ths[colIndex]) {
+                const currentDisplay = ths[colIndex].style.display;
+                const newDisplay = currentDisplay === 'none' ? '' : 'none';
+                
+                ths[colIndex].style.display = newDisplay;
+                rows.forEach(row => {
+                    if (row.cells[colIndex]) {
+                        row.cells[colIndex].style.display = newDisplay;
+                    }
+                });
+            }
+        }
+
+        // Close dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.col-toggle-btn') && !event.target.closest('.col-toggle-dropdown')) {
+                const dropdown = document.getElementById('columnDropdown');
+                if (dropdown && dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                }
+            }
         }
 
         function sortTable(colIndex, tableId) {
