@@ -174,7 +174,7 @@
             <span class="row-counter" id="pipeline-count">0 Records</span>
         </div>
         <div id="pipeline-container">
-            <table id="pipeline-table" style="display: none;">
+            <table id="pipeline-table">
                 <thead>
                     <tr>
                         <th class="sortable td-mkt" onclick="sortTable('pipeline', 'exchange', this)">MKT<span class="sort-icon">▼▲</span></th>
@@ -188,7 +188,7 @@
                 </thead>
                 <tbody id="pipeline-body"></tbody>
             </table>
-            <div id="pipeline-loading" class="status-msg">Scanning pipeline entries...</div>
+            <div id="pipeline-loading" class="status-msg" style="display: none;">Scanning pipeline entries...</div>
         </div>
 
         <!-- TABLE 3: COMPLETED / IMPLEMENTED HISTORICAL -->
@@ -197,7 +197,7 @@
             <span class="row-counter" id="implemented-count">0 Records</span>
         </div>
         <div id="implemented-container">
-            <table id="implemented-table" style="display: none;">
+            <table id="implemented-table">
                 <thead>
                     <tr>
                         <th class="sortable td-mkt" onclick="sortTable('implemented', 'exchange', this)">MKT<span class="sort-icon">▼▲</span></th>
@@ -211,7 +211,7 @@
                 </thead>
                 <tbody id="implemented-body"></tbody>
             </table>
-            <div id="implemented-loading" class="status-msg">Scanning implemented entries...</div>
+            <div id="implemented-loading" class="status-msg" style="display: none;">Scanning implemented entries...</div>
         </div>
     </div>
 
@@ -225,7 +225,7 @@
 
         const developedMarkets = ['jpx', 'asx', 'hkex', 'sgx', 'twse', 'krx', 'nzx'];
 
-        // Table 1 Data Source: Expanded with ALL Major APAC Markets
+        // Table 1 Data Source
         const macroData = [
             { exchange: 'HKEX', country: 'Hong Kong', isDeveloped: 1, ccy: 'HK$', currentAdt: 283.0, prevAdt: 261.5, usdEquiv: '36.2B', retailPct: 12.0, prevRetailPct: 10.5, concentrator: '<strong>Financials (29.1% Cap)</strong> • <strong>Information Technology (42.5% Vol)</strong>.' },
             { exchange: 'JPX', country: 'Japan', isDeveloped: 1, ccy: '¥', currentAdt: 11600.0, prevAdt: 10800.0, usdEquiv: '74.1B', displayCcy: '¥ 11.6T', retailPct: 22.0, prevRetailPct: 19.5, concentrator: '<strong>Industrial / Auto Mfg</strong> • Electric Appliances & Tech Equipment.' },
@@ -242,7 +242,17 @@
             { exchange: 'NZX', country: 'New Zealand', isDeveloped: 1, ccy: 'NZ$', currentAdt: 0.18, prevAdt: 0.19, usdEquiv: '0.11B', retailPct: 20.0, prevRetailPct: 20.0, concentrator: '<strong>Utilities & Healthcare</strong> • Defensive Infrastructure & Energy Providers.' }
         ];
 
-        let rawPipelineDataset = []; let rawImplementedDataset = [];
+        // Embedded Default Pipeline Data (Fallback if data.json is missing or invalid)
+        const defaultPipelineData = [
+            { exchange: "HKEX", country: "hk", initiative: "Severe Weather Trading Operation (SWT)", eta: "Sept 23, 2024", category: "Market Ops", severity_level: "High", timeline_status: "historical", impact: "• Trading remains open during Typhoon Signal 8 or higher.\n• Eliminates session disruptions." },
+            { exchange: "JPX", country: "jp", initiative: "Trading Hour Extension (3:30 PM Close)", eta: "Nov 5, 2024", category: "Microstructure", severity_level: "Medium", timeline_status: "historical", impact: "• Extends TSE closing session by 30 minutes to 15:30 JST.\n• Introduces Closing Auction session." },
+            { exchange: "TWSE", country: "tw", initiative: "T+1 Settlement Modernization Roadmap", eta: "Late 2026", category: "Settlement", severity_level: "High", timeline_status: "pipeline", impact: "• Feasibility assessment for transitioning from T+2 to T+1.\n• Aligns TWSE with US market standards." },
+            { exchange: "KRX", country: "kr", initiative: "Short Selling Systemic Overhaul & Reboot", eta: "Q2 2025", category: "Regulation", severity_level: "Critical", timeline_status: "pipeline", impact: "• End of temporary short-selling ban with mandatory NSDS monitoring.\n• Standardized institutional borrow terms." },
+            { exchange: "NSE", country: "in", initiative: "Optional T+0 Rolling Settlement Expansion", eta: "Late 2026", category: "Settlement", severity_level: "Medium", timeline_status: "pipeline", impact: "• Instantaneous intraday settlement rollout for top 500 equities.\n• Reduces capital lockup." }
+        ];
+
+        let rawPipelineDataset = []; 
+        let rawImplementedDataset = [];
         let activeSortKeys = { macro: null, pipeline: null, implemented: null };
         let activeSortDirs = { macro: 'asc', pipeline: 'asc', implemented: 'asc' };
 
@@ -280,7 +290,36 @@
 
         let viewedInitiatives = JSON.parse(localStorage.getItem('microstructure_viewed_logs') || '[]');
 
-        // Render Macro Table
+        function processRawItems(dataArray) {
+            rawPipelineDataset = [];
+            rawImplementedDataset = [];
+            dataArray.forEach((item) => {
+                const ex = item.exchange || item.EXCHANGE || 'N/A'; 
+                const countryCode = item.country || item.COUNTRY || '';
+                const init = item.initiative || item.INITIATIVE || 'N/A'; 
+                const eta = item.eta || item.ETA || 'N/A';
+                const cat = item.category || item.CATEGORY || 'N/A'; 
+                const impactText = item.impact || item.IMPACT || '';
+                const severity = (item.severity_level || item.SEVERITY_LEVEL || 'Normal');
+                const timelineStatus = (item.timeline_status || item.TIMELINE_STATUS || '').toLowerCase();
+                const directSourceUrl = item.source_url || item.SOURCE_URL || 'https://google.com';
+
+                const initiativeSignature = `${ex}-${init}-${eta}`.replace(/\s+/g, '_');
+                const countdownData = calculateCountdown(eta);
+
+                const normalizedItem = {
+                    exchange: ex, countryFull: countryMap[countryCode.trim().toLowerCase()] || countryCode || 'Global',
+                    isDeveloped: developedMarkets.includes(ex.trim().toLowerCase()) ? 1 : 0, initiative: init,
+                    eta: eta, category: cat, severity: severity, formattedImpact: formatImpact(impactText),
+                    signature: initiativeSignature, isNew: !viewedInitiatives.includes(initiativeSignature),
+                    countdownHtml: countdownData.html, sourceUrl: directSourceUrl
+                };
+
+                const isImplemented = timelineStatus.includes('historical') || eta.toLowerCase().includes('implemented') || countdownData.text.includes('Passed');
+                if (isImplemented) rawImplementedDataset.push(normalizedItem); else rawPipelineDataset.push(normalizedItem);
+            });
+        }
+
         function renderMacroTable(dataset) {
             const tbody = document.getElementById('macro-body');
             document.getElementById('macro-count').textContent = `${dataset.length} Records`;
@@ -327,7 +366,6 @@
             });
         }
 
-        // Render Pipeline & Implemented Tables
         function renderTableSection(section, dataset) {
             const tbody = document.getElementById(`${section}-body`); 
             const loadingMsg = document.getElementById(`${section}-loading`);
@@ -373,46 +411,6 @@
                 `);
             });
         }
-
-        // Fetch JSON & Initialize
-        fetch('data.json')
-            .then(response => response.json())
-            .then(data => {
-                let globalTimestamp = "N/A";
-                data.forEach((item) => {
-                    const ex = item.exchange || item.EXCHANGE || 'N/A'; 
-                    const countryCode = item.country || item.COUNTRY || '';
-                    const init = item.initiative || item.INITIATIVE || 'N/A'; 
-                    const eta = item.eta || item.ETA || 'N/A';
-                    const cat = item.category || item.CATEGORY || 'N/A'; 
-                    const impactText = item.impact || item.IMPACT || '';
-                    const severity = (item.severity_level || item.SEVERITY_LEVEL || 'Normal');
-                    const timelineStatus = (item.timeline_status || item.TIMELINE_STATUS || '').toLowerCase();
-                    const directSourceUrl = item.source_url || item.SOURCE_URL || 'https://google.com';
-
-                    if(item.last_updated || item.LAST_UPDATED) globalTimestamp = item.last_updated || item.LAST_UPDATED;
-
-                    const initiativeSignature = `${ex}-${init}-${eta}`.replace(/\s+/g, '_');
-                    const countdownData = calculateCountdown(eta);
-
-                    const normalizedItem = {
-                        exchange: ex, countryFull: countryMap[countryCode.trim().toLowerCase()] || countryCode || 'Global',
-                        isDeveloped: developedMarkets.includes(ex.trim().toLowerCase()) ? 1 : 0, initiative: init,
-                        eta: eta, category: cat, severity: severity, formattedImpact: formatImpact(impactText),
-                        signature: initiativeSignature, isNew: !viewedInitiatives.includes(initiativeSignature),
-                        countdownHtml: countdownData.html, sourceUrl: directSourceUrl
-                    };
-
-                    const isImplemented = timelineStatus.includes('historical') || eta.toLowerCase().includes('implemented') || countdownData.text.includes('Passed');
-                    if (isImplemented) rawImplementedDataset.push(normalizedItem); else rawPipelineDataset.push(normalizedItem);
-                });
-                
-                document.getElementById('agent-timestamp').textContent = globalTimestamp; 
-                applyFilters();
-            })
-            .catch(error => { 
-                document.getElementById('pipeline-loading').textContent = `❌ Sync Error: ${error.message}`; 
-            });
 
         // Filter Logic
         function applyFilters() {
@@ -467,6 +465,26 @@
                 }
             }
         }
+
+        // Initialize with default fallback data immediately
+        processRawItems(defaultPipelineData);
+        applyFilters();
+
+        // Attempt to fetch updated data.json if available
+        fetch('data.json')
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                if (Array.isArray(data) && data.length > 0) {
+                    processRawItems(data);
+                    applyFilters();
+                }
+            })
+            .catch(error => {
+                console.warn('data.json fetch skipped/failed, using embedded dataset fallback:', error.message);
+            });
     </script>
 </body>
 </html>
