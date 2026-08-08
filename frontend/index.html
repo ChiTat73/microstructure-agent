@@ -332,10 +332,11 @@
                     <td>21.0% Ret / 79.0% Inst <span class="val-up">+0.8% QoQ</span></td>
                     <td>Financials (Local Banks) • REITs & Micro Index Derivatives.<br><small style="color:var(--text-muted)">Spreads: 2.0–3.5 bps | Slippage: 5.2 bps</small></td>
                 </tr>
+                <!-- 1. TWSE CLASSIFICATION UPDATED TO EMERGING MKT -->
                 <tr data-settlement="T+2" data-dark="false" data-short="true">
                     <td class="mkt-name">TWSE</td>
                     <td>Taiwan</td>
-                    <td><span class="badge-dev">DEVELOPED MKT</span></td>
+                    <td><span class="badge-emg">EMERGING MKT</span></td>
                     <td><strong>NT$ 348.0B</strong> <span class="val-down">-11.2% QoQ</span><br><small style="color:var(--text-muted)">$11.1B</small></td>
                     <td>55.0% Ret / 45.0% Inst <span class="val-up">+4.1% QoQ</span></td>
                     <td>Semiconductors & Electronics • TSMC & Electronics Supply Chain.<br><small style="color:var(--text-muted)">Spreads: 1.5–2.2 bps | Slippage: 4.1 bps</small></td>
@@ -455,7 +456,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- 1. HKEX (Hong Kong) - UPDATED -->
+                <!-- 1. HKEX (Hong Kong) -->
                 <tr data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-name">HKEX<br><small style="color:var(--text-muted)">Hong Kong</small></td>
                     <td>HKD ($)</td>
@@ -511,11 +512,11 @@
                     <td>Covered shorting + reporting.<br>No Stamp Duty.</td>
                 </tr>
 
-                <!-- 5. TWSE (Taiwan) -->
+                <!-- 5. TWSE (Taiwan) - BOARD LOT UPDATED -->
                 <tr data-settlement="T+2" data-dark="false" data-short="true">
                     <td class="mkt-name">TWSE<br><small style="color:var(--text-muted)">Taiwan</small></td>
                     <td>TWD (NT$)</td>
-                    <td>1,000 shares</td>
+                    <td>1,000 shares<br><small style="color:var(--text-muted)">(1 share via Intraday Odd-Lot)</small></td>
                     <td>Strict ±10% Daily Price Limit</td>
                     <td>Pre-Open: 08:30–09:00 (5-min continuous call-auction preview)<br>Close: 13:25–13:30 (5-min batch auction session)<br>Vol: ~8–12% at close</td>
                     <td>Off-exchange dark liquidity virtually non-existent. Block trading system operated directly by TWSE during paired auction sessions.</td>
@@ -539,7 +540,7 @@
                     <td>Covered shorting permitted.<br>No Stamp Duty.</td>
                 </tr>
 
-                <!-- 7. NSE (India) - UPDATED -->
+                <!-- 7. NSE (India) -->
                 <tr data-settlement="T+1" data-dark="false" data-short="true">
                     <td class="mkt-name">NSE<br><small style="color:var(--text-muted)">India</small></td>
                     <td>INR (₹)</td>
@@ -553,7 +554,7 @@
                     <td>No Naked Shorting.<br>0.1% STT (Delivery B/S).</td>
                 </tr>
 
-                <!-- 8. KRX (South Korea) - UPDATED -->
+                <!-- 8. KRX (South Korea) - SHORT SELLING STATUS UPDATED -->
                 <tr data-settlement="T+2" data-dark="false" data-short="true">
                     <td class="mkt-name">KRX<br><small style="color:var(--text-muted)">South Korea</small></td>
                     <td>KRW (₩)</td>
@@ -564,7 +565,7 @@
                     <td><strong>₩ 100M+</strong> or 5,000 shares<br><small style="color:var(--text-muted)">Band: Negotiated within current market high/low price limits</small></td>
                     <td>T+2</td>
                     <td>09:00–15:30 KST</td>
-                    <td><strong>Temporary shorting ban (Nov 2023–Mar 2025)</strong> pending NSDS system.<br>0.18% STT (Seller).</td>
+                    <td><strong>Regulated shorting re-allowed (lifted Mar 31, 2025)</strong> via NSDS monitoring.<br>0.18% STT (Seller).</td>
                 </tr>
 
                 <!-- 9. SSE (Mainland China) -->
@@ -741,7 +742,7 @@
             rows.sort((a, b) => {
                 const valA = a.children[colIndex].textContent.trim().toLowerCase();
                 const valB = b.children[colIndex].textContent.trim().toLowerCase();
-                return isAsc ? valA.localeCompare(valB, undefined, {numeric: true}) : valB.localeCompare(valA, undefined, {numeric: true});
+                return isAsc ? valA.localeCompare(valB, undefined, {numeric: true}) : valB.localeCompare(valB, undefined, {numeric: true});
             });
 
             rows.forEach(row => tbody.appendChild(row));
