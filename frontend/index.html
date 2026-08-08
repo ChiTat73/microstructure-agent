@@ -116,6 +116,8 @@
             cursor: pointer;
             font-size: 10px;
             transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .chip-btn:hover {
@@ -127,106 +129,6 @@
             background-color: var(--accent-blue);
             color: #fff;
             border-color: var(--accent-blue);
-        }
-
-        /* MODAL STYLES */
-        .modal-backdrop {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(2px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-backdrop.active {
-            display: flex;
-        }
-
-        .modal-container {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            width: 550px;
-            max-width: 90%;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-        }
-
-        .modal-header {
-            background-color: var(--header-bg);
-            padding: 12px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .modal-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: #fff;
-            margin: 0;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 16px;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .modal-close:hover {
-            color: #fff;
-        }
-
-        .modal-body {
-            padding: 16px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .change-item {
-            margin-bottom: 12px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .change-item:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-
-        .change-tag {
-            font-size: 9px;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 3px;
-            text-transform: uppercase;
-            display: inline-block;
-            margin-bottom: 4px;
-        }
-
-        .tag-tw { background: rgba(192, 132, 252, 0.2); color: var(--badge-emg-text); }
-        .tag-kr { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
-
-        .change-title {
-            color: #fff;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .change-desc {
-            color: var(--text-muted);
-            line-height: 1.4;
         }
 
         /* TABLES COMMON */
@@ -367,40 +269,13 @@
             <p class="app-subtitle">Real-time venue dynamics, execution TCA, and market characteristic analysis.</p>
         </div>
         <div class="header-status">
-            <!-- UPDATED BUTTON WITH ONCLICK HANDLER -->
-            <button class="chip-btn" id="btn-exchange-changes" onclick="openChangesModal()">Exchange Changes ↗</button>
+            <!-- DIRECT NAVIGATION BUTTON (NO NEW TAB) -->
+            <a href="https://chitat73.github.io/asia-microstructure-tracker/" class="chip-btn" id="btn-exchange-changes" target="_self">Exchange Changes ↗</a>
             <div class="status-badge">
                 <span class="status-dot"></span>
                 Agent Status: ONLINE
             </div>
             <span style="color: var(--text-muted);">Last Sync Check: Aug 07, 2026 16:40 HKT</span>
-        </div>
-    </div>
-
-    <!-- EXCHANGE CHANGES MODAL -->
-    <div class="modal-backdrop" id="changesModal" onclick="closeModalOnBackdrop(event)">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h3 class="modal-title">🔔 Recent APAC Market Microstructure Updates</h3>
-                <button class="modal-close" onclick="closeChangesModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="change-item">
-                    <span class="change-tag tag-tw">Taiwan (TWSE)</span>
-                    <div class="change-title">Market Classification Standard</div>
-                    <div class="change-desc">Reclassified under MSCI Emerging Market benchmark standards (representing one of the largest single-country weightings in MSCI EM).</div>
-                </div>
-                <div class="change-item">
-                    <span class="change-tag tag-tw">Taiwan (TWSE)</span>
-                    <div class="change-title">Intraday Odd-Lot Execution</div>
-                    <div class="change-desc">Standard full lot remains 1,000 shares; intraday odd-lot trading (1 to 999 shares) is active during regular hours.</div>
-                </div>
-                <div class="change-item">
-                    <span class="change-tag tag-kr">South Korea (KRX)</span>
-                    <div class="change-title">Short Selling Ban Lifted</div>
-                    <div class="change-desc">Temporary shorting ban officially ended on March 31, 2025, following the deployment of the centralized Naked Short-Selling Detection System (NSDS).</div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -808,24 +683,9 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT FOR FILTERS, SORTING, AND MODAL -->
+    <!-- JAVASCRIPT FOR FILTERS AND SORTING -->
     <script>
         let activePresets = new Set();
-
-        /* MODAL HANDLERS FOR EXCHANGE CHANGES BUTTON */
-        function openChangesModal() {
-            document.getElementById('changesModal').classList.add('active');
-        }
-
-        function closeChangesModal() {
-            document.getElementById('changesModal').classList.remove('active');
-        }
-
-        function closeModalOnBackdrop(event) {
-            if (event.target === document.getElementById('changesModal')) {
-                closeChangesModal();
-            }
-        }
 
         /* FILTER & PRESET HANDLERS */
         function filterTables() {
@@ -914,17 +774,11 @@
             });
         }
 
-        /* CLOSE DROPDOWN AND MODAL ON ESCAPE KEY */
+        /* CLOSE DROPDOWN ON OUTSIDE CLICK */
         window.onclick = function(e) {
             if (!e.target.closest('.col-dropdown')) {
                 const d = document.getElementById('colDropdown');
                 if (d && d.classList.contains('show')) d.classList.remove('show');
-            }
-        };
-
-        window.onkeydown = function(e) {
-            if (e.key === 'Escape') {
-                closeChangesModal();
             }
         };
     </script>
