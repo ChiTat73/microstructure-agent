@@ -94,6 +94,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            flex-wrap: wrap;
         }
 
         .search-input {
@@ -129,6 +130,19 @@
             background-color: var(--accent-blue);
             color: #fff;
             border-color: var(--accent-blue);
+        }
+
+        /* MARKET CLASSIFICATION TOGGLES */
+        .chip-btn.dev-active {
+            background-color: var(--badge-dev);
+            color: var(--badge-dev-text);
+            border-color: var(--badge-dev-text);
+        }
+
+        .chip-btn.emg-active {
+            background-color: var(--badge-emg);
+            color: var(--badge-emg-text);
+            border-color: var(--badge-emg-text);
         }
 
         /* TABLES COMMON */
@@ -283,11 +297,17 @@
     <div class="controls-bar">
         <div class="filter-group">
             <input type="text" id="global-filter" class="search-input" placeholder="Filter all tables by code, country, venue, thresholds, or rules..." onkeyup="filterTables()">
-            <span style="color: var(--text-muted); font-size: 10px; margin-right: 4px;">EXECUTION PRESETS:</span>
+            
+            <span style="color: var(--text-muted); font-size: 10px; margin-left: 4px; margin-right: 2px;">MARKETS:</span>
+            <button class="chip-btn" id="chip-dev" onclick="togglePreset('dev')">Developed Markets</button>
+            <button class="chip-btn" id="chip-emg" onclick="togglePreset('emg')">Emerging Markets</button>
+
+            <span style="color: var(--text-muted); font-size: 10px; margin-left: 8px; margin-right: 2px;">EXECUTION PRESETS:</span>
             <button class="chip-btn" id="chip-t1" onclick="togglePreset('t1')">+ T+1 / T+0 Settlement Only</button>
             <button class="chip-btn" id="chip-dark" onclick="togglePreset('dark')">Dark / Off-Exchange Available</button>
             <button class="chip-btn" id="chip-short" onclick="togglePreset('short')">Short Selling Permitted</button>
-            <button class="chip-btn" onclick="resetFilters()">Reset Filters</button>
+
+            <button class="chip-btn" style="margin-left: 8px;" onclick="resetFilters()">Reset Filters</button>
         </div>
     </div>
 
@@ -309,7 +329,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr data-settlement="T+2" data-dark="true" data-short="true">
+                <tr data-classification="dev" data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-name">HKEX</td>
                     <td>Hong Kong</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
@@ -317,7 +337,7 @@
                     <td>17.0% Ret / 83.0% Inst <span class="val-down">-2.8% QoQ</span></td>
                     <td>Financials (28.1% Cap) • Information Technology (27.5% Vol)<br><small style="color:var(--text-muted)">Spreads: 1.0–1.6 bps | Slippage: 4.8 bps</small></td>
                 </tr>
-                <tr data-settlement="T+2" data-dark="true" data-short="true">
+                <tr data-classification="dev" data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-name">ASX</td>
                     <td>Australia</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
@@ -325,7 +345,7 @@
                     <td>14.0% Ret / 86.0% Inst <span class="val-down">-0.8% QoQ</span></td>
                     <td>Materials & Financials • Global Mining Giants (BHP, RIO) & Big 4 Banks.<br><small style="color:var(--text-muted)">Spreads: 1.4–2.0 bps | Slippage: 3.2 bps</small></td>
                 </tr>
-                <tr data-settlement="T+2" data-dark="true" data-short="true">
+                <tr data-classification="dev" data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-name">JPX</td>
                     <td>Japan</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
@@ -333,7 +353,7 @@
                     <td>22.0% Ret / 78.0% Inst <span class="val-down">-2.1% QoQ</span></td>
                     <td>Industrial / Auto Mfg • Electric Appliances & Tech Equipment.<br><small style="color:var(--text-muted)">Spreads: 0.8–1.2 bps | Slippage: 2.1 bps</small></td>
                 </tr>
-                <tr data-settlement="T+2" data-dark="true" data-short="true">
+                <tr data-classification="dev" data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-name">SGX</td>
                     <td>Singapore</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
@@ -341,7 +361,7 @@
                     <td>21.0% Ret / 79.0% Inst <span class="val-up">+0.8% QoQ</span></td>
                     <td>Financials (Local Banks) • REITs & Micro Index Derivatives.<br><small style="color:var(--text-muted)">Spreads: 2.0–3.5 bps | Slippage: 5.2 bps</small></td>
                 </tr>
-                <tr data-settlement="T+2" data-dark="false" data-short="true">
+                <tr data-classification="emg" data-settlement="T+2" data-dark="false" data-short="true">
                     <td class="mkt-name">TWSE</td>
                     <td>Taiwan</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -349,7 +369,7 @@
                     <td>55.0% Ret / 45.0% Inst <span class="val-up">+4.1% QoQ</span></td>
                     <td>Semiconductors & Electronics • TSMC & Electronics Supply Chain.<br><small style="color:var(--text-muted)">Spreads: 1.5–2.2 bps | Slippage: 4.1 bps</small></td>
                 </tr>
-                <tr data-settlement="T+2" data-dark="false" data-short="true">
+                <tr data-classification="dev" data-settlement="T+2" data-dark="false" data-short="true">
                     <td class="mkt-name">NZX</td>
                     <td>New Zealand</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
@@ -357,7 +377,7 @@
                     <td>18.0% Ret / 82.0% Inst <span class="val-down">-0.1% QoQ</span></td>
                     <td>Utilities & Healthcare • Defensive Infrastructure & Power Providers.<br><small style="color:var(--text-muted)">Spreads: 3.5–5.0 bps | Slippage: 7.8 bps</small></td>
                 </tr>
-                <tr data-settlement="T+1" data-dark="false" data-short="true">
+                <tr data-classification="emg" data-settlement="T+1" data-dark="false" data-short="true">
                     <td class="mkt-name">NSE</td>
                     <td>India</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -365,7 +385,7 @@
                     <td>33.0% Ret / 67.0% Inst <span class="val-down">-3.2% QoQ</span></td>
                     <td>Financial Services & IT • Nifty Heavyweights & High Rate Tech.<br><small style="color:var(--text-muted)">Spreads: 1.8–2.8 bps | Slippage: 4.6 bps</small></td>
                 </tr>
-                <tr data-settlement="T+2" data-dark="false" data-short="true">
+                <tr data-classification="emg" data-settlement="T+2" data-dark="false" data-short="true">
                     <td class="mkt-name">KRX</td>
                     <td>South Korea</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -373,7 +393,7 @@
                     <td>65.0% Ret / 35.0% Inst <span class="val-down">-2.7% QoQ</span></td>
                     <td>Semiconductors & Automobiles • Tech Heavyweights (Samsung, SK Hynix).<br><small style="color:var(--text-muted)">Spreads: 1.2–2.0 bps | Slippage: 3.8 bps</small></td>
                 </tr>
-                <tr data-settlement="T+1" data-dark="false" data-short="true">
+                <tr data-classification="emg" data-settlement="T+1" data-dark="false" data-short="true">
                     <td class="mkt-name">SSE</td>
                     <td>Mainland China</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -381,7 +401,7 @@
                     <td>75.0% Ret / 25.0% Inst <span class="val-down">-1.9% QoQ</span></td>
                     <td>Industrial & State Financials • Large-cap State-Owned Enterprise (SOE).<br><small style="color:var(--text-muted)">Spreads: 1.0–1.8 bps | Slippage: 3.5 bps</small></td>
                 </tr>
-                <tr data-settlement="T+1" data-dark="false" data-short="true">
+                <tr data-classification="emg" data-settlement="T+1" data-dark="false" data-short="true">
                     <td class="mkt-name">SZSE</td>
                     <td>Mainland China</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -389,7 +409,7 @@
                     <td>82.0% Ret / 18.0% Inst <span class="val-up">+0.5% QoQ</span></td>
                     <td>Information Technology • Chnext Growth Tech & Electronics Manufacturing.<br><small style="color:var(--text-muted)">Spreads: 1.1–1.9 bps | Slippage: 4.1 bps</small></td>
                 </tr>
-                <tr data-settlement="T+2" data-dark="true" data-short="true">
+                <tr data-classification="emg" data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-name">BURSA</td>
                     <td>Malaysia</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -397,7 +417,7 @@
                     <td>25.0% Ret / 75.0% Inst <span class="val-up">+1.0% QoQ</span></td>
                     <td>Financials & Plantations • Banking Groups & Commodity Exporters.<br><small style="color:var(--text-muted)">Spreads: 3.0–4.5 bps | Slippage: 6.2 bps</small></td>
                 </tr>
-                <tr data-settlement="T+2" data-dark="false" data-short="false">
+                <tr data-classification="emg" data-settlement="T+2" data-dark="false" data-short="false">
                     <td class="mkt-name">IDX</td>
                     <td>Indonesia</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -405,7 +425,7 @@
                     <td>40.0% Ret / 60.0% Inst <span class="val-up">+1.8% QoQ</span></td>
                     <td>Financials & Commodities • Resource Mining & Large Infrastructure Banks.<br><small style="color:var(--text-muted)">Spreads: 4.0–6.0 bps | Slippage: 8.5 bps</small></td>
                 </tr>
-                <tr data-settlement="T+2" data-dark="false" data-short="false">
+                <tr data-classification="emg" data-settlement="T+2" data-dark="false" data-short="false">
                     <td class="mkt-name">PSE</td>
                     <td>Philippines</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -413,7 +433,7 @@
                     <td>30.0% Ret / 70.0% Inst <span class="val-down">-2.0% QoQ</span></td>
                     <td>Conglomerates & Real Estate • Family Holding Conglomerates.<br><small style="color:var(--text-muted)">Spreads: 5.0–8.0 bps | Slippage: 11.2 bps</small></td>
                 </tr>
-                <tr data-settlement="T+2" data-dark="false" data-short="false">
+                <tr data-classification="emg" data-settlement="T+2" data-dark="false" data-short="false">
                     <td class="mkt-name">VSE</td>
                     <td>Vietnam</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
@@ -465,7 +485,7 @@
             </thead>
             <tbody>
                 <!-- 1. HKEX (Hong Kong) -->
-                <tr data-settlement="T+2" data-dark="true" data-short="true">
+                <tr data-classification="dev" data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-name">HKEX<br><small style="color:var(--text-muted)">Hong Kong</small></td>
                     <td>HKD ($)</td>
                     <td>Variable (100–1,000)</td>
@@ -479,7 +499,7 @@
                 </tr>
 
                 <!-- 2. ASX (Australia) -->
-                <tr data-settlement="T+2" data-dark="true" data-short="true">
+                <tr data-classification="dev" data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-name">ASX<br><small style="color:var(--text-muted)">Australia</small></td>
                     <td>AUD ($)</td>
                     <td>1 share</td>
@@ -493,7 +513,7 @@
                 </tr>
 
                 <!-- 3. JPX (Japan) -->
-                <tr data-settlement="T+2" data-dark="true" data-short="true">
+                <tr data-classification="dev" data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-name">JPX<br><small style="color:var(--text-muted)">Japan</small></td>
                     <td>JPY (¥)</td>
                     <td>100 shares</td>
@@ -507,7 +527,7 @@
                 </tr>
 
                 <!-- 4. SGX (Singapore) -->
-                <tr data-settlement="T+2" data-dark="true" data-short="true">
+                <tr data-classification="dev" data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-name">SGX<br><small style="color:var(--text-muted)">Singapore</small></td>
                     <td>SGD ($) / USD</td>
                     <td>100 shares</td>
@@ -521,7 +541,7 @@
                 </tr>
 
                 <!-- 5. TWSE (Taiwan) -->
-                <tr data-settlement="T+2" data-dark="false" data-short="true">
+                <tr data-classification="emg" data-settlement="T+2" data-dark="false" data-short="true">
                     <td class="mkt-name">TWSE<br><small style="color:var(--text-muted)">Taiwan</small></td>
                     <td>TWD (NT$)</td>
                     <td>1,000 shares<br><small style="color:var(--text-muted)">(1 share via Intraday Odd-Lot)</small></td>
@@ -535,7 +555,7 @@
                 </tr>
 
                 <!-- 6. NZX (New Zealand) -->
-                <tr data-settlement="T+2" data-dark="false" data-short="true">
+                <tr data-classification="dev" data-settlement="T+2" data-dark="false" data-short="true">
                     <td class="mkt-name">NZX<br><small style="color:var(--text-muted)">New Zealand</small></td>
                     <td>NZD ($)</td>
                     <td>1 share</td>
@@ -549,7 +569,7 @@
                 </tr>
 
                 <!-- 7. NSE (India) -->
-                <tr data-settlement="T+1" data-dark="false" data-short="true">
+                <tr data-classification="emg" data-settlement="T+1" data-dark="false" data-short="true">
                     <td class="mkt-name">NSE<br><small style="color:var(--text-muted)">India</small></td>
                     <td>INR (₹)</td>
                     <td>1 share</td>
@@ -563,7 +583,7 @@
                 </tr>
 
                 <!-- 8. KRX (South Korea) -->
-                <tr data-settlement="T+2" data-dark="false" data-short="true">
+                <tr data-classification="emg" data-settlement="T+2" data-dark="false" data-short="true">
                     <td class="mkt-name">KRX<br><small style="color:var(--text-muted)">South Korea</small></td>
                     <td>KRW (₩)</td>
                     <td>1 share</td>
@@ -577,7 +597,7 @@
                 </tr>
 
                 <!-- 9. SSE (Mainland China) -->
-                <tr data-settlement="T+1" data-dark="false" data-short="true">
+                <tr data-classification="emg" data-settlement="T+1" data-dark="false" data-short="true">
                     <td class="mkt-name">SSE<br><small style="color:var(--text-muted)">Mainland China</small></td>
                     <td>CNY (¥) / CNH</td>
                     <td>100 shares</td>
@@ -591,7 +611,7 @@
                 </tr>
 
                 <!-- 10. SZSE (Mainland China) -->
-                <tr data-settlement="T+1" data-dark="false" data-short="true">
+                <tr data-classification="emg" data-settlement="T+1" data-dark="false" data-short="true">
                     <td class="mkt-name">SZSE<br><small style="color:var(--text-muted)">Mainland China</small></td>
                     <td>CNY (¥) / CNH</td>
                     <td>100 shares</td>
@@ -605,7 +625,7 @@
                 </tr>
 
                 <!-- 11. BURSA (Malaysia) -->
-                <tr data-settlement="T+2" data-dark="true" data-short="true">
+                <tr data-classification="emg" data-settlement="T+2" data-dark="true" data-short="true">
                     <td class="mkt-name">BURSA<br><small style="color:var(--text-muted)">Malaysia</small></td>
                     <td>MYR (RM)</td>
                     <td>100 shares</td>
@@ -619,7 +639,7 @@
                 </tr>
 
                 <!-- 12. IDX (Indonesia) -->
-                <tr data-settlement="T+2" data-dark="false" data-short="false">
+                <tr data-classification="emg" data-settlement="T+2" data-dark="false" data-short="false">
                     <td class="mkt-name">IDX<br><small style="color:var(--text-muted)">Indonesia</small></td>
                     <td>IDR (Rp)</td>
                     <td>100 shares</td>
@@ -633,7 +653,7 @@
                 </tr>
 
                 <!-- 13. PSE (Philippines) -->
-                <tr data-settlement="T+2" data-dark="false" data-short="false">
+                <tr data-classification="emg" data-settlement="T+2" data-dark="false" data-short="false">
                     <td class="mkt-name">PSE<br><small style="color:var(--text-muted)">Philippines</small></td>
                     <td>PHP (₱)</td>
                     <td>100 shares</td>
@@ -647,7 +667,7 @@
                 </tr>
 
                 <!-- 14. VSE (Vietnam) -->
-                <tr data-settlement="T+2" data-dark="false" data-short="false">
+                <tr data-classification="emg" data-settlement="T+2" data-dark="false" data-short="false">
                     <td class="mkt-name">VSE<br><small style="color:var(--text-muted)">Vietnam</small></td>
                     <td>VND (₫)</td>
                     <td>100 shares</td>
@@ -701,6 +721,7 @@
 
             rows.forEach(row => {
                 const text = row.textContent.toLowerCase();
+                const classification = row.getAttribute('data-classification');
                 const settlement = row.getAttribute('data-settlement');
                 const dark = row.getAttribute('data-dark');
                 const short = row.getAttribute('data-short');
@@ -708,6 +729,8 @@
                 let matchQuery = !query || text.includes(query);
                 let matchPreset = true;
 
+                if (activePresets.has('dev') && classification !== 'dev') matchPreset = false;
+                if (activePresets.has('emg') && classification !== 'emg') matchPreset = false;
                 if (activePresets.has('t1') && !(settlement === 'T+1' || settlement === 'T+1 / T+0')) matchPreset = false;
                 if (activePresets.has('dark') && dark !== 'true') matchPreset = false;
                 if (activePresets.has('short') && short !== 'true') matchPreset = false;
@@ -727,17 +750,23 @@
             const btn = document.getElementById(`chip-${preset}`);
             if (activePresets.has(preset)) {
                 activePresets.delete(preset);
-                btn.classList.remove('active');
+                btn.classList.remove('active', 'dev-active', 'emg-active');
             } else {
                 activePresets.add(preset);
-                btn.classList.add('active');
+                if (preset === 'dev') btn.classList.add('dev-active');
+                else if (preset === 'emg') btn.classList.add('emg-active');
+                else btn.classList.add('active');
             }
             filterTables();
         }
 
         function resetFilters() {
             activePresets.clear();
-            document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.chip-btn').forEach(b => {
+                if (b.id !== 'btn-exchange-changes') {
+                    b.classList.remove('active', 'dev-active', 'emg-active');
+                }
+            });
             document.getElementById('global-filter').value = '';
             filterTables();
         }
