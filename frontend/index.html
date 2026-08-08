@@ -323,9 +323,10 @@
                     <th onclick="sortTable(0, 'macro-table')">MKT ▲▼</th>
                     <th onclick="sortTable(1, 'macro-table')">COUNTRY ▲▼</th>
                     <th onclick="sortTable(2, 'macro-table')">CLASSIFICATION ▲▼</th>
-                    <th onclick="sortTable(3, 'macro-table')">TURNOVER (LOCAL / USD EQUIV) ▲▼</th>
-                    <th onclick="sortTable(4, 'macro-table')">FLOW SPLIT (RET / INST) ▲▼</th>
-                    <th onclick="sortTable(5, 'macro-table')">CORE LIQUIDITY CONCENTRATOR & MICROSTRUCTURE ▲▼</th>
+                    <th onclick="sortTable(3, 'macro-table', true)">LOCAL TURNOVER ▲▼</th>
+                    <th onclick="sortTable(4, 'macro-table', true)">USD TURNOVER (EQUIV) ▲▼</th>
+                    <th onclick="sortTable(5, 'macro-table')">FLOW SPLIT (RET / INST) ▲▼</th>
+                    <th onclick="sortTable(6, 'macro-table')">CORE LIQUIDITY CONCENTRATOR & MICROSTRUCTURE ▲▼</th>
                 </tr>
             </thead>
             <tbody>
@@ -333,7 +334,8 @@
                     <td class="mkt-name">HKEX</td>
                     <td>Hong Kong</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
-                    <td><strong>HK$ 282.0B</strong> <span class="val-up">+17.4% QoQ</span><br><small style="color:var(--text-muted)">$36.1B</small></td>
+                    <td data-val="282000000000"><strong>HK$ 282.0B</strong> <span class="val-up">+17.4% QoQ</span></td>
+                    <td data-val="36100000000"><strong>$ 36.10B</strong></td>
                     <td>17.0% Ret / 83.0% Inst <span class="val-down">-2.8% QoQ</span></td>
                     <td>Financials (28.1% Cap) • Information Technology (27.5% Vol)<br><small style="color:var(--text-muted)">Spreads: 1.0–1.6 bps | Slippage: 4.8 bps</small></td>
                 </tr>
@@ -341,7 +343,8 @@
                     <td class="mkt-name">ASX</td>
                     <td>Australia</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
-                    <td><strong>A$ 6.8B</strong> <span class="val-up">+5.1% QoQ</span><br><small style="color:var(--text-muted)">$4.4B</small></td>
+                    <td data-val="6800000000"><strong>A$ 6.8B</strong> <span class="val-up">+5.1% QoQ</span></td>
+                    <td data-val="4400000000"><strong>$ 4.40B</strong></td>
                     <td>14.0% Ret / 86.0% Inst <span class="val-down">-0.8% QoQ</span></td>
                     <td>Materials & Financials • Global Mining Giants (BHP, RIO) & Big 4 Banks.<br><small style="color:var(--text-muted)">Spreads: 1.4–2.0 bps | Slippage: 3.2 bps</small></td>
                 </tr>
@@ -349,7 +352,8 @@
                     <td class="mkt-name">JPX</td>
                     <td>Japan</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
-                    <td><strong>¥ 11.6T</strong> <span class="val-up">+8.7% QoQ</span><br><small style="color:var(--text-muted)">$76.1B</small></td>
+                    <td data-val="11600000000000"><strong>¥ 11.6T</strong> <span class="val-up">+8.7% QoQ</span></td>
+                    <td data-val="76100000000"><strong>$ 76.10B</strong></td>
                     <td>22.0% Ret / 78.0% Inst <span class="val-down">-2.1% QoQ</span></td>
                     <td>Industrial / Auto Mfg • Electric Appliances & Tech Equipment.<br><small style="color:var(--text-muted)">Spreads: 0.8–1.2 bps | Slippage: 2.1 bps</small></td>
                 </tr>
@@ -357,7 +361,8 @@
                     <td class="mkt-name">SGX</td>
                     <td>Singapore</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
-                    <td><strong>S$ 1.4B</strong> <span class="val-down">-2.8% QoQ</span><br><small style="color:var(--text-muted)">$1.0B</small></td>
+                    <td data-val="1400000000"><strong>S$ 1.4B</strong> <span class="val-down">-2.8% QoQ</span></td>
+                    <td data-val="1000000000"><strong>$ 1.00B</strong></td>
                     <td>21.0% Ret / 79.0% Inst <span class="val-up">+0.8% QoQ</span></td>
                     <td>Financials (Local Banks) • REITs & Micro Index Derivatives.<br><small style="color:var(--text-muted)">Spreads: 2.0–3.5 bps | Slippage: 5.2 bps</small></td>
                 </tr>
@@ -365,7 +370,8 @@
                     <td class="mkt-name">TWSE</td>
                     <td>Taiwan</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
-                    <td><strong>NT$ 348.0B</strong> <span class="val-down">-11.2% QoQ</span><br><small style="color:var(--text-muted)">$11.1B</small></td>
+                    <td data-val="348000000000"><strong>NT$ 348.0B</strong> <span class="val-down">-11.2% QoQ</span></td>
+                    <td data-val="11100000000"><strong>$ 11.10B</strong></td>
                     <td>55.0% Ret / 45.0% Inst <span class="val-up">+4.1% QoQ</span></td>
                     <td>Semiconductors & Electronics • TSMC & Electronics Supply Chain.<br><small style="color:var(--text-muted)">Spreads: 1.5–2.2 bps | Slippage: 4.1 bps</small></td>
                 </tr>
@@ -373,7 +379,8 @@
                     <td class="mkt-name">NZX</td>
                     <td>New Zealand</td>
                     <td><span class="badge-dev">DEVELOPED MKT</span></td>
-                    <td><strong>NZ$ 0.18B</strong> <span class="val-up">+1.1% QoQ</span><br><small style="color:var(--text-muted)">$0.11B</small></td>
+                    <td data-val="180000000"><strong>NZ$ 0.18B</strong> <span class="val-up">+1.1% QoQ</span></td>
+                    <td data-val="110000000"><strong>$ 0.11B</strong></td>
                     <td>18.0% Ret / 82.0% Inst <span class="val-down">-0.1% QoQ</span></td>
                     <td>Utilities & Healthcare • Defensive Infrastructure & Power Providers.<br><small style="color:var(--text-muted)">Spreads: 3.5–5.0 bps | Slippage: 7.8 bps</small></td>
                 </tr>
@@ -381,7 +388,8 @@
                     <td class="mkt-name">NSE</td>
                     <td>India</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
-                    <td><strong>₹ 945.0B</strong> <span class="val-up">+18.4% QoQ</span><br><small style="color:var(--text-muted)">$11.3B</small></td>
+                    <td data-val="945000000000"><strong>₹ 945.0B</strong> <span class="val-up">+18.4% QoQ</span></td>
+                    <td data-val="11300000000"><strong>$ 11.30B</strong></td>
                     <td>33.0% Ret / 67.0% Inst <span class="val-down">-3.2% QoQ</span></td>
                     <td>Financial Services & IT • Nifty Heavyweights & High Rate Tech.<br><small style="color:var(--text-muted)">Spreads: 1.8–2.8 bps | Slippage: 4.6 bps</small></td>
                 </tr>
@@ -389,7 +397,8 @@
                     <td class="mkt-name">KRX</td>
                     <td>South Korea</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
-                    <td><strong>₩ 18.4T</strong> <span class="val-up">+4.7% QoQ</span><br><small style="color:var(--text-muted)">$13.4B</small></td>
+                    <td data-val="18400000000000"><strong>₩ 18.4T</strong> <span class="val-up">+4.7% QoQ</span></td>
+                    <td data-val="13400000000"><strong>$ 13.40B</strong></td>
                     <td>65.0% Ret / 35.0% Inst <span class="val-down">-2.7% QoQ</span></td>
                     <td>Semiconductors & Automobiles • Tech Heavyweights (Samsung, SK Hynix).<br><small style="color:var(--text-muted)">Spreads: 1.2–2.0 bps | Slippage: 3.8 bps</small></td>
                 </tr>
@@ -397,7 +406,8 @@
                     <td class="mkt-name">SSE</td>
                     <td>Mainland China</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
-                    <td><strong>¥ 420.0B</strong> <span class="val-down">-7.9% QoQ</span><br><small style="color:var(--text-muted)">$58.2B</small></td>
+                    <td data-val="420000000000"><strong>¥ 420.0B</strong> <span class="val-down">-7.9% QoQ</span></td>
+                    <td data-val="58200000000"><strong>$ 58.20B</strong></td>
                     <td>75.0% Ret / 25.0% Inst <span class="val-down">-1.9% QoQ</span></td>
                     <td>Industrial & State Financials • Large-cap State-Owned Enterprise (SOE).<br><small style="color:var(--text-muted)">Spreads: 1.0–1.8 bps | Slippage: 3.5 bps</small></td>
                 </tr>
@@ -405,7 +415,8 @@
                     <td class="mkt-name">SZSE</td>
                     <td>Mainland China</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
-                    <td><strong>¥ 510.0B</strong> <span class="val-down">-7.1% QoQ</span><br><small style="color:var(--text-muted)">$70.7B</small></td>
+                    <td data-val="510000000000"><strong>¥ 510.0B</strong> <span class="val-down">-7.1% QoQ</span></td>
+                    <td data-val="70700000000"><strong>$ 70.70B</strong></td>
                     <td>82.0% Ret / 18.0% Inst <span class="val-up">+0.5% QoQ</span></td>
                     <td>Information Technology • Chnext Growth Tech & Electronics Manufacturing.<br><small style="color:var(--text-muted)">Spreads: 1.1–1.9 bps | Slippage: 4.1 bps</small></td>
                 </tr>
@@ -413,7 +424,8 @@
                     <td class="mkt-name">BURSA</td>
                     <td>Malaysia</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
-                    <td><strong>RM 2.8B</strong> <span class="val-up">+7.8% QoQ</span><br><small style="color:var(--text-muted)">$0.6B</small></td>
+                    <td data-val="2800000000"><strong>RM 2.8B</strong> <span class="val-up">+7.8% QoQ</span></td>
+                    <td data-val="600000000"><strong>$ 0.60B</strong></td>
                     <td>25.0% Ret / 75.0% Inst <span class="val-up">+1.0% QoQ</span></td>
                     <td>Financials & Plantations • Banking Groups & Commodity Exporters.<br><small style="color:var(--text-muted)">Spreads: 3.0–4.5 bps | Slippage: 6.2 bps</small></td>
                 </tr>
@@ -421,7 +433,8 @@
                     <td class="mkt-name">IDX</td>
                     <td>Indonesia</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
-                    <td><strong>Rp 11.8T</strong> <span class="val-down">-1.1% QoQ</span><br><small style="color:var(--text-muted)">$0.7B</small></td>
+                    <td data-val="11800000000000"><strong>Rp 11.8T</strong> <span class="val-down">-1.1% QoQ</span></td>
+                    <td data-val="700000000"><strong>$ 0.70B</strong></td>
                     <td>40.0% Ret / 60.0% Inst <span class="val-up">+1.8% QoQ</span></td>
                     <td>Financials & Commodities • Resource Mining & Large Infrastructure Banks.<br><small style="color:var(--text-muted)">Spreads: 4.0–6.0 bps | Slippage: 8.5 bps</small></td>
                 </tr>
@@ -429,7 +442,8 @@
                     <td class="mkt-name">PSE</td>
                     <td>Philippines</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
-                    <td><strong>₱ 6.1B</strong> <span class="val-down">-0.1% QoQ</span><br><small style="color:var(--text-muted)">$0.1B</small></td>
+                    <td data-val="6100000000"><strong>₱ 6.1B</strong> <span class="val-down">-0.1% QoQ</span></td>
+                    <td data-val="100000000"><strong>$ 0.10B</strong></td>
                     <td>30.0% Ret / 70.0% Inst <span class="val-down">-2.0% QoQ</span></td>
                     <td>Conglomerates & Real Estate • Family Holding Conglomerates.<br><small style="color:var(--text-muted)">Spreads: 5.0–8.0 bps | Slippage: 11.2 bps</small></td>
                 </tr>
@@ -437,7 +451,8 @@
                     <td class="mkt-name">VSE</td>
                     <td>Vietnam</td>
                     <td><span class="badge-emg">EMERGING MKT</span></td>
-                    <td><strong>₫ 16.8T</strong> <span class="val-up">+21.1% QoQ</span><br><small style="color:var(--text-muted)">$0.7B</small></td>
+                    <td data-val="16800000000000"><strong>₫ 16.8T</strong> <span class="val-up">+21.1% QoQ</span></td>
+                    <td data-val="700000000"><strong>$ 0.70B</strong></td>
                     <td>83.0% Ret / 17.0% Inst <span class="val-up">+4.0% QoQ</span></td>
                     <td>Real Estate & Financials • Property Development Groups & State Banks.<br><small style="color:var(--text-muted)">Spreads: 4.5–7.0 bps | Slippage: 10.4 bps</small></td>
                 </tr>
@@ -771,16 +786,25 @@
             filterTables();
         }
 
-        function sortTable(colIndex, tableId) {
+        function sortTable(colIndex, tableId, isNumeric = false) {
             const table = document.getElementById(tableId);
             const tbody = table.querySelector('tbody');
             const rows = Array.from(tbody.querySelectorAll('tr'));
             const isAsc = table.getAttribute(`data-sort-${colIndex}`) !== 'asc';
 
             rows.sort((a, b) => {
-                const valA = a.children[colIndex].textContent.trim().toLowerCase();
-                const valB = b.children[colIndex].textContent.trim().toLowerCase();
-                return isAsc ? valA.localeCompare(valB, undefined, {numeric: true}) : valB.localeCompare(valB, undefined, {numeric: true});
+                const cellA = a.children[colIndex];
+                const cellB = b.children[colIndex];
+
+                if (isNumeric) {
+                    const rawA = parseFloat(cellA.getAttribute('data-val') || '0');
+                    const rawB = parseFloat(cellB.getAttribute('data-val') || '0');
+                    return isAsc ? rawA - rawB : rawB - rawA;
+                } else {
+                    const valA = cellA.textContent.trim().toLowerCase();
+                    const valB = cellB.textContent.trim().toLowerCase();
+                    return isAsc ? valA.localeCompare(valB, undefined, {numeric: true}) : valB.localeCompare(valB, undefined, {numeric: true});
+                }
             });
 
             rows.forEach(row => tbody.appendChild(row));
